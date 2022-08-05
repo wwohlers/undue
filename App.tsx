@@ -9,6 +9,7 @@ import { useSetup } from "./hooks/setup/useSetup";
 import { useTheme } from "./hooks/theme/useTheme";
 import { Home } from "./views/Home";
 import { ViewEntry } from "./views/ViewEntry";
+import { ViewReminder } from "./views/ViewReminder";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -16,6 +17,7 @@ export type RootStackParamList = {
   Home: undefined;
   ViewEntry: { entryId: number };
   CreateEntry: { type: Entry["type"] };
+  ViewReminder: { reminderId: number };
 };
 
 const RootStack = createStackNavigator<RootStackParamList>();
@@ -49,6 +51,7 @@ export default function App() {
           >
             <RootStack.Screen name="Home" component={Home} />
             <RootStack.Screen name="ViewEntry" component={ViewEntry} />
+            <RootStack.Screen name="ViewReminder" component={ViewReminder} />
           </RootStack.Navigator>
         </Suspense>
       </SafeAreaView>
