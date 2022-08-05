@@ -10,7 +10,7 @@ export const SGLabel: React.FC<React.ComponentProps<typeof SGText>> = ({
     <SGText
       fontSize={12}
       fontWeight={700}
-      color={theme.OFF_PRIMARY_LIGHT}
+      color={theme.OFF_PRIMARY}
       style={{ textTransform: "uppercase" }}
       {...rest}
     />

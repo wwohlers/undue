@@ -3,6 +3,8 @@ import React, { useMemo } from "react";
 import { View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { Entry } from "../../data/deadlines/Entry.type";
+import { HFlex } from "../../elements/layout/HFlex";
+import { SGIcon } from "../../elements/text/SGIcon";
 import { SGLabel } from "../../elements/text/SGLabel";
 import { SGText } from "../../elements/text/SGText";
 import { useTheme } from "../../hooks/theme/useTheme";
@@ -30,49 +32,54 @@ export const EntryDetails: React.FC<{
 
   return (
     <>
-      <View style={{ marginVertical: 8 }}>
-        <SGLabel color={theme.PRIORITY[entry.priority]}>
-          {entry.priority}
-        </SGLabel>
-        <SGText fontSize={24}>
-          {capitalize(entry.type + " ")}
-          {relativeFormattedDt}
-        </SGText>
-        <SGText fontSize={18} color={theme.OFF_PRIMARY}>
-          {capitalize(absoluteFormattedDt)}
-        </SGText>
-      </View>
-      <View style={{ marginVertical: 8 }}>
+      <HFlex style={{ marginVertical: 16, justifyContent: "space-evenly" }}>
+        <HFlex style={{ justifyContent: "center" }}>
+          <SGIcon name={entry.type === "deadline" ? "clock" : "calendar"} size={42} />
+        </HFlex>
+        <View>
+          <SGLabel color={theme.PRIORITY[entry.priority]}>
+            {entry.priority} priority
+          </SGLabel>
+          <SGText fontSize={24} numberOfLines={1}>
+            {capitalize(entry.type + " ")}
+            {relativeFormattedDt}
+          </SGText>
+          <SGText fontSize={18} color={theme.OFF_PRIMARY} numberOfLines={1}>
+            {capitalize(absoluteFormattedDt)}
+          </SGText>
+        </View>
+      </HFlex>
+      <View style={{ marginVertical: 16 }}>
         <SGLabel>Description</SGLabel>
         {entry.description ? (
           <SGText fontSize={20}>{entry.description}</SGText>
         ) : (
-          <SGText fontSize={20} color={theme.OFF_PRIMARY_DARK}>
-            Add a description...
+          <SGText fontSize={20} color={theme.OFF_PRIMARY}>
+            Tap to add a description
           </SGText>
         )}
       </View>
       {entry.type === "event" && (
-        <View style={{ marginVertical: 8 }}>
+        <View style={{ marginVertical: 16 }}>
           <SGLabel>Location</SGLabel>
           {entry.location ? (
             <SGText fontSize={20}>{entry.location}</SGText>
           ) : (
             <SGText fontSize={20} color={theme.OFF_PRIMARY_DARK}>
-              Add a location...
+              Tap to add a location
             </SGText>
           )}
         </View>
       )}
       {entry.type === "event" && (
-        <View style={{ marginVertical: 8 }}>
+        <View style={{ marginVertical: 16 }}>
           <SGLabel>Duration</SGLabel>
           <SGText fontSize={20}>{}</SGText>
           {entry.duration ? (
             <SGText fontSize={20}>{formatDuration(entry.duration)}</SGText>
           ) : (
             <SGText fontSize={20} color={theme.OFF_PRIMARY_DARK}>
-              Set a duration...
+              Tap to set a duration
             </SGText>
           )}
         </View>

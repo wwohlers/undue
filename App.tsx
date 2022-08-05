@@ -10,6 +10,7 @@ import { useTheme } from "./hooks/theme/useTheme";
 import { Home } from "./views/Home";
 import { ViewEntry } from "./views/ViewEntry";
 import { ViewReminder } from "./views/ViewReminder";
+import { StatusBar } from 'expo-status-bar';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -39,6 +40,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <SafeAreaView style={{ flex: 1 }}>
+        <StatusBar translucent={true} />
         <Suspense fallback={SGSpinner}>
           <RootStack.Navigator
             initialRouteName="Home"

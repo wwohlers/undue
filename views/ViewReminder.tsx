@@ -1,28 +1,29 @@
 import { StackScreenProps } from "@react-navigation/stack";
-import { DateTime } from "luxon";
-import React, { useMemo } from "react";
+import React from "react";
+import { ScrollView } from "react-native-gesture-handler";
 import { RootStackParamList } from "../App";
+import { ReminderDetails } from "../components/view-entry/ReminderDetails";
 import { useReminder } from "../data/reminders/useReminders";
 import { Container } from "../elements/layout/Container";
 import { SGHeader } from "../elements/layout/SGHeader";
-import { useMinutely } from "../hooks/time/useMinutely";
-import { useTime } from "../hooks/time/useTime";
-import { absoluteFormat } from "../util/time/absoluteFormat";
+import { SGText } from "../elements/text/SGText";
 
-export type ViewReminderProps = StackScreenProps<RootStackParamList, "ViewReminder">;
+export type ViewReminderProps = StackScreenProps<
+  RootStackParamList,
+  "ViewReminder"
+>;
 
-export const ViewReminder: React.FC<ViewReminderProps> = ({ route, navigation }) => {
+export const ViewReminder: React.FC<ViewReminderProps> = ({
+  route,
+  navigation,
+}) => {
   const reminder = useReminder(route.params.reminderId);
-  const min10 = useMinutely(10);
 
-  const absoluteFormattedDt = useMemo(() => {
-    return reminder ? absoluteFormat(DateTime.fromISO(reminder.datetime)) : "Not Found";
-  }, [reminder, min10]);
-  
   return (
     <Container>
       <SGHeader
-        headerText={reminder?.notes ?? absoluteFormattedDt}
+        size={24}
+        headerText={reminder?.notes ?? "View Reminder" }
         leftIcon={{
           name: "back",
           onPress: () => navigation.goBack(),
@@ -38,6 +39,15 @@ export const ViewReminder: React.FC<ViewReminderProps> = ({ route, navigation })
             : []
         }
       />
+      <ScrollView>
+        {reminder ? (
+          <ReminderDetails reminder={reminder} />
+        ) : (
+          <SGText>
+            Oops! We couldn&apos;t find what you&apos;re looking for.
+          </SGText>
+        )}
+      </ScrollView>
     </Container>
-  )
-}
+  );
+};

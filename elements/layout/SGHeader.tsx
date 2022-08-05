@@ -38,7 +38,7 @@ export const SGHeader: React.FC<SGHeaderProps> = ({
             }}
           />
         )}
-        <SGText fontSize={28} style={{ flex: 1 }} numberOfLines={1}>{headerText}</SGText>
+        <SGText fontSize={size} style={{ flex: 1 }} numberOfLines={1}>{headerText}</SGText>
       </HFlex>
       <HFlex style={{ justifyContent: "flex-start" }}>
         {rightIcons.map((icon, i) => (

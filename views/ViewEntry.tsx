@@ -1,5 +1,6 @@
 import type { StackScreenProps } from "@react-navigation/stack";
 import React from "react";
+import { View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { RootStackParamList } from "../App";
 import { EntryDetails } from "../components/view-entry/EntryDetails";
@@ -7,15 +8,19 @@ import { ReminderCard } from "../components/view-entry/ReminderCard";
 import { useEntry } from "../data/deadlines/useEntries";
 import { useEntryReminders } from "../data/reminders/useReminders";
 import { Container } from "../elements/layout/Container";
+import { HFlex } from "../elements/layout/HFlex";
 import { SGHeader } from "../elements/layout/SGHeader";
 import { VSpace } from "../elements/layout/VSpace";
+import { SGButton } from "../elements/text/SGButton";
 import { SGText } from "../elements/text/SGText";
+import { useTheme } from "../hooks/theme/useTheme";
 
 export type ViewEntryProps = StackScreenProps<RootStackParamList, "ViewEntry">;
 
 export const ViewEntry: React.FC<ViewEntryProps> = ({ route, navigation }) => {
   const entry = useEntry(route.params.entryId);
   const reminders = useEntryReminders(route.params.entryId);
+  const theme = useTheme();
 
   return (
     <Container>
@@ -41,9 +46,23 @@ export const ViewEntry: React.FC<ViewEntryProps> = ({ route, navigation }) => {
           <>
             <EntryDetails entry={entry} />
             <VSpace height={8} />
-            {reminders.map((r) => (
-              <ReminderCard key={r.id} reminder={r} />
-            ))}
+            {reminders.length ? (
+              reminders.map((r) => <ReminderCard key={r.id} reminder={r} />)
+            ) : (
+              <SGText
+                style={{
+                  textAlign: "center",
+                  color: theme.OFF_PRIMARY,
+                  marginVertical: 16,
+                }}
+              >
+                You don&apos;t have any reminders set
+              </SGText>
+            )}
+            <VSpace height={4} />
+            <View style={{ flexDirection: "row", justifyContent: "flex-end" }}>
+              <SGButton icon="plus" text="Add Reminder" onPress={() => null} />
+            </View>
           </>
         ) : (
           <SGText>

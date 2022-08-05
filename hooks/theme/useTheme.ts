@@ -11,7 +11,7 @@ export function useTheme() {
     BORDER: "#EEE",
     PRIORITY: {
       LOW: "#00b56a",
-      MED: "#ffbf00",
+      MEDIUM: "#ffbf00",
       HIGH: "#cf0000",
     }
   }
