@@ -1,12 +1,11 @@
 import { useCallback } from "react";
-import { useCreateReminder } from "../reminders/useCreateReminder";
+import { useCreateDefaultReminders } from "../reminders/useCreateDefaultReminders";
 import { CreateableEntry } from "./Entry.type";
-import { getDefaultReminders } from "./defaultReminders";
 import { useEntries } from "./useEntries";
 
 export function useCreateEntry() {
   const [entries, setEntries] = useEntries();
-  const createReminder = useCreateReminder();
+  const createDefaultReminders = useCreateDefaultReminders();
   return useCallback(
     (entry: CreateableEntry) => {
       const maxId = Math.max(...entries.map((d) => d.id));
@@ -15,10 +14,9 @@ export function useCreateEntry() {
         id: maxId + 1,
       };
       setEntries([...entries, newEntry]);
-      const defaultReminders = getDefaultReminders(newEntry);
-      defaultReminders.forEach(createReminder);
+      createDefaultReminders(newEntry);
       return newEntry;
     },
-    [entries, setEntries, createReminder]
+    [entries, setEntries, createDefaultReminders]
   );
 }

@@ -1,6 +1,6 @@
 import { cancelScheduledNotificationAsync, scheduleNotificationAsync } from "expo-notifications";
 import { useCallback } from "react";
-import { useEntries } from "../deadlines/useEntries";
+import { useEntries } from "../entries/useEntries";
 import { Reminder } from "./Reminder.type";
 import { useReminders } from "./useReminders";
 

@@ -1,4 +1,22 @@
-import { DateTime, Duration } from "luxon";
+import { DateTime, DateTimeUnit, Duration, DurationUnit, DurationUnits } from "luxon";
+
+const diffUnitSingular: DurationUnit[] = [
+  "year",
+  "month",
+  "week",
+  "day",
+  "hour",
+  "minute",
+];
+
+const diffUnitPlural = [
+  "years",
+  "months",
+  "weeks",
+  "days",
+  "hours",
+  "minutes",
+];
 
 /**
  * Returns a string that represents when a DateTime is relative to now, like "3 hours ago" or "in 5d"
@@ -6,15 +24,12 @@ import { DateTime, Duration } from "luxon";
  * @param abbreviated whether to abbreviate units (e.g. "month" vs "mo")
  * @returns
  */
-export function relativeFormat(datetime: DateTime, abbreviated = false) {
-  const diff = datetime.diff(DateTime.now(), [
-    "years",
-    "months",
-    "weeks",
-    "days",
-    "hours",
-    "minutes",
-  ]);
+export function relativeFormat(
+  datetime: DateTime,
+  abbreviated = false,
+  currentDateTime: DateTime = DateTime.now()
+) {
+  const diff = datetime.diff(currentDateTime, diffUnitSingular);
   const str = relativeDiffStr(diff, abbreviated);
   if (str === "now") {
     return str;
@@ -25,27 +40,25 @@ export function relativeFormat(datetime: DateTime, abbreviated = false) {
   }
 }
 
-function relativeDiffStr(diff: Duration, abbreviated = false): string {
+export function relativeDiffStr(diff: Duration, abbreviated = false): string {
   diff = diff.normalize();
-  if (diff.years > 0) {
-    return diff.years + (abbreviated ? "y" : pluralize(" year", diff.years));
-  } else if (diff.months > 0) {
-    return (
-      diff.months + (abbreviated ? "mo" : pluralize(" month", diff.months))
-    );
-  } else if (diff.weeks > 0) {
-    return diff.weeks + (abbreviated ? "wk" : pluralize(" week", diff.weeks));
-  } else if (diff.days > 0) {
-    return diff.days + (abbreviated ? "d" : pluralize(" day", diff.days));
-  } else if (diff.hours > 0) {
-    return diff.hours + (abbreviated ? "h" : pluralize(" hour", diff.months));
-  } else if (diff.minutes > 0) {
-    return (
-      Math.floor(diff.minutes) + (abbreviated ? "m" : pluralize(" minute", diff.minutes))
-    );
-  } else {
-    return "now";
+  if (diff.as("milliseconds") < 0) diff = diff.negate();
+  for (let i = 0; i < diffUnitPlural.length - 1; i++) {
+    const first = diff[diffUnitPlural[i] as keyof Duration] as number;
+    if (first >= 1) {
+      const firstUnit = pluralize(diffUnitSingular[i], first);
+      const second = diff[diffUnitPlural[i + 1] as keyof Duration] as number;
+      const firstPart = `${Math.round(first)} ${firstUnit}`;
+      if (second === 0) return firstPart;
+      const secondUnit = pluralize(diffUnitSingular[i + 1], second);
+      return `${firstPart}, ${Math.round(second)} ${secondUnit}`;
+    }
   }
+  if (diff.as("minutes") > 0) {
+    const mins = Math.ceil(diff.as("minutes"))
+    return `${mins} ${pluralize("minute", mins)}`;
+  }
+  return "now";
 }
 
 function pluralize(unit: string, amt: number) {

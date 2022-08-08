@@ -1,8 +1,14 @@
+import { useNavigation } from "@react-navigation/native";
 import { DateTime } from "luxon";
 import React, { useMemo } from "react";
 import { View } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
-import { Entry } from "../../data/deadlines/Entry.type";
+import {
+  ScrollView,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+} from "react-native-gesture-handler";
+import { Entry } from "../../data/entries/Entry.type";
+import { useEditEntry } from "../../data/entries/useEditEntry";
 import { HFlex } from "../../elements/layout/HFlex";
 import { SGIcon } from "../../elements/text/SGIcon";
 import { SGLabel } from "../../elements/text/SGLabel";
@@ -14,6 +20,9 @@ import { capitalize } from "../../util/capitalize";
 import { absoluteFormat } from "../../util/time/absoluteFormat";
 import { formatDuration } from "../../util/time/formatDuration";
 import { relativeFormat } from "../../util/time/relativeFormat";
+import { ViewEntryProps } from "../../views/ViewEntry";
+import { Priority } from "../../data/Priority.type";
+import { EditInPlace } from "../../elements/input/EditInPlace";
 
 export const EntryDetails: React.FC<{
   entry: Entry;
@@ -21,6 +30,8 @@ export const EntryDetails: React.FC<{
   const time = useTime();
   const min10 = useMinutely(10);
   const theme = useTheme();
+  const navigation = useNavigation<ViewEntryProps["navigation"]>();
+  const editEntry = useEditEntry();
 
   const relativeFormattedDt = useMemo(() => {
     return relativeFormat(DateTime.fromISO(entry.datetime));
@@ -30,55 +41,79 @@ export const EntryDetails: React.FC<{
     return absoluteFormat(DateTime.fromISO(entry.datetime));
   }, [entry.datetime, min10]);
 
+  const onPriorityPressed = () => {
+    const newPriorities = {
+      [Priority.LOW]: Priority.MED,
+      [Priority.MED]: Priority.HIGH,
+      [Priority.HIGH]: Priority.LOW,
+    };
+    editEntry(entry.id, {
+      priority: newPriorities[entry.priority],
+    });
+  };
+
+  const fieldModifiedHandler = (field: string) => (value: string) => {
+    editEntry(entry.id, { [field]: value });
+  };
+
   return (
     <>
       <HFlex style={{ marginVertical: 16, justifyContent: "space-evenly" }}>
-        <HFlex style={{ justifyContent: "center" }}>
-          <SGIcon name={entry.type === "deadline" ? "clock" : "calendar"} size={42} />
+        <HFlex style={{ justifyContent: "center", marginHorizontal: 16 }}>
+          <SGIcon
+            name={entry.type === "deadline" ? "clock" : "calendar"}
+            size={42}
+          />
         </HFlex>
-        <View>
-          <SGLabel color={theme.PRIORITY[entry.priority]}>
-            {entry.priority} priority
-          </SGLabel>
-          <SGText fontSize={24} numberOfLines={1}>
-            {capitalize(entry.type + " ")}
-            {relativeFormattedDt}
-          </SGText>
-          <SGText fontSize={18} color={theme.OFF_PRIMARY} numberOfLines={1}>
-            {capitalize(absoluteFormattedDt)}
-          </SGText>
+        <View style={{ flex: 1 }}>
+          <TouchableOpacity onPress={onPriorityPressed}>
+            <SGLabel fontSize={14} color={theme.PRIORITY[entry.priority]}>
+              {entry.priority} priority
+            </SGLabel>
+          </TouchableOpacity>
+          <TouchableWithoutFeedback
+            onPress={() =>
+              navigation.navigate("PickEntryDateTime", { entryId: entry.id })
+            }
+          >
+            <SGText fontSize={22} numberOfLines={1}>
+              {capitalize(absoluteFormattedDt)}
+            </SGText>
+            <SGText fontSize={18} color={theme.OFF_PRIMARY} numberOfLines={1}>
+              {capitalize(relativeFormattedDt)}
+            </SGText>
+          </TouchableWithoutFeedback>
         </View>
       </HFlex>
       <View style={{ marginVertical: 16 }}>
         <SGLabel>Description</SGLabel>
-        {entry.description ? (
-          <SGText fontSize={20}>{entry.description}</SGText>
-        ) : (
-          <SGText fontSize={20} color={theme.OFF_PRIMARY}>
-            Tap to add a description
-          </SGText>
-        )}
+        <EditInPlace
+          value={entry.description}
+          onSubmit={fieldModifiedHandler("description")}
+          emptyText="Tap to add a description"
+          placeholder="Enter a description..."
+          multiline={true}
+        />
       </View>
       {entry.type === "event" && (
         <View style={{ marginVertical: 16 }}>
           <SGLabel>Location</SGLabel>
-          {entry.location ? (
-            <SGText fontSize={20}>{entry.location}</SGText>
-          ) : (
-            <SGText fontSize={20} color={theme.OFF_PRIMARY_DARK}>
-              Tap to add a location
-            </SGText>
-          )}
+          <EditInPlace
+            value={entry.location}
+            onSubmit={fieldModifiedHandler("location")}
+            emptyText="Tap to add a location"
+            placeholder="Enter a location..."
+            multiline={true}
+          />
         </View>
       )}
       {entry.type === "event" && (
         <View style={{ marginVertical: 16 }}>
           <SGLabel>Duration</SGLabel>
-          <SGText fontSize={20}>{}</SGText>
           {entry.duration ? (
             <SGText fontSize={20}>{formatDuration(entry.duration)}</SGText>
           ) : (
-            <SGText fontSize={20} color={theme.OFF_PRIMARY_DARK}>
+            <SGText fontSize={18} color={theme.OFF_PRIMARY}>
               Tap to set a duration
             </SGText>
           )}

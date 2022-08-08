@@ -11,6 +11,7 @@ const iconMap = {
   calendar: [AntDesign, "calendar"],
   clock: [AntDesign, "clockcircleo"],
   back: [AntDesign, "arrowleft"],
+  forward: [AntDesign, "arrowright"],
   edit: [MaterialIcons, "edit"],
   trash: [MaterialIcons, "delete"],
   bell: [FontAwesome5, "bell"],

@@ -7,14 +7,14 @@ import { HFlex } from "./HFlex";
 type SGHeaderProps = {
   size?: number;
   leftIcon?: SGIconProps;
-  headerText: string;
+  text: string;
   rightIcons: SGIconProps[];
 };
 
 export const SGHeader: React.FC<SGHeaderProps> = ({
   size = 26,
   leftIcon,
-  headerText,
+  text,
   rightIcons,
 }) => {
   const theme = useTheme();
@@ -38,7 +38,7 @@ export const SGHeader: React.FC<SGHeaderProps> = ({
             }}
           />
         )}
-        <SGText fontSize={size} style={{ flex: 1 }} numberOfLines={1}>{headerText}</SGText>
+        <SGText fontSize={size} style={{ flex: 1 }} numberOfLines={1}>{text}</SGText>
       </HFlex>
       <HFlex style={{ justifyContent: "flex-start" }}>
         {rightIcons.map((icon, i) => (

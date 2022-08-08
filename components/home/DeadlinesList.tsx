@@ -1,11 +1,11 @@
 import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import { ScrollView } from "react-native";
-import { useDeadlines } from "../../../data/deadlines/useEntries";
-import { Container } from "../../../elements/layout/Container";
-import { SGHeader } from "../../../elements/layout/SGHeader";
-import { HomeProps } from "../../../views/Home";
-import { DeadlineCard } from "./DeadlineCard";
+import { useDeadlines } from "../../data/entries/useEntries";
+import { Container } from "../../elements/layout/Container";
+import { SGHeader } from "../../elements/layout/SGHeader";
+import { HomeProps } from "../../views/Home";
+import { EntryCard } from "./EntryCard";
 
 export const DeadlinesList: React.FC = () => {
   const deadlines = useDeadlines();
@@ -15,12 +15,12 @@ export const DeadlinesList: React.FC = () => {
     <Container>
       <SGHeader
         leftIcon={{ name: "clock" }}
-        headerText="Deadlines"
+        text="Deadlines"
         rightIcons={[
           {
             name: "plus",
             onPress: () =>
-              navigation.navigate("CreateEntry", { type: "deadline" }),
+              navigation.navigate("CreateOrEditEntry", { type: "deadline" }),
           },
         ]}
       />
@@ -33,7 +33,7 @@ export const DeadlinesList: React.FC = () => {
         }}
       >
         {deadlines.map((deadline) => (
-          <DeadlineCard deadline={deadline} key={deadline.id} />
+          <EntryCard entry={deadline} key={deadline.id} />
         ))}
       </ScrollView>
     </Container>

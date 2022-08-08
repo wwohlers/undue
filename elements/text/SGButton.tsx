@@ -2,6 +2,7 @@ import React, { useMemo } from "react";
 import { View } from "react-native";
 import { TouchableHighlight } from "react-native-gesture-handler";
 import { useTheme } from "../../hooks/theme/useTheme";
+import { HSpace } from "../layout/HSpace";
 import { SGIcon, SGIconProps } from "./SGIcon";
 import { SGText } from "./SGText";
 
@@ -22,8 +23,10 @@ export const SGButton: React.FC<
     size?: number;
     text: string;
     icon?: SGIconProps["name"];
+    iconOnRight?: boolean;
+    disabled?: boolean;
   } & View["props"]
-> = ({ onPress, type = "primary", size = 20, icon, text, ...rest }) => {
+> = ({ onPress, type = "primary", size = 20, icon, text, disabled = false, iconOnRight = false, ...rest }) => {
   const theme = useTheme();
   const styles = useMemo(() => buttonStyles(theme)[type], [type, theme]);
 
@@ -33,8 +36,8 @@ export const SGButton: React.FC<
       activeOpacity={1}
       underlayColor={styles.highlightColor}
       containerStyle={{
-        backgroundColor: styles.backgroundColor,
-        alignSelf: "flex-start",
+        backgroundColor: disabled ? styles.highlightColor : styles.backgroundColor,
+        alignSelf: "stretch",
         overflow: "hidden",
         borderRadius: 4,
       }}
@@ -43,8 +46,8 @@ export const SGButton: React.FC<
         {...rest}
         style={{
           display: "flex",
-          flexDirection: "row",
-          justifyContent: "space-evenly",
+          flexDirection: iconOnRight ? "row-reverse" : "row",
+          justifyContent: "center",
           paddingVertical: size * 0.5,
           paddingHorizontal: size * 0.8,
           alignItems: "center",
@@ -55,10 +58,10 @@ export const SGButton: React.FC<
           <SGIcon
             size={size}
             color={styles.color}
-            style={{ marginRight: size * 0.6 }}
             name={icon}
           />
         )}
+        <HSpace width={size * 0.6} />
         <SGText
           fontSize={size}
           color={styles.color}

@@ -1,7 +1,7 @@
-import { scheduleNotificationAsync } from "expo-notifications";
 import { useCallback } from "react";
-import { useEntries } from "../deadlines/useEntries";
+import { useEntries } from "../entries/useEntries";
 import { CreateableReminder } from "./Reminder.type";
+import { scheduleReminderNotification } from "./scheduleReminderNotification";
 import { useReminders } from "./useReminders";
 
 export function useCreateReminder() {
@@ -12,13 +12,10 @@ export function useCreateReminder() {
     async (reminder: CreateableReminder) => {
       const entry = entries.find((d) => d.id === reminder.entryId);
       if (!entry) return;
-      const notificationId = await scheduleNotificationAsync({
-        content: {
-          title: entry.title,
-          body: entry.description,
-        },
-        trigger: new Date(reminder.datetime),
-      });
+      const notificationId = await scheduleReminderNotification(
+        reminder,
+        entry
+      );
       const id = 1 + Math.max(...reminders.map((d) => d.id));
       const newReminder = {
         ...reminder,
