@@ -10,6 +10,7 @@ export function useTheme() {
     BORDER: "#EEE",
     BORDER_DARK: "#DDD",
     GREEN: "#038019",
+    TODAY: "#fffdf0",
     PRIORITY: {
       LOW: "#00b56a",
       MEDIUM: "#ffbf00",

@@ -10,11 +10,14 @@ const iconMap = {
   plus: [AntDesign, "plus"],
   calendar: [AntDesign, "calendar"],
   clock: [AntDesign, "clockcircleo"],
-  back: [AntDesign, "arrowleft"],
+  back: [AntDesign, "left"],
   forward: [AntDesign, "arrowright"],
+  up: [AntDesign, "up"],
+  down: [AntDesign, "down"],
   edit: [MaterialIcons, "edit"],
   trash: [MaterialIcons, "delete"],
   bell: [FontAwesome5, "bell"],
+  close: [AntDesign, "close"],
 };
 
 export type SGIconProps = {
