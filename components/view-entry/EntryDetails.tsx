@@ -23,6 +23,7 @@ import { relativeFormat } from "../../util/time/relativeFormat";
 import { ViewEntryProps } from "../../views/ViewEntry";
 import { Priority } from "../../data/Priority.type";
 import { EditInPlace } from "../../elements/input/EditInPlace";
+import { usePickCalendar } from "../../hooks/ui/usePickCalendar";
 
 export const EntryDetails: React.FC<{
   entry: Entry;
@@ -32,6 +33,7 @@ export const EntryDetails: React.FC<{
   const theme = useTheme();
   const navigation = useNavigation<ViewEntryProps["navigation"]>();
   const editEntry = useEditEntry();
+  const pickCalendar = usePickCalendar();
 
   const relativeFormattedDt = useMemo(() => {
     return relativeFormat(DateTime.fromISO(entry.datetime));
@@ -56,6 +58,11 @@ export const EntryDetails: React.FC<{
     editEntry(entry.id, { [field]: value });
   };
 
+  const onDateTimePressed = async () => {
+    const result = await pickCalendar(entry.datetime);
+    // console.log(1, result);
+  }
+
   return (
     <>
       <HFlex style={{ marginVertical: 16, justifyContent: "space-evenly" }}>
@@ -72,9 +79,7 @@ export const EntryDetails: React.FC<{
             </SGLabel>
           </TouchableOpacity>
           <TouchableWithoutFeedback
-            onPress={() =>
-              navigation.navigate("PickEntryDateTime", { entryId: entry.id })
-            }
+            onPress={onDateTimePressed}
           >
             <SGText fontSize={22} numberOfLines={1}>
               {capitalize(absoluteFormattedDt)}

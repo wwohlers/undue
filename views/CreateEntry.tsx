@@ -56,6 +56,7 @@ export const CreateEntry: React.FC<CreateEntryProps> = ({
         type={route.params.type}
         onBack={onBack}
         onSubmit={onSubmit}
+        isActive={screen === 1}
       />
     </Swiper>
   );

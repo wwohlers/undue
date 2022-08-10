@@ -8,6 +8,7 @@ import { HSpace } from "../../elements/layout/HSpace";
 import { SGText } from "../../elements/text/SGText";
 import { useTheme } from "../../hooks/theme/useTheme";
 import { useTime } from "../../hooks/time/useTime";
+import { DayView } from "./DayView";
 
 export const DayTile: React.FC<{
   day: DateTime;
@@ -53,7 +54,9 @@ export const DayTile: React.FC<{
         </SGText>
       );
     } else if (isExpanded) {
-      return null;
+      return (
+        <DayView day={day} />
+      );
     } else {
       return sortedEntries.map((e) => {
         return (

@@ -1,11 +1,5 @@
 import { DateTime, Info } from "luxon";
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import React, { useMemo, useState } from "react";
 import { NativeScrollEvent, NativeSyntheticEvent, View } from "react-native";
 import {
   FlatList,
@@ -14,10 +8,11 @@ import {
 import { HSpace } from "../../elements/layout/HSpace";
 import { SGIcon } from "../../elements/text/SGIcon";
 import { SGText } from "../../elements/text/SGText";
-import { useTheme } from "../../hooks/theme/useTheme";
 import { capitalize } from "../../util/capitalize";
 import {
+  getDateTimeOfWeekIndex,
   getMonthYearOfWeekIndex,
+  getWeekIndexOfDateTime,
   getWeekIndexOfMonthYear,
 } from "../../util/time/calendar";
 import { CalendarWeek } from "./CalendarWeek";
@@ -25,23 +20,25 @@ import { MonthYearPicker } from "./MonthYearPicker";
 
 /**
  * range is the range of week indices that the calendar can "render" at once.
- * Render in quotes because the FlatList component by design only actually
- * renders the components that need to be visible.
+ *  Render in quotes because the FlatList component by design only actually
+ *  renders the components that need to be visible.
  *
  * We allow the user to scroll 52 weeks in either direction, plus the starting
- * week, for a total of 52 + 1 + 52 = 105 weeks, indices -52 through 52.
+ *  week, for a total of 52 + 1 + 52 = 105 weeks, indices -52 through 52.
  *
- * Note that this doesn't mean the user can only view 52 weeks in either direction;
- * they can change the center week index by selecting a different month or year,
- * which shifts all the values in this range accordingly.
+ * Note that the user can change the center week index by selecting a different month
+ *  or year, which shifts all the values in this range accordingly.
  */
 const range = Array.from({ length: 105 }, (_, i) => i - 52);
 
 export const Calendar: React.FC<{
   containerWidth: number;
-}> = ({ containerWidth }) => {
+  initialValue?: DateTime;
+}> = ({ containerWidth, initialValue }) => {
   const [scrollIndex, setScrollIndex] = useState(52); // actual index scrolled to
-  const [centerWeekIndex, setCenterWeekIndex] = useState(0); // week index at scroll index 52
+  const [centerWeekIndex, setCenterWeekIndex] = useState(
+    initialValue ? getWeekIndexOfDateTime(initialValue) : 0
+  ); // week index at scroll index 52
   const [showMonthYearPicker, setShowMonthYearPicker] = useState(false);
 
   const monthYear = useMemo(
@@ -98,8 +95,17 @@ export const Calendar: React.FC<{
           data={centeredRange}
           style={{ flex: 1 }}
           renderItem={({ item }) => (
-            <CalendarWeek weekIndex={item} width={containerWidth} />
+            <CalendarWeek
+              weekStart={getDateTimeOfWeekIndex(item)}
+              width={containerWidth}
+              initialValue={initialValue}
+            />
           )}
+          getItemLayout={(_, index) => ({
+            length: containerWidth,
+            offset: containerWidth * index,
+            index,
+          })}
           onScroll={onScroll}
           contentContainerStyle={{ width: containerWidth * range.length }}
           scrollEventThrottle={100}

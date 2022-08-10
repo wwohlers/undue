@@ -1,7 +1,11 @@
-import { NavigationContainer } from "@react-navigation/native";
+import {
+  createNavigationContainerRef,
+  NavigationContainer,
+} from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
+import { DateTime } from "luxon";
 import { Suspense, useEffect } from "react";
 import { SafeAreaView } from "react-native";
 import { Entry } from "./data/entries/Entry.type";
@@ -10,9 +14,10 @@ import { useSetup } from "./hooks/setup/useSetup";
 import { useTheme } from "./hooks/theme/useTheme";
 import { CreateEntry } from "./views/CreateEntry";
 import { Home } from "./views/Home";
-import { PickEntryDateTime } from "./views/PickEntryDateTime";
+import { CalendarView } from "./views/CalendarView";
 import { PickReminderDateTime } from "./views/PickReminderDateTime";
 import { ViewEntry } from "./views/ViewEntry";
+import { rootNavigationRef } from "./rootNavigation";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -20,8 +25,10 @@ export type RootStackParamList = {
   Home: undefined;
   ViewEntry: { entryId: number };
   CreateOrEditEntry: { type: Entry["type"] };
-  PickEntryDateTime: { entryId: number };
-  PickReminderDateTime: { reminderId: number }
+  CalendarView:
+    | { pickMode: true; initialDateTime?: string }
+    | { pickMode: false };
+  PickReminderDateTime: { reminderId: number };
 };
 
 const RootStack = createStackNavigator<RootStackParamList>();
@@ -41,7 +48,7 @@ export default function App() {
   }
 
   return (
-    <NavigationContainer>
+    <NavigationContainer ref={rootNavigationRef}>
       <SafeAreaView style={{ flex: 1 }}>
         <StatusBar translucent={true} />
         <Suspense fallback={<SGSpinner />}>
@@ -56,9 +63,15 @@ export default function App() {
           >
             <RootStack.Screen name="Home" component={Home} />
             <RootStack.Screen name="ViewEntry" component={ViewEntry} />
-            <RootStack.Screen name="CreateOrEditEntry" component={CreateEntry} />
-            <RootStack.Screen name="PickReminderDateTime" component={PickReminderDateTime} />
-            <RootStack.Screen name="PickEntryDateTime" component={PickEntryDateTime} />
+            <RootStack.Screen
+              name="CreateOrEditEntry"
+              component={CreateEntry}
+            />
+            <RootStack.Screen
+              name="PickReminderDateTime"
+              component={PickReminderDateTime}
+            />
+            <RootStack.Screen name="CalendarView" component={CalendarView} />
           </RootStack.Navigator>
         </Suspense>
       </SafeAreaView>
