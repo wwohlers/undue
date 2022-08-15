@@ -1,14 +1,13 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useAtom } from "jotai";
-import { atomWithStorage, createJSONStorage } from "jotai/utils";
+import { atomWithStorage } from "jotai/utils";
 import { useMemo } from "react";
 import { Reminder } from "./Reminder.type";
+import { asyncStorage } from "../persist";
 
-const remindersStorage = createJSONStorage<Reminder[]>(() => AsyncStorage);
 const remindersAtom = atomWithStorage<Reminder[]>(
   "reminders",
   [],
-  remindersStorage
+  asyncStorage
 );
 
 export function useReminders() {

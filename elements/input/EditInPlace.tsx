@@ -36,7 +36,7 @@ export const EditInPlace: React.FC<{
     return (
       <TouchableWithoutFeedback onPress={() => setIsEditing(true)}>
         <SGText fontSize={size} color={value ? theme.THEME : theme.OFF_PRIMARY}>
-          {value ?? emptyText}
+          {value || emptyText}
         </SGText>
       </TouchableWithoutFeedback>
     );

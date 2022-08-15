@@ -7,11 +7,11 @@ import { SGHeader } from "../elements/layout/SGHeader";
 import Slider from "@react-native-community/slider";
 import { useTheme } from "../hooks/theme/useTheme";
 import { SGText } from "../elements/text/SGText";
-import { DateTime, Interval } from "luxon";
+import { DateTime } from "luxon";
 import { useReminder } from "../data/reminders/useReminders";
 import { useEntries } from "../data/entries/useEntries";
 import { absoluteFormat } from "../util/time/absoluteFormat";
-import { capitalize } from "../util/capitalize";
+import { capitalize } from "../util/text";
 import {
   getDateFromFactor,
   getDateRangeFactor,
@@ -21,6 +21,7 @@ import { factorToSlider, sliderToFactor } from "../util/time/diminishingTime";
 import { relativeDiffStr } from "../util/time/relativeFormat";
 import { SGButton } from "../elements/text/SGButton";
 import { useEditReminder } from "../data/reminders/useEditReminder";
+import { VSpace } from "../elements/layout/VSpace";
 
 export type PickReminderDateTimeProps = StackScreenProps<
   RootStackParamList,
@@ -75,27 +76,27 @@ export const PickReminderDateTime: React.FC<PickReminderDateTimeProps> = ({
   const onSubmit = async () => {
     await editReminder(reminder.id, { datetime: selectedDate.toISO() });
     navigation.goBack();
-  }
+  };
 
   return (
     <Container>
       <SGHeader
         leftIcon={{ name: "back", onPress: navigation.goBack }}
         text="Pick a Date and Time"
-        size={24}
         rightIcons={[
           {
             name: "calendar",
           },
         ]}
       />
-      <View style={{ paddingVertical: 24 }}>
+      <View style={{ paddingVertical: 32 }}>
         <View style={{ alignItems: "center" }}>
-          <SGText fontSize={22}>{selectedDate.toFormat("DDD 'at' t")}</SGText>
+          <SGText fontSize={24}>{selectedDate.toFormat("DDD 'at' t")}</SGText>
           <SGText fontSize={18} color={theme.OFF_PRIMARY}>
             {relativeStr}
           </SGText>
         </View>
+        <VSpace height={8} />
         <Slider
           value={factorToSlider(dateFactor)}
           step={0.01}
@@ -112,7 +113,7 @@ export const PickReminderDateTime: React.FC<PickReminderDateTimeProps> = ({
             flexDirection: "row",
             justifyContent: "space-between",
             alignItems: "flex-end",
-            marginBottom: 16,
+            marginBottom: 24,
           }}
         >
           <View>
@@ -130,7 +131,13 @@ export const PickReminderDateTime: React.FC<PickReminderDateTimeProps> = ({
             </SGText>
           </View>
         </View>
-        <SGButton text="Set Date and Time" onPress={onSubmit} />
+        <VSpace height={16} />
+        <SGButton
+          text="OK"
+          onPress={onSubmit}
+          icon={"forward"}
+          iconOnRight={true}
+        />
       </View>
     </Container>
   );

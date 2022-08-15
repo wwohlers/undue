@@ -26,7 +26,16 @@ export const SGButton: React.FC<
     iconOnRight?: boolean;
     disabled?: boolean;
   } & View["props"]
-> = ({ onPress, type = "primary", size = 20, icon, text, disabled = false, iconOnRight = false, ...rest }) => {
+> = ({
+  onPress,
+  type = "primary",
+  size = 20,
+  icon,
+  text,
+  disabled = false,
+  iconOnRight = false,
+  ...rest
+}) => {
   const theme = useTheme();
   const styles = useMemo(() => buttonStyles(theme)[type], [type, theme]);
 
@@ -36,7 +45,9 @@ export const SGButton: React.FC<
       activeOpacity={1}
       underlayColor={styles.highlightColor}
       containerStyle={{
-        backgroundColor: disabled ? styles.highlightColor : styles.backgroundColor,
+        backgroundColor: disabled
+          ? styles.highlightColor
+          : styles.backgroundColor,
         alignSelf: "stretch",
         overflow: "hidden",
         borderRadius: 4,
@@ -54,13 +65,7 @@ export const SGButton: React.FC<
           ...(rest.style as object),
         }}
       >
-        {!!icon && (
-          <SGIcon
-            size={size}
-            color={styles.color}
-            name={icon}
-          />
-        )}
+        {!!icon && <SGIcon size={size} color={styles.color} name={icon} />}
         <HSpace width={size * 0.6} />
         <SGText
           fontSize={size}

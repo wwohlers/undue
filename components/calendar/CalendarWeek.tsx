@@ -2,7 +2,7 @@ import { DateTime } from "luxon";
 import React, { useMemo, useState } from "react";
 import { LayoutAnimation, Platform, UIManager, View } from "react-native";
 import { useTheme } from "../../hooks/theme/useTheme";
-import { getDateTimeOfWeekIndex, isInWeek } from "../../util/time/calendar";
+import { isInWeek } from "../../util/time/calendar";
 import { DayTile } from "./DayTile";
 
 if (Platform.OS === "android") {
@@ -15,7 +15,8 @@ export const CalendarWeek: React.FC<{
   weekStart: DateTime;
   width: number;
   initialValue?: DateTime;
-}> = ({ weekStart, width, initialValue }) => {
+  onChange: (dt: DateTime) => void;
+}> = ({ weekStart, width, initialValue, onChange }) => {
   const theme = useTheme();
   const [containerHeight, setContainerHeight] = useState(0);
   const [selectedDay, setSelectedDay] = useState<DateTime | undefined>(
@@ -27,6 +28,7 @@ export const CalendarWeek: React.FC<{
   const selectDay = (day: DateTime | undefined) => {
     LayoutAnimation.easeInEaseOut();
     setSelectedDay(day);
+    if (day) onChange(day);
   };
 
   const dates = useMemo(() => {
@@ -45,6 +47,7 @@ export const CalendarWeek: React.FC<{
           isExpanded={isSelected}
           isMinimized={selectedDay !== undefined && !isSelected}
           onPressed={onPressed}
+          onChange={onChange}
         />
       );
     });

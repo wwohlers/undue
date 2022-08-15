@@ -1,7 +1,7 @@
-import { useAtom } from "jotai";
-import { atomWithStorage } from "jotai/utils";
-import { asyncStorage } from "../persist";
-import { CalendarPicker } from "./CalendarPicker.type";
+import {useAtom} from "jotai";
+import {atomWithStorage} from "jotai/utils";
+import {asyncStorage} from "../persist";
+import {CalendarPicker} from "./CalendarPicker.type";
 
 /**
  * This piece of state is used by the calendar picker and the useCalendarPicker hook
@@ -9,7 +9,7 @@ import { CalendarPicker } from "./CalendarPicker.type";
  */
 const calendarPickerAtom = atomWithStorage<CalendarPicker>(
   "calendarPicker",
-  { selectedValue: undefined, completed: true },
+  { selectedValue: undefined, confirmed: false, cancelled: false },
   asyncStorage
 );
 

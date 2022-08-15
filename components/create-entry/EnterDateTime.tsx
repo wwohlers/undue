@@ -10,6 +10,7 @@ import { SGText } from "../../elements/text/SGText";
 import { useTheme } from "../../hooks/theme/useTheme";
 import { useDayify } from "../../hooks/useDayify";
 import { DayifyResults } from "./DayifyResults";
+import { usePickCalendar } from "../../hooks/ui/usePickCalendar";
 
 export const EnterDateTime: React.FC<{
   type?: Entry["type"];
@@ -20,6 +21,14 @@ export const EnterDateTime: React.FC<{
   const theme = useTheme();
   const [input, setInput] = useState("");
   const dayifyResults = useDayify(input);
+  const pickCalendar = usePickCalendar();
+
+  const onCalendarPressed = async () => {
+    const dt = await pickCalendar();
+    if (dt) {
+      onSubmit(dt);
+    }
+  };
 
   return (
     <Container>
@@ -30,7 +39,7 @@ export const EnterDateTime: React.FC<{
         rightIcons={[
           {
             name: "calendar",
-            onPress: () => null,
+            onPress: onCalendarPressed,
           },
         ]}
       />
@@ -40,7 +49,7 @@ export const EnterDateTime: React.FC<{
           {!!isActive && (
             <SGInput
               value={input}
-              placeholder="Next Monday at 9:30am"
+              placeholder="tomorrow at 9am"
               autoFocus={true}
               size={20}
               onChangeText={setInput}
@@ -65,9 +74,8 @@ export const EnterDateTime: React.FC<{
               <View style={{ marginLeft: 12, marginTop: 4 }}>
                 <SGText>&bull; &quot;tomorrow at noon&quot;</SGText>
                 <SGText>&bull; &quot;August 10th at 4:30pm&quot;</SGText>
-                <SGText>&bull; &quot;in 4 days and 2 hours&quot;</SGText>
-                <SGText>&bull; &quot;Thursday at 5&quot;</SGText>
-                <SGText>&bull; &quot;next Monday at midnight&quot;</SGText>
+                <SGText>&bull; &quot;in 6 hours&quot;</SGText>
+                <SGText>&bull; &quot;next Thursday at 5&quot;</SGText>
               </View>
             </View>
           )}

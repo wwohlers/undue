@@ -1,6 +1,5 @@
-import { Link } from "@react-navigation/native";
-import { DateTime, Interval } from "luxon";
-import { Entry } from "../../data/entries/Entry.type";
+import {DateTime, Interval} from "luxon";
+import {Entry} from "../../data/entries/Entry.type";
 
 /**
  * To help users easily set a date between a range, we offer a slider that can
@@ -44,9 +43,9 @@ export function getDateFromFactor(
   }
   const len = interval.length("millisecond");
   const dist = len * factor;
-  const fifteenMins = 15 * 60 * 1000;
+  const fiveMins = 5 * 60 * 1000;
   const resultMs = interval.start.toMillis() + dist;
-  return DateTime.fromMillis(fifteenMins * Math.round(resultMs / fifteenMins));
+  return DateTime.fromMillis(fiveMins * Math.round(resultMs / fiveMins));
 }
 
 export function getInterval(entry: Entry): Interval {

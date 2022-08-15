@@ -1,5 +1,5 @@
-import { DateTime } from "luxon";
-import { Entry } from "../../data/entries/Entry.type";
+import {DateTime} from "luxon";
+import {Entry} from "../../data/entries/Entry.type";
 
 /**
  * Calendars in this app are based on weeks. A week index, which can be negative,
@@ -26,7 +26,7 @@ export function getMonthYearOfWeekIndex(index: number): [number, number] {
 
 export function getWeekIndexOfDateTime(dt: DateTime): number {
   const absDiff = Math.abs(
-    Math.round(DateTime.now().diff(dt.startOf("week"), "week").weeks)
+    Math.floor(DateTime.now().diff(dt.startOf("week"), "week").weeks)
   );
   return dt >= DateTime.now() ? absDiff : 0 - absDiff;
 }
@@ -44,6 +44,18 @@ export function isInWeek(dt: DateTime, weekStart: DateTime) {
 }
 
 const MS_IN_DAY = 24 * 60 * 60 * 1000;
+
+export function getDayFactorOfDateTime(dt: DateTime) {
+  return (dt.toMillis() - dt.startOf("day").toMillis()) / MS_IN_DAY;
+}
+
+export function getDateTimeOfDayFactor(
+  dayFactor: number,
+  dt: DateTime
+): DateTime {
+  return dt.startOf("day").plus({ milliseconds: dayFactor * MS_IN_DAY });
+}
+
 /**
  * Returns a map of heights (px) to lines, where a line consists of
  * entries that are at the exact same time. Lines must be separated
@@ -54,7 +66,7 @@ const MS_IN_DAY = 24 * 60 * 60 * 1000;
 export function buildDayViewList(
   entries: Entry[],
   totalHeight: number,
-  lineHeight: number,
+  lineHeight: number
 ): Record<number, Entry[]> {
   if (entries.length === 0) return [];
   const sortedEntries = entries.sort((a, b) => {
@@ -72,12 +84,10 @@ export function buildDayViewList(
     }
   }
   const res: Record<number, Entry[]> = {};
-  const availableHeight = totalHeight - lineHeight; // in case of a very late entry, leave 1 height open at bottom
   let lastPos = 0 - lineHeight;
   for (const line of lines) {
     const dt = DateTime.fromISO(line[0].datetime);
-    const diffMillis = dt.toMillis() - dt.startOf("day").toMillis()
-    let pos = Math.round(availableHeight * diffMillis / MS_IN_DAY);
+    let pos = Math.round(totalHeight * getDayFactorOfDateTime(dt));
     if (pos - lineHeight <= lastPos) {
       pos = lastPos + lineHeight;
     }

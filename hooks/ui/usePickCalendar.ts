@@ -10,8 +10,12 @@ export function usePickCalendar() {
   >(undefined);
 
   useEffect(() => {
-    if (calendarPicker.completed && resolver) {
-      resolver(calendarPicker.selectedValue);
+    if (resolver && (calendarPicker.confirmed || calendarPicker.cancelled)) {
+      if (calendarPicker.confirmed) {
+        resolver(calendarPicker.selectedValue);
+      } else {
+        resolver(undefined);
+      }
     }
   }, [resolver, calendarPicker]);
 
@@ -19,7 +23,8 @@ export function usePickCalendar() {
     (initialDateTime?: string): Promise<DateTime | undefined> => {
       setCalendarPicker({
         selectedValue: undefined,
-        completed: false,
+        confirmed: false,
+        cancelled: false,
       });
       rootNavigationRef.navigate("CalendarView", {
         pickMode: true,

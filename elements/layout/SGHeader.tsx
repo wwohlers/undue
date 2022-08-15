@@ -12,7 +12,7 @@ type SGHeaderProps = {
 };
 
 export const SGHeader: React.FC<SGHeaderProps> = ({
-  size = 26,
+  size = 22,
   leftIcon,
   text,
   rightIcons,
@@ -38,13 +38,15 @@ export const SGHeader: React.FC<SGHeaderProps> = ({
             }}
           />
         )}
-        <SGText fontSize={size} style={{ flex: 1 }} numberOfLines={1}>{text}</SGText>
+        <SGText fontSize={size} style={{ flex: 1 }} numberOfLines={1}>
+          {text}
+        </SGText>
       </HFlex>
       <HFlex style={{ justifyContent: "flex-start" }}>
         {rightIcons.map((icon, i) => (
           <SGIcon
             key={i}
-            size={size}
+            size={size + 4}
             {...icon}
             style={{
               marginRight: 8,

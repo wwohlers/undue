@@ -3,11 +3,10 @@ import { DateTime } from "luxon";
 import React, { useMemo } from "react";
 import { View } from "react-native";
 import {
-  ScrollView,
   TouchableOpacity,
   TouchableWithoutFeedback,
 } from "react-native-gesture-handler";
-import { Entry } from "../../data/entries/Entry.type";
+import { Entry, isDeadline } from "../../data/entries/Entry.type";
 import { useEditEntry } from "../../data/entries/useEditEntry";
 import { HFlex } from "../../elements/layout/HFlex";
 import { SGIcon } from "../../elements/text/SGIcon";
@@ -16,7 +15,7 @@ import { SGText } from "../../elements/text/SGText";
 import { useTheme } from "../../hooks/theme/useTheme";
 import { useMinutely } from "../../hooks/time/useMinutely";
 import { useTime } from "../../hooks/time/useTime";
-import { capitalize } from "../../util/capitalize";
+import { capitalize } from "../../util/text";
 import { absoluteFormat } from "../../util/time/absoluteFormat";
 import { formatDuration } from "../../util/time/formatDuration";
 import { relativeFormat } from "../../util/time/relativeFormat";
@@ -24,6 +23,8 @@ import { ViewEntryProps } from "../../views/ViewEntry";
 import { Priority } from "../../data/Priority.type";
 import { EditInPlace } from "../../elements/input/EditInPlace";
 import { usePickCalendar } from "../../hooks/ui/usePickCalendar";
+import { useYesOrNo } from "../../hooks/alerts/useYesOrNo";
+import { useEntryReminders } from "../../data/reminders/useReminders";
 
 export const EntryDetails: React.FC<{
   entry: Entry;
@@ -34,6 +35,8 @@ export const EntryDetails: React.FC<{
   const navigation = useNavigation<ViewEntryProps["navigation"]>();
   const editEntry = useEditEntry();
   const pickCalendar = usePickCalendar();
+  const yesOrNo = useYesOrNo();
+  const numReminders = useEntryReminders(entry.id).length;
 
   const relativeFormattedDt = useMemo(() => {
     return relativeFormat(DateTime.fromISO(entry.datetime));
@@ -44,6 +47,7 @@ export const EntryDetails: React.FC<{
   }, [entry.datetime, min10]);
 
   const onPriorityPressed = () => {
+    if (isOverdue) return;
     const newPriorities = {
       [Priority.LOW]: Priority.MED,
       [Priority.MED]: Priority.HIGH,
@@ -60,27 +64,60 @@ export const EntryDetails: React.FC<{
 
   const onDateTimePressed = async () => {
     const result = await pickCalendar(entry.datetime);
-    // console.log(1, result);
-  }
+    if (result) {
+      const adjustReminders =
+        numReminders === 0 ||
+        (await yesOrNo(
+          "Adjust reminders?",
+          `Do you also want to adjust your reminders for this ${entry.type}? If you select "No", the ${entry.type}'s time will still be changed.`
+        ));
+      editEntry(entry.id, { datetime: result.toISO() }, adjustReminders);
+    }
+  };
+
+  const onDurationPressed = () => {
+    navigation.navigate("SetDuration", { entryId: entry.id });
+  };
+
+  const onCheckboxPressed = () => {
+    if (isDeadline(entry)) {
+      editEntry(entry.id, { completed: !entry.completed });
+    }
+  };
+
+  const isOverdue = useMemo(() => {
+    return (
+      entry.type === "deadline" &&
+      DateTime.fromISO(entry.datetime) < DateTime.now()
+    );
+  }, []);
 
   return (
     <>
       <HFlex style={{ marginVertical: 16, justifyContent: "space-evenly" }}>
         <HFlex style={{ justifyContent: "center", marginHorizontal: 16 }}>
-          <SGIcon
-            name={entry.type === "deadline" ? "clock" : "calendar"}
-            size={42}
-          />
+          {isDeadline(entry) ? (
+            <SGIcon
+              name={entry.completed ? "checkboxChecked" : "checkboxEmpty"}
+              onPress={onCheckboxPressed}
+              size={42}
+            />
+          ) : (
+            <SGIcon name="calendar" size={42} />
+          )}
         </HFlex>
         <View style={{ flex: 1 }}>
           <TouchableOpacity onPress={onPriorityPressed}>
-            <SGLabel fontSize={14} color={theme.PRIORITY[entry.priority]}>
-              {entry.priority} priority
+            <SGLabel
+              fontSize={14}
+              color={
+                isOverdue ? theme.PRIORITY.HIGH : theme.PRIORITY[entry.priority]
+              }
+            >
+              {isOverdue ? "Overdue" : `${entry.priority} priority`}
             </SGLabel>
           </TouchableOpacity>
-          <TouchableWithoutFeedback
-            onPress={onDateTimePressed}
-          >
+          <TouchableWithoutFeedback onPress={onDateTimePressed}>
             <SGText fontSize={22} numberOfLines={1}>
               {capitalize(absoluteFormattedDt)}
             </SGText>
@@ -115,13 +152,15 @@ export const EntryDetails: React.FC<{
       {entry.type === "event" && (
         <View style={{ marginVertical: 16 }}>
           <SGLabel>Duration</SGLabel>
-          {entry.duration ? (
-            <SGText fontSize={20}>{formatDuration(entry.duration)}</SGText>
-          ) : (
-            <SGText fontSize={18} color={theme.OFF_PRIMARY}>
-              Tap to set a duration
-            </SGText>
-          )}
+          <TouchableWithoutFeedback onPress={onDurationPressed}>
+            {entry.duration ? (
+              <SGText fontSize={20}>{formatDuration(entry.duration)}</SGText>
+            ) : (
+              <SGText fontSize={18} color={theme.OFF_PRIMARY}>
+                Tap to set a duration
+              </SGText>
+            )}
+          </TouchableWithoutFeedback>
         </View>
       )}
     </>

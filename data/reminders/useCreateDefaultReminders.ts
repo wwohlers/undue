@@ -14,7 +14,10 @@ export function useCreateDefaultReminders() {
       const firstId = 1 + Math.max(...reminders.map((d) => d.id));
       const newReminders = await Promise.all<Reminder>(
         defaultReminders.map(async (reminder, i) => {
-          const notificationId = await scheduleReminderNotification(reminder, entry);
+          const notificationId = await scheduleReminderNotification(
+            reminder.datetime,
+            entry
+          );
           return {
             ...reminder,
             id: firstId + i,

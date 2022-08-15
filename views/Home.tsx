@@ -6,7 +6,7 @@ import { EventsList } from "../components/home/EventsList";
 import { Swiper } from "../elements/layout/Swiper";
 import { SGSpinner } from "../elements/text/SGSpinner";
 
-export type HomeProps = StackScreenProps<RootStackParamList, 'Home'>;
+export type HomeProps = StackScreenProps<RootStackParamList, "Home">;
 
 export const Home: React.FC = () => {
   return (

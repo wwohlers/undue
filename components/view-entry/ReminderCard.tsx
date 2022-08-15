@@ -12,7 +12,7 @@ import { useTheme } from "../../hooks/theme/useTheme";
 import { useMinutely } from "../../hooks/time/useMinutely";
 import { useTime } from "../../hooks/time/useTime";
 import { useAreYouSure } from "../../hooks/alerts/useAreYouSure";
-import { capitalize } from "../../util/capitalize";
+import { capitalize } from "../../util/text";
 import { absoluteFormat } from "../../util/time/absoluteFormat";
 import { relativeFormat } from "../../util/time/relativeFormat";
 import { ViewEntryProps } from "../../views/ViewEntry";
@@ -36,7 +36,9 @@ export const ReminderCard: React.FC<{
   }, [reminder.datetime, min10]);
 
   const editable = useMemo(() => {
-    return DateTime.fromISO(reminder.datetime) > DateTime.now().plus({ minute: 1 });
+    return (
+      DateTime.fromISO(reminder.datetime) > DateTime.now().plus({ minute: 1 })
+    );
   }, [time]);
 
   const onTrash = async () => {
@@ -76,7 +78,12 @@ export const ReminderCard: React.FC<{
               {capitalize(relativeFormattedDt)}
             </SGText>
           </View>
-          <SGIcon name="trash" size={24} style={{ marginHorizontal: 4 }} onPress={onTrash} />
+          <SGIcon
+            name="trash"
+            size={24}
+            style={{ marginHorizontal: 4 }}
+            onPress={onTrash}
+          />
         </HFlex>
       </HFlex>
     </TouchableHighlight>

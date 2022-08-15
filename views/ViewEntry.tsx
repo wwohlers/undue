@@ -1,5 +1,5 @@
 import type { StackScreenProps } from "@react-navigation/stack";
-import React from "react";
+import React, { useMemo } from "react";
 import { View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { RootStackParamList } from "../App";
@@ -16,6 +16,7 @@ import { SGButton } from "../elements/text/SGButton";
 import { SGText } from "../elements/text/SGText";
 import { useTheme } from "../hooks/theme/useTheme";
 import { useAreYouSure } from "../hooks/alerts/useAreYouSure";
+import { DateTime } from "luxon";
 
 export type ViewEntryProps = StackScreenProps<RootStackParamList, "ViewEntry">;
 
@@ -26,6 +27,11 @@ export const ViewEntry: React.FC<ViewEntryProps> = ({ route, navigation }) => {
   const removeEntry = useRemoveEntry();
   const createReminder = useCreateReminder();
   const areYouSure = useAreYouSure();
+
+  const isPast = useMemo(
+    () => entry && DateTime.fromISO(entry.datetime) < DateTime.now(),
+    [entry]
+  );
 
   const onTrash = async () => {
     if (!entry) return;
@@ -41,13 +47,13 @@ export const ViewEntry: React.FC<ViewEntryProps> = ({ route, navigation }) => {
   };
 
   const onAddReminder = async () => {
-    if (!entry) return;
+    if (!entry || isPast) return;
     const reminder = await createReminder({
       entryId: entry.id,
       datetime: entry.datetime,
     });
     if (!reminder) return;
-    navigation.navigate("PickReminderDateTime", { reminderId: reminder.id })
+    navigation.navigate("PickReminderDateTime", { reminderId: reminder.id });
   };
 
   return (
@@ -73,24 +79,34 @@ export const ViewEntry: React.FC<ViewEntryProps> = ({ route, navigation }) => {
         {entry ? (
           <>
             <EntryDetails entry={entry} />
-            <VSpace height={8} />
-            {reminders.length ? (
-              reminders.map((r) => <ReminderCard key={r.id} reminder={r} />)
-            ) : (
-              <SGText
-                style={{
-                  textAlign: "center",
-                  color: theme.OFF_PRIMARY,
-                  marginVertical: 16,
-                }}
-              >
-                You don&apos;t have any reminders set
-              </SGText>
+            {!isPast && (
+              <>
+                <VSpace height={8} />
+                {reminders.length ? (
+                  reminders.map((r) => <ReminderCard key={r.id} reminder={r} />)
+                ) : (
+                  <SGText
+                    style={{
+                      textAlign: "center",
+                      color: theme.OFF_PRIMARY,
+                      marginVertical: 16,
+                    }}
+                  >
+                    You don&apos;t have any reminders set
+                  </SGText>
+                )}
+                <VSpace height={4} />
+                <View
+                  style={{ flexDirection: "row", justifyContent: "flex-end" }}
+                >
+                  <SGButton
+                    icon="plus"
+                    text="Add Reminder"
+                    onPress={onAddReminder}
+                  />
+                </View>
+              </>
             )}
-            <VSpace height={4} />
-            <View style={{ flexDirection: "row", justifyContent: "flex-end" }}>
-              <SGButton icon="plus" text="Add Reminder" onPress={onAddReminder} />
-            </View>
           </>
         ) : (
           <SGText>

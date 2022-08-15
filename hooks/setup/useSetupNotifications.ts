@@ -1,7 +1,9 @@
 import { isDevice } from "expo-device";
 import { Platform } from "react-native";
 import * as Notifications from "expo-notifications";
+import { Notification } from "expo-notifications";
 import { useTheme } from "../theme/useTheme";
+import { rootNavigationRef } from "../../rootNavigation";
 
 export function useSetupNotifications() {
   Notifications.setNotificationHandler({
@@ -11,7 +13,19 @@ export function useSetupNotifications() {
       shouldSetBadge: false,
     }),
   });
+  Notifications.addNotificationResponseReceivedListener((response) => {
+    handleNotificationPressed(response.notification);
+  });
   registerForPushNotificationsAsync();
+}
+
+function handleNotificationPressed(notification: Notification) {
+  const entryId = notification.request.content.data.entryId;
+  if (entryId && typeof entryId === "number" && rootNavigationRef.current) {
+    rootNavigationRef.current.navigate("ViewEntry", {
+      entryId: notification.request.content.data.entryId as number,
+    });
+  }
 }
 
 async function registerForPushNotificationsAsync() {

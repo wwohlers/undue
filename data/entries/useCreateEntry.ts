@@ -1,7 +1,8 @@
 import { useCallback } from "react";
 import { useCreateDefaultReminders } from "../reminders/useCreateDefaultReminders";
-import { CreateableEntry } from "./Entry.type";
+import { CreateableEntry, Entry } from "./Entry.type";
 import { useEntries } from "./useEntries";
+import Toast from "react-native-toast-message";
 
 export function useCreateEntry() {
   const [entries, setEntries] = useEntries();
@@ -12,9 +13,13 @@ export function useCreateEntry() {
       const newEntry = {
         ...entry,
         id: maxId + 1,
-      };
+      } as Entry;
       setEntries([...entries, newEntry]);
       createDefaultReminders(newEntry);
+      Toast.show({
+        type: "success",
+        text1: `Your ${newEntry.type} was created`,
+      });
       return newEntry;
     },
     [entries, setEntries, createDefaultReminders]

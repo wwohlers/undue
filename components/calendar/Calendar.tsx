@@ -1,22 +1,19 @@
-import { DateTime, Info } from "luxon";
-import React, { useMemo, useState } from "react";
-import { NativeScrollEvent, NativeSyntheticEvent, View } from "react-native";
-import {
-  FlatList,
-  TouchableWithoutFeedback,
-} from "react-native-gesture-handler";
-import { HSpace } from "../../elements/layout/HSpace";
-import { SGIcon } from "../../elements/text/SGIcon";
-import { SGText } from "../../elements/text/SGText";
-import { capitalize } from "../../util/capitalize";
+import {DateTime, Info} from "luxon";
+import React, {useMemo, useState} from "react";
+import {NativeScrollEvent, NativeSyntheticEvent, View} from "react-native";
+import {FlatList, TouchableWithoutFeedback,} from "react-native-gesture-handler";
+import {HSpace} from "../../elements/layout/HSpace";
+import {SGIcon} from "../../elements/text/SGIcon";
+import {SGText} from "../../elements/text/SGText";
+import {capitalize} from "../../util/text";
 import {
   getDateTimeOfWeekIndex,
   getMonthYearOfWeekIndex,
   getWeekIndexOfDateTime,
   getWeekIndexOfMonthYear,
 } from "../../util/time/calendar";
-import { CalendarWeek } from "./CalendarWeek";
-import { MonthYearPicker } from "./MonthYearPicker";
+import {CalendarWeek} from "./CalendarWeek";
+import {MonthYearPicker} from "./MonthYearPicker";
 
 /**
  * range is the range of week indices that the calendar can "render" at once.
@@ -34,7 +31,8 @@ const range = Array.from({ length: 105 }, (_, i) => i - 52);
 export const Calendar: React.FC<{
   containerWidth: number;
   initialValue?: DateTime;
-}> = ({ containerWidth, initialValue }) => {
+  onChange: (dt: DateTime) => void;
+}> = ({ containerWidth, initialValue, onChange }) => {
   const [scrollIndex, setScrollIndex] = useState(52); // actual index scrolled to
   const [centerWeekIndex, setCenterWeekIndex] = useState(
     initialValue ? getWeekIndexOfDateTime(initialValue) : 0
@@ -76,9 +74,11 @@ export const Calendar: React.FC<{
             flexDirection: "row",
             justifyContent: "center",
             alignItems: "center",
-            marginVertical: 8,
+            marginVertical: 16,
           }}
         >
+          <SGIcon name={"calendar"} size={22} />
+          <HSpace width={8} />
           <SGText fontSize={24}>
             {capitalize(Info.months()[monthYear[0] - 1])}{" "}
             {monthYear[1].toString()}
@@ -99,6 +99,7 @@ export const Calendar: React.FC<{
               weekStart={getDateTimeOfWeekIndex(item)}
               width={containerWidth}
               initialValue={initialValue}
+              onChange={onChange}
             />
           )}
           getItemLayout={(_, index) => ({

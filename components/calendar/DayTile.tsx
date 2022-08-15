@@ -9,6 +9,7 @@ import { SGText } from "../../elements/text/SGText";
 import { useTheme } from "../../hooks/theme/useTheme";
 import { useTime } from "../../hooks/time/useTime";
 import { DayView } from "./DayView";
+import { getUSHoliday } from "../../util/holidays";
 
 export const DayTile: React.FC<{
   day: DateTime;
@@ -16,7 +17,8 @@ export const DayTile: React.FC<{
   isExpanded: boolean;
   isMinimized: boolean;
   onPressed: () => void;
-}> = ({ day, parentHeight, isExpanded, isMinimized, onPressed }) => {
+  onChange: (dt: DateTime) => void;
+}> = ({ day, parentHeight, isExpanded, isMinimized, onPressed, onChange }) => {
   const theme = useTheme();
   const time = useTime();
 
@@ -37,60 +39,83 @@ export const DayTile: React.FC<{
     return !isToday && day.endOf("day") < DateTime.now();
   }, [time, isToday]);
 
+  const holiday = useMemo(() => {
+    return getUSHoliday(day);
+  }, []);
+
   const entries = useEntriesByDay(day);
   const sortedEntries = useMemo(() => {
-    return sortByPriority(entries).slice(0, 3);
+    return sortByPriority(entries).slice(0, holiday ? 2 : 3);
   }, [entries]);
+
+  const backgroundColor = useMemo(() => {
+    if (isToday) return theme.TODAY;
+    if (day.weekday % 2 === 1) return theme.OFF_BACKGROUND;
+  }, [isToday, theme]);
+
+  const borderTopWidth = useMemo(() => {
+    return day.day === 1 ? 2 : 0;
+  }, []);
 
   const body = useMemo(() => {
     if (isMinimized) {
       return (
-        <SGText
-          color={theme.OFF_PRIMARY}
-          fontSize={16}
-          fontWeight={isToday ? 600 : 400}
-        >
-          {Info.months("short")[day.month - 1]} {day.day.toString()}
-        </SGText>
+        <TouchableWithoutFeedback onPress={onPressed}>
+          <SGText
+            color={theme.OFF_PRIMARY}
+            fontSize={16}
+            fontWeight={isToday ? 600 : 400}
+          >
+            {Info.months("short")[day.month - 1]} {day.day.toString()}
+          </SGText>
+        </TouchableWithoutFeedback>
       );
     } else if (isExpanded) {
-      return (
-        <DayView day={day} />
-      );
+      return <DayView day={day} onMinimize={onPressed} onChange={onChange} />;
     } else {
-      return sortedEntries.map((e) => {
-        return (
-          <View key={e.id} style={{ flexDirection: "row" }}>
-            <SGText fontWeight={600}>
-              {DateTime.fromISO(e.datetime).toFormat("t")}
-            </SGText>
-            <HSpace width={6} />
-            <SGText numberOfLines={1}>{e.title}</SGText>
+      return (
+        <TouchableWithoutFeedback onPress={onPressed}>
+          <View style={{ height }}>
+            {holiday && (
+              <SGText color={theme.HOLIDAY} fontWeight={600}>
+                {holiday}
+              </SGText>
+            )}
+            {sortedEntries.map((e) => (
+              <View key={e.id} style={{ flexDirection: "row" }}>
+                <SGText fontWeight={600}>
+                  {DateTime.fromISO(e.datetime).toFormat("t")}
+                </SGText>
+                <HSpace width={6} />
+                <SGText numberOfLines={1}>{e.title}</SGText>
+              </View>
+            ))}
           </View>
-        );
-      });
+        </TouchableWithoutFeedback>
+      );
     }
-  }, [isMinimized, isExpanded]);
+  }, [isMinimized, isExpanded, height]);
 
   return (
-    <TouchableWithoutFeedback onPress={onPressed}>
-      <View
-        style={{
-          flexDirection: "row",
-          height,
-          borderColor: theme.OFF_BACKGROUND,
-          borderTopWidth: 1,
-          paddingVertical: isMinimized ? 4 : 8,
-          opacity: isPast ? 0.5 : 1,
-          backgroundColor: isToday ? theme.TODAY : theme.BACKGROUND,
-        }}
-      >
+    <View
+      style={{
+        flexDirection: "row",
+        height,
+        paddingVertical: isMinimized ? 4 : 8,
+        opacity: isPast ? 0.5 : 1,
+        backgroundColor,
+        borderColor: theme.THEME,
+        borderTopWidth,
+      }}
+    >
+      <TouchableWithoutFeedback onPress={onPressed}>
         <View
           style={{
             width: 60,
             alignItems: "flex-end",
             alignSelf: "stretch",
             justifyContent: isMinimized ? "center" : "flex-start",
+            paddingTop: isMinimized ? 3 : 0,
           }}
         >
           <SGText
@@ -109,15 +134,16 @@ export const DayTile: React.FC<{
             </SGText>
           )}
         </View>
-        <HSpace width={16} />
-        <View
-          style={{
-            justifyContent: isMinimized ? "center" : "flex-start",
-          }}
-        >
-          {body}
-        </View>
+      </TouchableWithoutFeedback>
+      <HSpace width={16} />
+      <View
+        style={{
+          justifyContent: isMinimized ? "center" : "flex-start",
+          flex: 1,
+        }}
+      >
+        {body}
       </View>
-    </TouchableWithoutFeedback>
+    </View>
   );
 };

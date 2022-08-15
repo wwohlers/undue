@@ -3,11 +3,15 @@ import { useEditReminder } from "../reminders/useEditReminder";
 import { useReminders } from "../reminders/useReminders";
 import { Entry } from "./Entry.type";
 import { useEntries } from "./useEntries";
+import { useRemoveReminder } from "../reminders/useRemoveReminder";
+import { DateTime } from "luxon";
 
 export function useEditEntry() {
   const [entries, setEntries] = useEntries();
   const [reminders] = useReminders();
   const editReminder = useEditReminder();
+  const removeReminder = useRemoveReminder();
+
   return useCallback(
     (id: number, partial: Partial<Entry>, adjustReminders = true) => {
       const existing = entries.find((d) => d.id === id);
@@ -15,7 +19,7 @@ export function useEditEntry() {
       const newEntry = {
         ...existing,
         ...partial,
-      };
+      } as Entry;
       const newEntries = entries.map((d) => {
         if (d.id === id) return newEntry;
         return d;
@@ -29,9 +33,13 @@ export function useEditEntry() {
           .filter((r) => r.entryId === id)
           .forEach((r) => {
             const newTimestamp = new Date(r.datetime).getTime() + diff;
-            editReminder(r.id, {
-              datetime: new Date(newTimestamp).toISOString(),
-            });
+            if (newTimestamp < Date.now() + 60000) {
+              removeReminder(r.id);
+            } else {
+              editReminder(r.id, {
+                datetime: DateTime.fromMillis(newTimestamp).toISO(),
+              });
+            }
           });
       }
       return newEntry;

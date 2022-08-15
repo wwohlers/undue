@@ -7,6 +7,8 @@ import { EnterTitle } from "../components/create-entry/EnterTitle";
 import { useCreateEntry } from "../data/entries/useCreateEntry";
 import { Priority } from "../data/Priority.type";
 import { Swiper } from "../elements/layout/Swiper";
+import { useCheckOverlappingEvents } from "../data/entries/useCheckOverlappingEvents";
+import { useYesOrNo } from "../hooks/alerts/useYesOrNo";
 
 export type CreateEntryProps = StackScreenProps<
   RootStackParamList,
@@ -20,6 +22,8 @@ export const CreateEntry: React.FC<CreateEntryProps> = ({
   const [screen, setScreen] = useState(0);
   const [title, setTitle] = useState("");
   const createEntry = useCreateEntry();
+  const checkOverlappingEvents = useCheckOverlappingEvents();
+  const yesNo = useYesOrNo();
 
   const onTitleSubmitted = (title: string) => {
     setTitle(title);
@@ -27,8 +31,17 @@ export const CreateEntry: React.FC<CreateEntryProps> = ({
   };
 
   const onSubmit = useCallback(
-    (dt: DateTime) => {
+    async (dt: DateTime) => {
       if (!title) return;
+      const overlappingEvent =
+        route.params.type === "event" && checkOverlappingEvents(dt);
+      if (overlappingEvent) {
+        const proceed = await yesNo(
+          "Overlapping event",
+          `Your event might overlap with ${overlappingEvent.title}. Do you still want to proceed?`
+        );
+        if (!proceed) return;
+      }
       const entry = createEntry({
         type: route.params.type,
         title,
@@ -40,7 +53,7 @@ export const CreateEntry: React.FC<CreateEntryProps> = ({
     },
     [route.params.type, title, createEntry, navigation]
   );
-  
+
   const onBack = () => {
     if (route.params.type) {
       setScreen(0);

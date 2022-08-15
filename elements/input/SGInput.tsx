@@ -10,15 +10,15 @@ export const SGInput: React.FC<
     size?: number;
     icon?: SGIconProps;
   } & TextInput["props"]
-> = ({ size = 22, icon, ...rest }) => {
+> = ({ size = 20, icon, ...rest }) => {
   const theme = useTheme();
   if (!icon) {
     return (
       <TextInput
         {...rest}
         style={{
-          borderColor: theme.BORDER_DARK,
-          borderBottomWidth: 1,
+          borderColor: theme.THEME,
+          borderBottomWidth: 2,
           borderRadius: 2,
           paddingVertical: size * 0.4,
           color: theme.THEME,
@@ -33,12 +33,12 @@ export const SGInput: React.FC<
     return (
       <View
         style={{
-          borderColor: theme.BORDER_DARK,
-          borderBottomWidth: 1,
+          borderColor: theme.THEME,
+          borderBottomWidth: 2,
           borderRadius: 2,
           flexDirection: "row",
           ...(rest.style as object),
-          alignItems: "center"
+          alignItems: "center",
         }}
       >
         <TextInput
