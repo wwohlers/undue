@@ -1,11 +1,12 @@
 import { ItemReminder } from "./ItemReminder.type";
 import { ItemRepeatData } from "./ItemRepeatData.type";
+import { Priority } from "../../Priority.type";
 
 type BaseItem = {
   id: number;
   datetime: string; // ISO8601 datetime
   reminders: ItemReminder[];
-  repeat: ItemRepeatData;
+  repeatData: ItemRepeatData;
 };
 
 export type Event = BaseItem & {
@@ -13,9 +14,9 @@ export type Event = BaseItem & {
   metadata: {
     title: string;
     description?: string;
-    duration: number;
-    location: string;
-    priority: "low" | "medium" | "high";
+    duration?: number;
+    location?: string;
+    priority: Priority;
   };
 };
 
@@ -25,7 +26,7 @@ export type Deadline = BaseItem & {
   metadata: {
     title: string;
     description?: string;
-    priority: "low" | "medium" | "high";
+    priority: Priority;
   };
 };
 

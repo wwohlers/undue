@@ -5,12 +5,15 @@ import { useCallback } from "react";
 
 export const itemIdAtom = atomWithStorage<number>("itemId", 1, asyncStorage);
 
-export function useNextItemId() {
+export function useNextItemIds() {
   const [itemId, setItemId] = useAtom(itemIdAtom);
 
-  return useCallback(() => {
-    const curr = itemId;
-    setItemId(curr + 1);
-    return curr;
-  }, [itemId, setItemId]);
+  return useCallback(
+    (numIds = 1) => {
+      const curr = itemId;
+      setItemId(curr + numIds);
+      return Array.from({ length: numIds }, (_, i) => curr + i);
+    },
+    [itemId, setItemId]
+  );
 }

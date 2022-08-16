@@ -2,102 +2,23 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4bd2d691-eb42-4889-900d-48dc44d51481" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/components/filter-sort/FilterDeadlinesControl.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/filter-sort/FilterEventsControl.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/filter-sort/SortControl.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/home/QuickAddDeadline.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/set-duration/DurationPicker.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/entries/useCheckOverlappingEvents.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/entries/useRemoveEntries.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/entries/useSetRepeat.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/entries/useStakeMasterEntry.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/filter-sort/FilterSortState.type.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/filter-sort/useFilterDeadlines.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/filter-sort/useFilterEvents.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/filter-sort/useFilterSortState.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/filter-sort/useSetFilterOptions.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/filter-sort/useSetSortOptions.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/filter-sort/useSortEntries.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/hydration/useLastHydratedYear.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/items/helpers/defaultReminders.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/items/helpers/hydration.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/items/helpers/notifications.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/items/hooks/useAdjustItemDateTime.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/items/hooks/useAdjustReminderDateTime.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/items/hooks/useClearRepeat.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/items/hooks/useCreateItem.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/items/hooks/useCreateReminder.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/items/hooks/useEditItemMetadata.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/items/hooks/useHydrateOnLoad.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/items/hooks/useRemoveItem.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/items/hooks/useRemoveReminder.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/items/hooks/useSetRepeat.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/items/hooks/useToggleDeadlineComplete.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/items/types/Item.type.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/items/types/ItemReminder.type.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/items/types/ItemRepeatData.type.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/items/useItemId.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/items/useItems.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/reminders/useAdjustReminders.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/reminders/useCreateReminders.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/reminders/useRemoveEntryReminders.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/reminders/useRemoveSingleReminder.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/elements/input/SGCheckbox.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hooks/ui/useIsMount.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hooks/useToastConfig.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/util/holidays.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/util/intro.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/views/FilterSortView.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/views/SetDuration.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/App.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.json" beforeDir="false" afterPath="$PROJECT_DIR$/app.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/adaptive-icon.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/favicon.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/icon.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/splash.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/babel.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/babel.config.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/calendar/Calendar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/calendar/Calendar.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/calendar/CalendarWeek.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/calendar/CalendarWeek.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/calendar/DayTile.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/calendar/DayTile.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/calendar/DayView.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/calendar/DayView.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/create-entry/EnterDateTime.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/create-entry/EnterDateTime.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/create-entry/EnterTitle.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/create-entry/EnterTitle.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/home/DeadlinesList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/home/DeadlinesList.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/home/EntryCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/home/EntryCard.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/home/EventsList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/home/EventsList.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/view-entry/EntryDetails.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/view-entry/EntryDetails.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/view-entry/ReminderCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/view-entry/ReminderCard.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/calendar/CalendarPicker.type.ts" beforeDir="false" afterPath="$PROJECT_DIR$/data/calendar/CalendarPicker.type.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/calendar/useCalendarPicker.ts" beforeDir="false" afterPath="$PROJECT_DIR$/data/calendar/useCalendarPicker.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/entries/Entry.type.ts" beforeDir="false" afterPath="$PROJECT_DIR$/data/entries/Entry.type.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/entries/defaultReminders.ts" beforeDir="false" afterPath="$PROJECT_DIR$/data/entries/defaultReminders.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/entries/useCreateEntry.ts" beforeDir="false" afterPath="$PROJECT_DIR$/data/entries/useCreateEntry.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/entries/useEditEntry.ts" beforeDir="false" afterPath="$PROJECT_DIR$/data/entries/useEditEntry.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/entries/useEntries.ts" beforeDir="false" afterPath="$PROJECT_DIR$/data/entries/useEntries.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/reminders/scheduleReminderNotification.ts" beforeDir="false" afterPath="$PROJECT_DIR$/data/reminders/scheduleReminderNotification.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/reminders/useCreateDefaultReminders.ts" beforeDir="false" afterPath="$PROJECT_DIR$/data/reminders/useCreateDefaultReminders.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/reminders/useCreateReminder.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/reminders/useEditReminder.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/reminders/useReminders.ts" beforeDir="false" afterPath="$PROJECT_DIR$/data/reminders/useReminders.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/reminders/useRemoveReminder.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/elements/input/EditInPlace.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/elements/input/EditInPlace.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/elements/input/SGInput.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/elements/input/SGInput.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/elements/layout/SGHeader.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/elements/layout/SGHeader.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/elements/text/SGButton.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/elements/text/SGButton.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/elements/text/SGIcon.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/elements/text/SGIcon.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/items/helpers/modifyItem.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/items/helpers/sameMaster.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/items/helpers/hydration.ts" beforeDir="false" afterPath="$PROJECT_DIR$/data/items/helpers/hydration.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/items/helpers/notifications.ts" beforeDir="false" afterPath="$PROJECT_DIR$/data/items/helpers/notifications.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/items/hooks/useAdjustItemDateTime.ts" beforeDir="false" afterPath="$PROJECT_DIR$/data/items/hooks/useAdjustItemDateTime.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/items/hooks/useAdjustReminderDateTime.ts" beforeDir="false" afterPath="$PROJECT_DIR$/data/items/hooks/useAdjustReminderDateTime.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/items/hooks/useClearRepeat.ts" beforeDir="false" afterPath="$PROJECT_DIR$/data/items/hooks/useClearRepeat.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/items/hooks/useCreateItem.ts" beforeDir="false" afterPath="$PROJECT_DIR$/data/items/hooks/useCreateItem.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/items/hooks/useCreateReminder.ts" beforeDir="false" afterPath="$PROJECT_DIR$/data/items/hooks/useCreateReminder.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/items/hooks/useEditItemMetadata.ts" beforeDir="false" afterPath="$PROJECT_DIR$/data/items/hooks/useEditItemMetadata.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/items/hooks/useHydrateOnLoad.ts" beforeDir="false" afterPath="$PROJECT_DIR$/data/items/hooks/useHydrateOnLoad.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/items/types/Item.type.ts" beforeDir="false" afterPath="$PROJECT_DIR$/data/items/types/Item.type.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/items/types/ItemRepeatData.type.ts" beforeDir="false" afterPath="$PROJECT_DIR$/data/items/types/ItemRepeatData.type.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/items/useItemId.ts" beforeDir="false" afterPath="$PROJECT_DIR$/data/items/useItemId.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/items/useItems.ts" beforeDir="false" afterPath="$PROJECT_DIR$/data/items/useItems.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/hooks/setup/useSetupNotifications.ts" beforeDir="false" afterPath="$PROJECT_DIR$/hooks/setup/useSetupNotifications.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hooks/theme/useTheme.ts" beforeDir="false" afterPath="$PROJECT_DIR$/hooks/theme/useTheme.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hooks/ui/usePickCalendar.ts" beforeDir="false" afterPath="$PROJECT_DIR$/hooks/ui/usePickCalendar.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/util/capitalize.ts" beforeDir="false" afterPath="$PROJECT_DIR$/util/text.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/util/time/calendar.ts" beforeDir="false" afterPath="$PROJECT_DIR$/util/time/calendar.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/util/time/dateRangeFactor.ts" beforeDir="false" afterPath="$PROJECT_DIR$/util/time/dateRangeFactor.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/CalendarView.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/views/CalendarView.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/CreateEntry.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/views/CreateEntry.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/Home.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/views/Home.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/PickReminderDateTime.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/views/PickReminderDateTime.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/ViewEntry.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/views/ViewEntry.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -160,7 +81,9 @@
       <workItem from="1660238496669" duration="24000" />
       <workItem from="1660238532809" duration="16000" />
       <workItem from="1660242338702" duration="11048000" />
-      <workItem from="1660324069655" duration="58031000" />
+      <workItem from="1660324069655" duration="58420000" />
+      <workItem from="1660592522903" duration="14212000" />
+      <workItem from="1660626988122" duration="77000" />
     </task>
     <servers />
   </component>

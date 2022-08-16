@@ -1,5 +1,3 @@
-import { DateTime } from "luxon";
-
 export type ItemRepeatData =
   | {
       readonly repeats: false;
@@ -8,8 +6,7 @@ export type ItemRepeatData =
       readonly repeats: true;
       readonly masterId: number | undefined;
       readonly isHydrated: boolean;
-      readonly startDate: DateTime;
-      readonly endDate: DateTime;
+      readonly endDate: string;
     } & (
       | {
           readonly interval: "daily" | "monthly" | "yearly";
@@ -17,6 +14,5 @@ export type ItemRepeatData =
       | {
           readonly interval: "weekly";
           readonly days: number[];
-          readonly skipEveryOther: boolean;
         }
     ));

@@ -7,7 +7,7 @@ import { itemIdAtom } from "./useItemId";
 
 const itemsAtom = atomWithStorage<Item[]>("items", [], asyncStorage);
 
-export function useItems() {
+export function useItems(): [Item[], (items: Item[]) => void] {
   const [items, setItems] = useAtom(itemsAtom);
   const [itemId, setItemId] = useAtom(itemIdAtom);
 
