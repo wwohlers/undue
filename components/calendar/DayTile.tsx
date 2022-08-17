@@ -2,7 +2,6 @@ import { DateTime, Info } from "luxon";
 import React, { useMemo } from "react";
 import { View } from "react-native";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
-import { useEntriesByDay } from "../../data/entries/useEntries";
 import { sortByPriority } from "../../data/Priority.type";
 import { HSpace } from "../../elements/layout/HSpace";
 import { SGText } from "../../elements/text/SGText";
@@ -10,6 +9,7 @@ import { useTheme } from "../../hooks/theme/useTheme";
 import { useTime } from "../../hooks/time/useTime";
 import { DayView } from "./DayView";
 import { getUSHoliday } from "../../util/holidays";
+import { useItemsByDay } from "../../data/items/read/useItemsByDay";
 
 export const DayTile: React.FC<{
   day: DateTime;
@@ -43,10 +43,10 @@ export const DayTile: React.FC<{
     return getUSHoliday(day);
   }, []);
 
-  const entries = useEntriesByDay(day);
-  const sortedEntries = useMemo(() => {
-    return sortByPriority(entries).slice(0, holiday ? 2 : 3);
-  }, [entries]);
+  const items = useItemsByDay(day);
+  const sortedItems = useMemo(() => {
+    return sortByPriority(items).slice(0, holiday ? 2 : 3);
+  }, [items]);
 
   const backgroundColor = useMemo(() => {
     if (isToday) return theme.TODAY;
@@ -81,7 +81,7 @@ export const DayTile: React.FC<{
                 {holiday}
               </SGText>
             )}
-            {sortedEntries.map((e) => (
+            {sortedItems.map((e) => (
               <View key={e.id} style={{ flexDirection: "row" }}>
                 <SGText fontWeight={600}>
                   {DateTime.fromISO(e.datetime).toFormat("t")}

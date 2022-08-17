@@ -8,8 +8,6 @@ import Slider from "@react-native-community/slider";
 import { useTheme } from "../hooks/theme/useTheme";
 import { SGText } from "../elements/text/SGText";
 import { DateTime } from "luxon";
-import { useReminder } from "../data/reminders/useReminders";
-import { useEntries } from "../data/entries/useEntries";
 import { absoluteFormat } from "../util/time/absoluteFormat";
 import { capitalize } from "../util/text";
 import {
@@ -20,8 +18,9 @@ import {
 import { factorToSlider, sliderToFactor } from "../util/time/diminishingTime";
 import { relativeDiffStr } from "../util/time/relativeFormat";
 import { SGButton } from "../elements/text/SGButton";
-import { useEditReminder } from "../data/reminders/useEditReminder";
 import { VSpace } from "../elements/layout/VSpace";
+import { useItems } from "../data/items/useItems";
+import { useReminderPicker } from "../data/reminder-picker/useReminderPicker";
 
 export type PickReminderDateTimeProps = StackScreenProps<
   RootStackParamList,
@@ -33,22 +32,30 @@ export const PickReminderDateTime: React.FC<PickReminderDateTimeProps> = ({
   navigation,
 }) => {
   const theme = useTheme();
-  const reminder = useReminder(route.params.reminderId);
-  const [entries] = useEntries();
-  const entry = useMemo(
-    () => entries.find((e) => e.id === reminder?.entryId),
-    [entries, reminder]
+  const [items] = useItems();
+  const item = useMemo(
+    () => items.find((e) => e.id === route.params.itemId),
+    [items, route]
   );
-  const interval = useMemo(() => !!entry && getInterval(entry), [entry]);
-  const editReminder = useEditReminder();
+  const interval = useMemo(() => !!item && getInterval(item), [item]);
+  const [_, setReminderPicker] = useReminderPicker();
 
-  if (!entry || !reminder || !interval) {
+  const cancel = () => {
+    setReminderPicker({
+      selectedValue: undefined,
+      confirmed: false,
+      cancelled: true,
+    });
     navigation.goBack();
+  };
+
+  if (!item || !interval) {
+    cancel();
     return null;
   }
 
   const [dateFactor, setDateFactor] = useState(
-    getDateRangeFactor(interval, DateTime.fromISO(reminder.datetime))
+    getDateRangeFactor(interval, DateTime.fromISO(route.params.initialDateTime))
   );
 
   const onSliderValueChange = (value: number) => {
@@ -60,7 +67,7 @@ export const PickReminderDateTime: React.FC<PickReminderDateTimeProps> = ({
   }, [interval, dateFactor]);
 
   const relativeStr = useMemo(() => {
-    const diff = DateTime.fromISO(entry.datetime).diff(selectedDate, [
+    const diff = DateTime.fromISO(item.datetime).diff(selectedDate, [
       "years",
       "months",
       "weeks",
@@ -69,19 +76,23 @@ export const PickReminderDateTime: React.FC<PickReminderDateTimeProps> = ({
       "minutes",
     ]);
     const diffStr = relativeDiffStr(diff);
-    if (diffStr === "now") return `at your ${entry.type}`;
-    return `${relativeDiffStr(diff)} before ${entry.title}`;
-  }, [selectedDate, entry.datetime]);
+    if (diffStr === "now") return `at your ${item.type}`;
+    return `${relativeDiffStr(diff)} before ${item.title}`;
+  }, [selectedDate, item.datetime]);
 
   const onSubmit = async () => {
-    await editReminder(reminder.id, { datetime: selectedDate.toISO() });
+    setReminderPicker({
+      selectedValue: selectedDate,
+      confirmed: true,
+      cancelled: false,
+    });
     navigation.goBack();
   };
 
   return (
     <Container>
       <SGHeader
-        leftIcon={{ name: "back", onPress: navigation.goBack }}
+        leftIcon={{ name: "back", onPress: cancel }}
         text="Pick a Date and Time"
         rightIcons={[
           {
@@ -124,10 +135,10 @@ export const PickReminderDateTime: React.FC<PickReminderDateTimeProps> = ({
           </View>
           <View style={{ alignItems: "flex-end" }}>
             <SGText fontSize={16} color={theme.OFF_PRIMARY}>
-              Your {entry.type}
+              Your {item.type}
             </SGText>
             <SGText fontSize={18}>
-              {capitalize(absoluteFormat(DateTime.fromISO(entry.datetime)))}
+              {capitalize(absoluteFormat(DateTime.fromISO(item.datetime)))}
             </SGText>
           </View>
         </View>

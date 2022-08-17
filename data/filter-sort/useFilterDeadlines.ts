@@ -1,9 +1,9 @@
 import { useMemo } from "react";
-import { Deadline } from "../entries/Entry.type";
 import { useFilterSortState } from "./useFilterSortState";
 import { Priority } from "../Priority.type";
+import { Item } from "../items/Item.type";
 
-export function useFilterDeadlines(deadlines: Deadline[]) {
+export function useFilterDeadlines(deadlines: Item[]) {
   const [filterSortState] = useFilterSortState();
 
   return useMemo(() => {

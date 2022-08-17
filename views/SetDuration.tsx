@@ -2,12 +2,12 @@ import React from "react";
 import { View } from "react-native";
 import { StackScreenProps } from "@react-navigation/stack";
 import { RootStackParamList } from "../App";
-import { useEntry } from "../data/entries/useEntries";
-import { useEditEntry } from "../data/entries/useEditEntry";
 import { Container } from "../elements/layout/Container";
 import { SGHeader } from "../elements/layout/SGHeader";
 import { DurationPicker } from "../components/set-duration/DurationPicker";
 import { DateTime } from "luxon";
+import { useItem } from "../data/items/useItems";
+import { useEditItem } from "../data/items/write/useEditItem";
 
 export type SetDurationProps = StackScreenProps<
   RootStackParamList,
@@ -18,21 +18,21 @@ export const SetDuration: React.FC<SetDurationProps> = ({
   route,
   navigation,
 }) => {
-  const entry = useEntry(route.params.entryId);
-  const editEntry = useEditEntry();
+  const item = useItem(route.params.itemId);
+  const editItem = useEditItem();
   const [duration, setDuration] = React.useState(
-    entry && entry.type === "event" ? entry.duration || 30 : 0
+    item && item.type === "event" ? item.duration || 30 : 0
   );
 
   const onBack = () => {
-    if (!entry) return;
-    editEntry(entry.id, {
+    if (!item) return;
+    editItem(item.id, {
       duration,
     });
     navigation.goBack();
   };
 
-  if (!entry || entry.type === "deadline") {
+  if (!item || item.type === "deadline") {
     navigation.goBack();
     return null;
   }
@@ -48,7 +48,7 @@ export const SetDuration: React.FC<SetDurationProps> = ({
         <DurationPicker
           value={duration}
           onChange={setDuration}
-          entryStartTime={DateTime.fromISO(entry.datetime)}
+          itemStartTime={DateTime.fromISO(item.datetime)}
         />
       </View>
     </Container>

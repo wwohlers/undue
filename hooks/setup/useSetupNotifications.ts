@@ -20,10 +20,10 @@ export function useSetupNotifications() {
 }
 
 function handleNotificationPressed(notification: Notification) {
-  const entryId = notification.request.content.data.entryId;
-  if (entryId && typeof entryId === "number" && rootNavigationRef.current) {
-    rootNavigationRef.current.navigate("ViewEntry", {
-      entryId: notification.request.content.data.itemId as number,
+  const itemId = notification.request.content.data.itemId;
+  if (itemId && typeof itemId === "number" && rootNavigationRef.current) {
+    rootNavigationRef.current.navigate("ViewItem", {
+      itemId,
     });
   }
 }

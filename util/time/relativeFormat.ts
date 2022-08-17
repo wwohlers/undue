@@ -1,4 +1,4 @@
-import { DateTime, DateTimeUnit, Duration, DurationUnit, DurationUnits } from "luxon";
+import { DateTime, Duration, DurationUnit } from "luxon";
 
 const diffUnitSingular: DurationUnit[] = [
   "year",
@@ -9,14 +9,7 @@ const diffUnitSingular: DurationUnit[] = [
   "minute",
 ];
 
-const diffUnitPlural = [
-  "years",
-  "months",
-  "weeks",
-  "days",
-  "hours",
-  "minutes",
-];
+const diffUnitPlural = ["years", "months", "weeks", "days", "hours", "minutes"];
 
 /**
  * Returns a string that represents when a DateTime is relative to now, like "3 hours ago" or "in 5d"
@@ -55,7 +48,7 @@ export function relativeDiffStr(diff: Duration, abbreviated = false): string {
     }
   }
   if (diff.as("minutes") > 0) {
-    const mins = Math.ceil(diff.as("minutes"))
+    const mins = Math.ceil(diff.as("minutes"));
     return `${mins} ${pluralize("minute", mins)}`;
   }
   return "now";

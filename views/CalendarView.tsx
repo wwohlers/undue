@@ -25,7 +25,7 @@ export const CalendarView: React.FC<CalendarProps> = ({
   const [selectedValue, setSelectedValue] = useState<DateTime | undefined>(
     undefined
   );
-  const [calendarPicker, setCalendarPicker] = useCalendarPicker();
+  const [_, setCalendarPicker] = useCalendarPicker();
 
   const title = route.params.pickMode
     ? "Pick a Date and Time"

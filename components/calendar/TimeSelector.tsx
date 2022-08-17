@@ -64,7 +64,7 @@ export const TimeSelector: React.FC<{
           position.setValue(newPosition);
           onChange(getDateTimeOfDayFactor(newPosition / height, day));
         },
-        onPanResponderRelease: (evt, gestureState) => {
+        onPanResponderRelease: () => {
           lastPosition.current = position._value;
           Animated.timing(opacity, {
             toValue: 0.5,

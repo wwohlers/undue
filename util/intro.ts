@@ -1,12 +1,12 @@
 import { DateTime } from "luxon";
-import { Entry, isDeadline, isEvent } from "../data/entries/Entry.type";
+import { Item } from "../data/items/Item.type";
 
-export function getIntro(time: DateTime, dayEntries: Entry[]) {
+export function getIntro(time: DateTime, dayItems: Item[]) {
   const start = `Good ${getTimeOfDay(time)}. It's ${time.toFormat(
     "cccc, LLLL d"
   )}.`;
 
-  return start + " " + getRemainingEntriesStr(time, dayEntries);
+  return start + " " + getRemainingItemsStr(time, dayItems);
 }
 
 function getTimeOfDay(time: DateTime) {
@@ -19,24 +19,30 @@ function getTimeOfDay(time: DateTime) {
   }
 }
 
-function getRemainingEntriesStr(time: DateTime, dayEntries: Entry[]): string {
-  const numRemainingEvents = dayEntries.filter(isEvent).filter((e) => {
-    return DateTime.fromISO(e.datetime) > time;
-  }).length;
+function getRemainingItemsStr(time: DateTime, dayItems: Item[]): string {
+  const numRemainingEvents = dayItems
+    .filter((i) => i.type === "event")
+    .filter((e) => {
+      return DateTime.fromISO(e.datetime) > time;
+    }).length;
   const numRemainingEventsStr = `${numRemainingEvents} more ${pluralize(
     "event",
     numRemainingEvents
   )}`;
-  const numOverdueDeadlines = dayEntries.filter(isDeadline).filter((d) => {
-    return DateTime.fromISO(d.datetime) < time && !d.completed;
-  }).length;
+  const numOverdueDeadlines = dayItems
+    .filter((i) => i.type === "deadline")
+    .filter((d) => {
+      return DateTime.fromISO(d.datetime) < time && !d.completed;
+    }).length;
   const numOverdueDeadlinesStr = `${numOverdueDeadlines} overdue ${pluralize(
     "deadline",
     numOverdueDeadlines
   )}`;
-  const numRemainingDeadlines = dayEntries.filter(isDeadline).filter((d) => {
-    return DateTime.fromISO(d.datetime) > time && !d.completed;
-  }).length;
+  const numRemainingDeadlines = dayItems
+    .filter((i) => i.type === "deadline")
+    .filter((d) => {
+      return DateTime.fromISO(d.datetime) > time && !d.completed;
+    }).length;
   const numRemainingDeadlinesStr = `${numRemainingDeadlines} more ${pluralize(
     "deadline",
     numRemainingDeadlines

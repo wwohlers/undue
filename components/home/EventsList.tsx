@@ -1,31 +1,29 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { useMemo } from "react";
 import { FlatList, View } from "react-native";
-import {
-  useEntriesByDay,
-  useFilteredSortedEvents,
-  useNumEntries,
-} from "../../data/entries/useEntries";
 import { Container } from "../../elements/layout/Container";
 import { SGHeader } from "../../elements/layout/SGHeader";
 import { HomeProps } from "../../views/Home";
-import { EntryCard } from "./EntryCard";
+import { ItemCard } from "./ItemCard";
 import { SGText } from "../../elements/text/SGText";
 import { useTheme } from "../../hooks/theme/useTheme";
 import { useTime } from "../../hooks/time/useTime";
 import { getIntro } from "../../util/intro";
 import { DateTime } from "luxon";
+import { useFilteredSortedEvents } from "../../data/items/read/useFilteredSorted";
+import { useItemsByType } from "../../data/items/useItems";
+import { useItemsByDay } from "../../data/items/read/useItemsByDay";
 
 export const EventsList: React.FC = () => {
   const events = useFilteredSortedEvents();
   const navigation = useNavigation<HomeProps["navigation"]>();
-  const numUnfilteredEvents = useNumEntries("event");
+  const numUnfilteredEvents = useItemsByType("event").length;
   const theme = useTheme();
   const time = useTime();
-  const dayEntries = useEntriesByDay(DateTime.now());
+  const dayItems = useItemsByDay(DateTime.now());
 
   const intro = useMemo(() => {
-    return getIntro(DateTime.now(), dayEntries);
+    return getIntro(DateTime.now(), dayItems);
   }, [time]);
 
   return (
@@ -48,8 +46,7 @@ export const EventsList: React.FC = () => {
           },
           {
             name: "plus",
-            onPress: () =>
-              navigation.navigate("CreateOrEditEntry", { type: "event" }),
+            onPress: () => navigation.navigate("CreateItem", { type: "event" }),
           },
         ]}
       />
@@ -87,7 +84,7 @@ export const EventsList: React.FC = () => {
               </SGText>
             );
           }
-          return <EntryCard entry={item} key={item.id} />;
+          return <ItemCard item={item} key={item.id} />;
         }}
       />
     </Container>

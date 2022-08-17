@@ -1,22 +1,20 @@
 import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import { FlatList } from "react-native";
-import {
-  useFilteredSortedDeadlines,
-  useNumEntries,
-} from "../../data/entries/useEntries";
 import { Container } from "../../elements/layout/Container";
 import { SGHeader } from "../../elements/layout/SGHeader";
 import { HomeProps } from "../../views/Home";
-import { EntryCard } from "./EntryCard";
+import { ItemCard } from "./ItemCard";
 import { QuickAddDeadline } from "./QuickAddDeadline";
 import { SGText } from "../../elements/text/SGText";
 import { useTheme } from "../../hooks/theme/useTheme";
+import { useFilteredSortedDeadlines } from "../../data/items/read/useFilteredSorted";
+import { useItemsByType } from "../../data/items/useItems";
 
 export const DeadlinesList: React.FC = () => {
   const deadlines = useFilteredSortedDeadlines();
   const navigation = useNavigation<HomeProps["navigation"]>();
-  const numUnfilteredDeadlines = useNumEntries("deadline");
+  const numUnfilteredDeadlines = useItemsByType("deadline").length;
   const theme = useTheme();
 
   return (
@@ -40,7 +38,7 @@ export const DeadlinesList: React.FC = () => {
           {
             name: "plus",
             onPress: () =>
-              navigation.navigate("CreateOrEditEntry", { type: "deadline" }),
+              navigation.navigate("CreateItem", { type: "deadline" }),
           },
         ]}
       />
@@ -70,7 +68,7 @@ export const DeadlinesList: React.FC = () => {
               );
             }
           }
-          return <EntryCard entry={item} key={item.id} />;
+          return <ItemCard item={item} key={item.id} />;
         }}
       />
     </Container>

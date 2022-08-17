@@ -1,10 +1,10 @@
 import { useMemo } from "react";
-import { Event } from "../entries/Entry.type";
 import { useFilterSortState } from "./useFilterSortState";
 import { DateTime } from "luxon";
 import { Priority } from "../Priority.type";
+import { Item } from "../items/Item.type";
 
-export function useFilterEvents(events: Event[]) {
+export function useFilterEvents(events: Item[]) {
   const [filterSortState] = useFilterSortState();
 
   return useMemo(() => {

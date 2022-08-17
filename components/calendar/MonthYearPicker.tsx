@@ -1,8 +1,7 @@
 import { DateTime, Info } from "luxon";
-import React, { useState } from "react";
+import React from "react";
 import { View } from "react-native";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
-import { VSpace } from "../../elements/layout/VSpace";
 import { SGText } from "../../elements/text/SGText";
 import { useTheme } from "../../hooks/theme/useTheme";
 

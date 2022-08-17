@@ -4,33 +4,33 @@ import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
 import { Suspense, useEffect } from "react";
 import { SafeAreaView } from "react-native";
-import { Entry } from "./data/entries/Entry.type";
 import { SGSpinner } from "./elements/text/SGSpinner";
 import { useSetup } from "./hooks/setup/useSetup";
 import { useTheme } from "./hooks/theme/useTheme";
-import { CreateEntry } from "./views/CreateEntry";
+import { CreateItem } from "./views/CreateItem";
 import { Home } from "./views/Home";
 import { CalendarView } from "./views/CalendarView";
 import { PickReminderDateTime } from "./views/PickReminderDateTime";
-import { ViewEntry } from "./views/ViewEntry";
+import { ViewItem } from "./views/ViewItem";
 import { rootNavigationRef } from "./rootNavigation";
 import { SetDuration } from "./views/SetDuration";
 import { FilterSortState } from "./data/filter-sort/FilterSortState.type";
 import { FilterSortView } from "./views/FilterSortView";
 import Toast from "react-native-toast-message";
 import { useToastConfig } from "./hooks/useToastConfig";
+import { Item } from "./data/items/Item.type";
 
 SplashScreen.preventAutoHideAsync();
 
 export type RootStackParamList = {
   Home: undefined;
-  ViewEntry: { entryId: number };
-  CreateOrEditEntry: { type: Entry["type"] };
+  ViewItem: { itemId: number };
+  CreateItem: { type: Item["type"] };
   CalendarView:
     | { pickMode: true; initialDateTime?: string }
     | { pickMode: false };
-  PickReminderDateTime: { reminderId: number };
-  SetDuration: { entryId: number };
+  PickReminderDateTime: { initialDateTime: string; itemId: number };
+  SetDuration: { itemId: number };
   FilterSortView: { type: keyof FilterSortState };
 };
 
@@ -66,11 +66,8 @@ export default function App() {
             }}
           >
             <RootStack.Screen name="Home" component={Home} />
-            <RootStack.Screen name="ViewEntry" component={ViewEntry} />
-            <RootStack.Screen
-              name="CreateOrEditEntry"
-              component={CreateEntry}
-            />
+            <RootStack.Screen name="ViewItem" component={ViewItem} />
+            <RootStack.Screen name="CreateItem" component={CreateItem} />
             <RootStack.Screen
               name="PickReminderDateTime"
               component={PickReminderDateTime}

@@ -1,5 +1,5 @@
 import {DateTime, Interval} from "luxon";
-import {Entry} from "../../data/entries/Entry.type";
+import {Item} from "../../data/items/Item.type";
 
 /**
  * To help users easily set a date between a range, we offer a slider that can
@@ -48,8 +48,8 @@ export function getDateFromFactor(
   return DateTime.fromMillis(fiveMins * Math.round(resultMs / fiveMins));
 }
 
-export function getInterval(entry: Entry): Interval {
+export function getInterval(item: Item): Interval {
   const start = DateTime.now();
-  const end = DateTime.fromISO(entry.datetime);
+  const end = DateTime.fromISO(item.datetime);
   return Interval.fromDateTimes(start, end);
 }

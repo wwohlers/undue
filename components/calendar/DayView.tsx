@@ -2,7 +2,6 @@ import { useRoute } from "@react-navigation/native";
 import { DateTime } from "luxon";
 import React, { useEffect, useMemo, useState } from "react";
 import { TouchableWithoutFeedback, View } from "react-native";
-import { useEntriesByDay } from "../../data/entries/useEntries";
 import { HSpace } from "../../elements/layout/HSpace";
 import { SGText } from "../../elements/text/SGText";
 import { useTheme } from "../../hooks/theme/useTheme";
@@ -12,8 +11,9 @@ import { TimeSelector } from "./TimeSelector";
 import { useIsMount } from "../../hooks/ui/useIsMount";
 import { useDebounce } from "../../hooks/useDebounce";
 import { getUSHoliday } from "../../util/holidays";
+import { useItemsByDay } from "../../data/items/read/useItemsByDay";
 
-const ENTRY_LINE_HEIGHT = 20;
+const ITEM_LINE_HEIGHT = 20;
 const HOURS = Array.from({ length: 24 / 3 }, (_, i) => i * 3);
 
 export const DayView: React.FC<{
@@ -40,7 +40,7 @@ export const DayView: React.FC<{
     return ideal;
   }, [route.params]);
   const theme = useTheme();
-  const entries = useEntriesByDay(day);
+  const items = useItemsByDay(day);
   const [selectedTime, setSelectedTime] = useState(initialTime);
   const isMount = useIsMount();
   const [containerHeight, setContainerHeight] = useState(0);
@@ -58,10 +58,10 @@ export const DayView: React.FC<{
 
   const dayViewList = useMemo(() => {
     if (containerHeight) {
-      return buildDayViewList(entries, availableHeight, ENTRY_LINE_HEIGHT);
+      return buildDayViewList(items, availableHeight, ITEM_LINE_HEIGHT);
     }
     return [];
-  }, [entries, containerHeight]);
+  }, [items, containerHeight]);
 
   const committedTime = useDebounce(selectedTime, 500);
   useEffect(() => {
@@ -113,22 +113,22 @@ export const DayView: React.FC<{
                 </SGText>
               </View>
             )}
-            {Object.entries(dayViewList).map(([pos, entries]) => {
+            {Object.entries(dayViewList).map(([pos, items]) => {
               return (
                 <View
                   key={pos}
                   style={{
                     position: "absolute",
-                    top: Number(pos + (holiday ? ENTRY_LINE_HEIGHT : 0)),
+                    top: Number(pos + (holiday ? ITEM_LINE_HEIGHT : 0)),
                     flexDirection: "row",
                   }}
                 >
                   <SGText fontWeight={600}>
-                    {DateTime.fromISO(entries[0].datetime).toFormat("t")}
+                    {DateTime.fromISO(items[0].datetime).toFormat("t")}
                   </SGText>
                   <HSpace width={6} />
                   <SGText numberOfLines={1}>
-                    {entries.map((e) => e.title).join(", ")}
+                    {items.map((e) => e.title).join(", ")}
                   </SGText>
                 </View>
               );

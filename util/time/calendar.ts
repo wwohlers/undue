@@ -1,5 +1,5 @@
 import {DateTime} from "luxon";
-import {Entry} from "../../data/entries/Entry.type";
+import {Item} from "../../data/items/Item.type";
 
 /**
  * Calendars in this app are based on weeks. A week index, which can be negative,
@@ -58,32 +58,32 @@ export function getDateTimeOfDayFactor(
 
 /**
  * Returns a map of heights (px) to lines, where a line consists of
- * entries that are at the exact same time. Lines must be separated
+ * items that are at the exact same time. Lines must be separated
  * by at least the given lineHeight, but are otherwise positioned
  * proportionally to their time in the day.
- * @param entries entries on the day
+ * @param items items on the day
  */
 export function buildDayViewList(
-  entries: Entry[],
+  items: Item[],
   totalHeight: number,
   lineHeight: number
-): Record<number, Entry[]> {
-  if (entries.length === 0) return [];
-  const sortedEntries = entries.sort((a, b) => {
+): Record<number, Item[]> {
+  if (items.length === 0) return [];
+  const sortedItems = items.sort((a, b) => {
     const aDate = new Date(a.datetime);
     const bDate = new Date(b.datetime);
     return aDate < bDate ? 1 : -1;
   });
-  const lines: Entry[][] = [];
+  const lines: Item[][] = [];
   let currentStartTime;
-  for (const entry of sortedEntries) {
-    if (entry.datetime === currentStartTime) {
-      lines[lines.length - 1].push(entry);
+  for (const item of sortedItems) {
+    if (item.datetime === currentStartTime) {
+      lines[lines.length - 1].push(item);
     } else {
-      lines.push([entry]);
+      lines.push([item]);
     }
   }
-  const res: Record<number, Entry[]> = {};
+  const res: Record<number, Item[]> = {};
   let lastPos = 0 - lineHeight;
   for (const line of lines) {
     const dt = DateTime.fromISO(line[0].datetime);

@@ -1,23 +1,25 @@
 import { atomWithStorage } from "jotai/utils";
 import { asyncStorage } from "../persist";
-import { Item } from "./types/Item.type";
+import { Item } from "./Item.type";
 import { useAtom } from "jotai";
-import { useCallback } from "react";
-import { itemIdAtom } from "./useItemId";
+import { useMemo } from "react";
 
 const itemsAtom = atomWithStorage<Item[]>("items", [], asyncStorage);
 
 export function useItems(): [Item[], (items: Item[]) => void] {
-  const [items, setItems] = useAtom(itemsAtom);
-  const [itemId, setItemId] = useAtom(itemIdAtom);
+  return useAtom(itemsAtom);
+}
 
-  const _setItems = useCallback((items: Item[]) => {
-    const maxId = Math.max(...items.map((i) => i.id));
-    if (itemId <= maxId) {
-      setItemId(maxId + 1);
-    }
-    setItems(items);
-  }, []);
+export function useItem(id: number): Item | undefined {
+  const [items] = useItems();
+  return useMemo(() => {
+    return items.find((i) => i.id === id);
+  }, [items]);
+}
 
-  return [items, _setItems];
+export function useItemsByType(type: Item["type"]) {
+  const [items] = useItems();
+  return useMemo(() => {
+    return items.filter((i) => i.type === type);
+  }, [items]);
 }
