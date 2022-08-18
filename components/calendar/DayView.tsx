@@ -123,7 +123,7 @@ export const DayView: React.FC<{
                     flexDirection: "row",
                   }}
                 >
-                  <SGText fontWeight={600}>
+                  <SGText color={theme.OFF_PRIMARY}>
                     {DateTime.fromISO(items[0].datetime).toFormat("t")}
                   </SGText>
                   <HSpace width={6} />

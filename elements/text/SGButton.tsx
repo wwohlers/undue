@@ -11,7 +11,7 @@ const buttonStyles = (theme: ReturnType<typeof useTheme>) => {
     primary: {
       backgroundColor: theme.THEME,
       color: theme.BACKGROUND,
-      highlightColor: theme.OFF_PRIMARY_DARK,
+      highlightColor: theme.OFF_PRIMARY,
     },
   };
 };
@@ -29,7 +29,7 @@ export const SGButton: React.FC<
 > = ({
   onPress,
   type = "primary",
-  size = 20,
+  size = 18,
   icon,
   text,
   disabled = false,
@@ -59,7 +59,7 @@ export const SGButton: React.FC<
           display: "flex",
           flexDirection: iconOnRight ? "row-reverse" : "row",
           justifyContent: "center",
-          paddingVertical: size * 0.5,
+          paddingVertical: size * 0.45,
           paddingHorizontal: size * 0.8,
           alignItems: "center",
           ...(rest.style as object),

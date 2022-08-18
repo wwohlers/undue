@@ -6,11 +6,13 @@ import { SGCheckbox } from "../../elements/input/SGCheckbox";
 import { Priority } from "../../data/Priority.type";
 import { useFilterSortState } from "../../data/filter-sort/useFilterSortState";
 import { useSetFilterOptions } from "../../data/filter-sort/useSetFilterOptions";
+import { useTheme } from "../../hooks/theme/useTheme";
 
 export const FilterDeadlinesControl: React.FC = () => {
   const [filterSortState] = useFilterSortState();
   const setFilterOptions = useSetFilterOptions("deadlines");
   const { filterOptions } = filterSortState.deadlines;
+  const theme = useTheme();
 
   const checkedHandler =
     (field: keyof typeof filterOptions) => (value: boolean) => {
@@ -30,7 +32,13 @@ export const FilterDeadlinesControl: React.FC = () => {
     });
   };
   return (
-    <View>
+    <View
+      style={{
+        padding: 16,
+        backgroundColor: theme.OFF_BACKGROUND,
+        borderRadius: 8,
+      }}
+    >
       <SGLabel>Filter Deadlines</SGLabel>
       <VSpace height={4} />
       <SGCheckbox

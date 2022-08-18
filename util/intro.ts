@@ -1,15 +1,7 @@
 import { DateTime } from "luxon";
 import { Item } from "../data/items/Item.type";
 
-export function getIntro(time: DateTime, dayItems: Item[]) {
-  const start = `Good ${getTimeOfDay(time)}. It's ${time.toFormat(
-    "cccc, LLLL d"
-  )}.`;
-
-  return start + " " + getRemainingItemsStr(time, dayItems);
-}
-
-function getTimeOfDay(time: DateTime) {
+export function getTimeOfDay(time: DateTime) {
   if (time.hour < 12) {
     return "morning";
   } else if (time.hour < 18) {
@@ -19,7 +11,7 @@ function getTimeOfDay(time: DateTime) {
   }
 }
 
-function getRemainingItemsStr(time: DateTime, dayItems: Item[]): string {
+export function getRemainingItemsStr(time: DateTime, dayItems: Item[]): string {
   const numRemainingEvents = dayItems
     .filter((i) => i.type === "event")
     .filter((e) => {
@@ -46,7 +38,7 @@ function getRemainingItemsStr(time: DateTime, dayItems: Item[]): string {
   const numRemainingDeadlinesStr = `${numRemainingDeadlines} more ${pluralize(
     "deadline",
     numRemainingDeadlines
-  )}`;
+  )} due`;
   const nums = [numRemainingEvents, numRemainingDeadlines, numOverdueDeadlines];
   const strs = [
     numRemainingEventsStr,

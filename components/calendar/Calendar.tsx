@@ -88,7 +88,11 @@ export const Calendar: React.FC<{
         </View>
       </TouchableWithoutFeedback>
       {showMonthYearPicker ? (
-        <MonthYearPicker value={monthYear} onSelected={setMonthYear} />
+        <MonthYearPicker
+          value={monthYear}
+          onSelected={setMonthYear}
+          onClose={() => setShowMonthYearPicker(false)}
+        />
       ) : (
         <FlatList
           initialScrollIndex={scrollIndex}

@@ -8,7 +8,7 @@ import { ItemCard } from "./ItemCard";
 import { SGText } from "../../elements/text/SGText";
 import { useTheme } from "../../hooks/theme/useTheme";
 import { useTime } from "../../hooks/time/useTime";
-import { getIntro } from "../../util/intro";
+import { getRemainingItemsStr, getTimeOfDay } from "../../util/intro";
 import { DateTime } from "luxon";
 import { useFilteredSortedEvents } from "../../data/items/read/useFilteredSorted";
 import { useItemsByType } from "../../data/items/useItems";
@@ -16,6 +16,7 @@ import { useItemsByDay } from "../../data/items/read/useItemsByDay";
 import { intersperseDates } from "../../util/list";
 import { SGLabel } from "../../elements/text/SGLabel";
 import { capitalize } from "../../util/text";
+import { useFilterSortState } from "../../data/filter-sort/useFilterSortState";
 
 export const EventsList: React.FC = () => {
   const events = useFilteredSortedEvents();
@@ -24,12 +25,28 @@ export const EventsList: React.FC = () => {
   const theme = useTheme();
   const time = useTime();
   const dayItems = useItemsByDay(DateTime.now());
+  const [
+    {
+      events: { sortOptions },
+    },
+  ] = useFilterSortState();
 
-  const intro = useMemo(() => {
-    return getIntro(DateTime.now(), dayItems);
+  const [timeOfDayStr, remainingItemsStr] = useMemo(() => {
+    return [
+      getTimeOfDay(DateTime.now()),
+      getRemainingItemsStr(DateTime.now(), dayItems),
+    ];
   }, [time]);
 
-  const interspersedList = useMemo(() => intersperseDates(events), [events]);
+  const interspersedList = useMemo(() => {
+    if (
+      sortOptions.sortMethod === "chronological" &&
+      sortOptions.sortDirection === "ascending"
+    ) {
+      return intersperseDates(events);
+    }
+    return events;
+  }, [events, sortOptions]);
 
   return (
     <Container>
@@ -65,20 +82,24 @@ export const EventsList: React.FC = () => {
         keyExtractor={(item) =>
           typeof item === "string" ? item : item.id.toString()
         }
-        renderItem={({ item, index }) => {
+        renderItem={({ item }) => {
           if (typeof item === "string") {
             if (item === "intro") {
               return (
                 <View
                   style={{
                     padding: 16,
-                    marginVertical: 8,
+                    marginTop: 8,
                     backgroundColor: theme.OFF_BACKGROUND,
                     borderRadius: 8,
                   }}
                 >
                   <SGText fontSize={18} color={theme.THEME}>
-                    {intro}
+                    <SGText>Good {timeOfDayStr}. It&apos;s </SGText>
+                    <SGText fontWeight={600}>
+                      {DateTime.now().toFormat("cccc, LLLL d")}.
+                    </SGText>
+                    <SGText> {remainingItemsStr}</SGText>
                   </SGText>
                 </View>
               );

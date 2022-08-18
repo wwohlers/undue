@@ -72,7 +72,7 @@ export function buildDayViewList(
   const sortedItems = items.sort((a, b) => {
     const aDate = new Date(a.datetime);
     const bDate = new Date(b.datetime);
-    return aDate < bDate ? 1 : -1;
+    return aDate < bDate ? -1 : 1;
   });
   const lines: Item[][] = [];
   let currentStartTime;

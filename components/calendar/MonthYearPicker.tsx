@@ -10,8 +10,15 @@ const years = Array.from({ length: 5 }, (_, i) => DateTime.now().year + i - 2);
 export const MonthYearPicker: React.FC<{
   value: [number, number];
   onSelected: (value: [number, number]) => void;
-}> = ({ value, onSelected }) => {
+  onClose: () => void;
+}> = ({value, onSelected, onClose}) => {
   const theme = useTheme();
+
+  const onMonthSelected = (month: number) => {
+    onSelected([month, value[1]]);
+    onClose();
+  }
+
   return (
     <View
       style={{
@@ -41,16 +48,16 @@ export const MonthYearPicker: React.FC<{
           </TouchableWithoutFeedback>
         ))}
       </View>
-      <View style={{ alignItems: "center", marginTop: 16, marginBottom: 48 }}>
+      <View style={{alignItems: "center", marginTop: 16, marginBottom: 48}}>
         {[0, 3, 6, 9].map((startIndex) => (
-          <View key={startIndex} style={{ flexDirection: "row" }}>
+          <View key={startIndex} style={{flexDirection: "row"}}>
             {[0, 1, 2].map((i) => {
               const index = startIndex + i;
               const isSelected = index + 1 === value[0];
               return (
                 <TouchableWithoutFeedback
                   key={index}
-                  onPress={() => onSelected([index + 1, value[1]])}
+                  onPress={() => onMonthSelected(index + 1)}
                 >
                   <View
                     style={{

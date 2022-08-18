@@ -34,7 +34,7 @@ export const QuickAddDeadline: React.FC = () => {
         backgroundColor: theme.OFF_BACKGROUND,
         padding: 16,
         borderRadius: 8,
-        marginVertical: 8,
+        marginTop: 8,
       }}
     >
       <SGInput

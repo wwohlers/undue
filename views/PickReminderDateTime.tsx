@@ -93,16 +93,14 @@ export const PickReminderDateTime: React.FC<PickReminderDateTimeProps> = ({
     <Container>
       <SGHeader
         leftIcon={{ name: "back", onPress: cancel }}
-        text="Pick a Date and Time"
-        rightIcons={[
-          {
-            name: "calendar",
-          },
-        ]}
+        text="Set Your Reminder"
+        rightIcons={[]}
       />
       <View style={{ paddingVertical: 32 }}>
         <View style={{ alignItems: "center" }}>
-          <SGText fontSize={24}>{selectedDate.toFormat("DDD 'at' t")}</SGText>
+          <SGText fontSize={22}>
+            {selectedDate.toFormat("cccc, LLLL d 'at' t")}
+          </SGText>
           <SGText fontSize={18} color={theme.OFF_PRIMARY}>
             {relativeStr}
           </SGText>
@@ -116,7 +114,7 @@ export const PickReminderDateTime: React.FC<PickReminderDateTimeProps> = ({
           minimumValue={0}
           maximumValue={1}
           minimumTrackTintColor={theme.THEME}
-          maximumTrackTintColor={theme.OFF_PRIMARY}
+          maximumTrackTintColor={theme.OFF_PRIMARY_LIGHT}
         />
         <View
           style={{

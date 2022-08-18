@@ -55,7 +55,7 @@ export const FilterSortView: React.FC<FilterSortViewProps> = ({
       />
       <View style={{ paddingVertical: 16 }}>
         <SortControl type={route.params.type} />
-        <VSpace height={24} />
+        <VSpace height={16} />
         {route.params.type === "deadlines" ? (
           <FilterDeadlinesControl />
         ) : (

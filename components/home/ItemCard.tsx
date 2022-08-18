@@ -75,7 +75,6 @@ export const ItemCard: React.FC<{
           <SGText
             fontSize={16}
             color={isOverdue ? theme.PRIORITY.HIGH : theme.OFF_PRIMARY}
-            fontWeight={isToday || isOverdue ? 600 : 400}
           >
             {isOverdue ? "Overdue" : capitalize(absoluteFormattedDt)}
           </SGText>

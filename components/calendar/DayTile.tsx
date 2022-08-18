@@ -1,4 +1,4 @@
-import { DateTime, Info } from "luxon";
+import { DateTime } from "luxon";
 import React, { useMemo } from "react";
 import { View } from "react-native";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
@@ -66,7 +66,7 @@ export const DayTile: React.FC<{
             fontSize={16}
             fontWeight={isToday ? 600 : 400}
           >
-            {Info.months("short")[day.month - 1]} {day.day.toString()}
+            {day.toFormat("L/dd")}
           </SGText>
         </TouchableWithoutFeedback>
       );
@@ -83,7 +83,7 @@ export const DayTile: React.FC<{
             )}
             {sortedItems.map((e) => (
               <View key={e.id} style={{ flexDirection: "row" }}>
-                <SGText fontWeight={600}>
+                <SGText color={theme.OFF_PRIMARY}>
                   {DateTime.fromISO(e.datetime).toFormat("t")}
                 </SGText>
                 <HSpace width={6} />
@@ -102,10 +102,11 @@ export const DayTile: React.FC<{
         flexDirection: "row",
         height,
         paddingVertical: isMinimized ? 4 : 8,
-        opacity: isPast ? 0.5 : 1,
+        opacity: isPast ? 0.3 : 1,
         backgroundColor,
         borderColor: theme.THEME,
         borderTopWidth,
+        borderRadius: 8,
       }}
     >
       <TouchableWithoutFeedback onPress={onPressed}>
@@ -130,7 +131,7 @@ export const DayTile: React.FC<{
               fontSize={16}
               fontWeight={isToday ? 600 : 400}
             >
-              {Info.months("short")[day.month - 1]} {day.day.toString()}
+              {day.toFormat("L/dd")}
             </SGText>
           )}
         </View>
