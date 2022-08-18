@@ -24,11 +24,12 @@ export function useSetRepeat() {
           ...item,
           datetime: date.toISO(),
           completed: false,
+          repeatSchedule: schedule,
         }))
       );
-      setItems(
+      setItems((items) =>
         items.map((item) =>
-          item.id === id ? { ...item, repeats: true } : item
+          item.id === id ? { ...item, repeatSchedule: schedule } : item
         )
       );
       const remindersToDuplicate = reminders.filter(
@@ -40,9 +41,7 @@ export function useSetRepeat() {
         `Do you also want to create corresponding reminders for each ${item.type}?`
       );
       if (!proceed) return;
-      remindersToDuplicate.forEach((reminder) => {
-        duplicateReminders(item, reminder, duplicatedItems);
-      });
+      duplicateReminders(item, remindersToDuplicate, duplicatedItems);
     },
     [items, setItems, createItems, reminders, duplicateReminders, yesNo]
   );

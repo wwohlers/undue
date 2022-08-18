@@ -1,6 +1,7 @@
 import { useCallback } from "react";
 import { CreatableReminder, Reminder } from "../Reminder.type";
 import { useReminders } from "../useReminders";
+import { createNotification } from "../helpers/notifications";
 
 export function useCreateReminders() {
   const [reminders, setReminders] = useReminders();
@@ -11,10 +12,10 @@ export function useCreateReminders() {
         remindersToAdd.map(async (reminder, i) => ({
           ...reminder,
           id: maxId + 1 + i,
-          notificationId: "",
+          notificationId: await createNotification(reminder),
         }))
       );
-      setReminders([...reminders, ...fulfilled]);
+      setReminders((reminders) => [...reminders, ...fulfilled]);
     },
     [reminders, setReminders]
   );

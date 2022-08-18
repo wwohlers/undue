@@ -6,7 +6,7 @@ import { useMemo } from "react";
 
 const itemsAtom = atomWithStorage<Item[]>("items", [], asyncStorage);
 
-export function useItems(): [Item[], (items: Item[]) => void] {
+export function useItems() {
   return useAtom(itemsAtom);
 }
 

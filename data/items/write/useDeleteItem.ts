@@ -18,7 +18,7 @@ export function useDeleteItem() {
       if (!item) return;
       const itemsToRemove = [item.id];
       if (
-        item.repeats &&
+        item.repeatSchedule &&
         (await yesNo(
           `Delete repeated ${item.type}s?`,
           `Do you also want to delete all future ${item.type}s?`

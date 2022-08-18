@@ -23,7 +23,7 @@ export const QuickAddDeadline: React.FC = () => {
       datetime: dt.toISO(),
       priority: Priority.LOW,
       completed: false,
-      repeats: false,
+      repeatSchedule: undefined,
     });
     setInput("");
   };

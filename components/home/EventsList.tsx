@@ -13,6 +13,9 @@ import { DateTime } from "luxon";
 import { useFilteredSortedEvents } from "../../data/items/read/useFilteredSorted";
 import { useItemsByType } from "../../data/items/useItems";
 import { useItemsByDay } from "../../data/items/read/useItemsByDay";
+import { intersperseDates } from "../../util/list";
+import { SGLabel } from "../../elements/text/SGLabel";
+import { capitalize } from "../../util/text";
 
 export const EventsList: React.FC = () => {
   const events = useFilteredSortedEvents();
@@ -25,6 +28,8 @@ export const EventsList: React.FC = () => {
   const intro = useMemo(() => {
     return getIntro(DateTime.now(), dayItems);
   }, [time]);
+
+  const interspersedList = useMemo(() => intersperseDates(events), [events]);
 
   return (
     <Container>
@@ -52,8 +57,15 @@ export const EventsList: React.FC = () => {
       />
       <FlatList
         style={{ paddingTop: 8 }}
-        data={["intro", ...(!events.length ? ["empty-state"] : []), ...events]}
-        renderItem={({ item }) => {
+        data={[
+          "intro",
+          ...(!events.length ? ["empty-state"] : []),
+          ...interspersedList,
+        ]}
+        keyExtractor={(item) =>
+          typeof item === "string" ? item : item.id.toString()
+        }
+        renderItem={({ item, index }) => {
           if (typeof item === "string") {
             if (item === "intro") {
               return (
@@ -70,21 +82,26 @@ export const EventsList: React.FC = () => {
                   </SGText>
                 </View>
               );
+            } else if (item === "empty-state") {
+              return (
+                <SGText
+                  style={{ textAlign: "center", marginVertical: 8 }}
+                  color={theme.OFF_PRIMARY}
+                  fontSize={17}
+                >
+                  {numUnfilteredEvents
+                    ? "Oops! No events match your filter criteria."
+                    : "Press + in the top right corner to create your first event!"}
+                </SGText>
+              );
+            } else {
+              return (
+                <SGLabel style={{ marginTop: 16 }}>{capitalize(item)}</SGLabel>
+              );
             }
-            return (
-              <SGText
-                style={{ textAlign: "center", marginVertical: 8 }}
-                color={theme.OFF_PRIMARY}
-                fontSize={17}
-                key={item}
-              >
-                {numUnfilteredEvents
-                  ? "Oops! No events match your filter criteria."
-                  : "Press + in the top right corner to create your first event!"}
-              </SGText>
-            );
+          } else {
+            return <ItemCard item={item} />;
           }
-          return <ItemCard item={item} key={item.id} />;
         }}
       />
     </Container>

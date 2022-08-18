@@ -1,7 +1,8 @@
 import { DateTime, DateTimeUnit } from "luxon";
+import { capitalize } from "../../../util/text";
 
 export type RepeatSchedule = {
-  endDate: DateTime;
+  endDate: string; // ISO 8601
 } & (
   | {
       readonly interval: "daily" | "monthly" | "yearly";
@@ -18,13 +19,21 @@ export function getRepeatDates(
 ): DateTime[] {
   switch (repeat.interval) {
     case "daily":
-      return getUnitRepeatDates(date, repeat.endDate, "day");
+      return getUnitRepeatDates(date, DateTime.fromISO(repeat.endDate), "day");
     case "weekly":
-      return getWeeklyRepeatDates(date, repeat.endDate, repeat.days);
+      return getWeeklyRepeatDates(
+        date,
+        DateTime.fromISO(repeat.endDate),
+        repeat.days
+      );
     case "monthly":
-      return getUnitRepeatDates(date, repeat.endDate, "month");
+      return getUnitRepeatDates(
+        date,
+        DateTime.fromISO(repeat.endDate),
+        "month"
+      );
     case "yearly":
-      return getUnitRepeatDates(date, repeat.endDate, "year");
+      return getUnitRepeatDates(date, DateTime.fromISO(repeat.endDate), "year");
   }
 }
 
@@ -50,11 +59,23 @@ function getWeeklyRepeatDates(
   const res = [];
   for (let i = 0; i < numWeeks; i++) {
     for (const day of days) {
-      const dt = startWeek.plus({ weeks: i, days: day });
+      const dt = startWeek.plus({ weeks: i, days: day - 1 });
       if (dt >= startDate && dt <= endDate) {
         res.push(dt);
       }
     }
   }
   return res;
+}
+
+export function getRepeatText(schedule: RepeatSchedule): string {
+  let start;
+  if (schedule.interval === "weekly") {
+    start = `Every ${schedule.days.join(", ")}`;
+  } else {
+    start = capitalize(schedule.interval);
+  }
+  return `${start} until ${DateTime.fromISO(schedule.endDate).toFormat(
+    "DDDD"
+  )}`;
 }

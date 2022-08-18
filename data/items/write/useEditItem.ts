@@ -9,7 +9,7 @@ export function useEditItem() {
     (
       id: number,
       partial: Partial<
-        Omit<Item, "id" | "datetime" | "type" | "repeats" | "masterId">
+        Omit<Item, "id" | "datetime" | "type" | "repeatSchedule" | "masterId">
       >
     ) => {
       const item = items.find((i) => i.id === id);

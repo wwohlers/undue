@@ -6,6 +6,7 @@ export function useDeleteReminders() {
   const [reminders, setReminders] = useReminders();
   return useCallback(
     async (ids: number[]) => {
+      console.log(ids);
       await Promise.all(
         reminders.map(async (reminder) => {
           if (ids.includes(reminder.id)) {

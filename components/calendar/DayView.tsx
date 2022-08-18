@@ -119,7 +119,7 @@ export const DayView: React.FC<{
                   key={pos}
                   style={{
                     position: "absolute",
-                    top: Number(pos + (holiday ? ITEM_LINE_HEIGHT : 0)),
+                    top: Number(pos) + (holiday ? ITEM_LINE_HEIGHT : 0),
                     flexDirection: "row",
                   }}
                 >

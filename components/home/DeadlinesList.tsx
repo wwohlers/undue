@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
-import React from "react";
+import React, { useMemo } from "react";
 import { FlatList } from "react-native";
 import { Container } from "../../elements/layout/Container";
 import { SGHeader } from "../../elements/layout/SGHeader";
@@ -10,12 +10,20 @@ import { SGText } from "../../elements/text/SGText";
 import { useTheme } from "../../hooks/theme/useTheme";
 import { useFilteredSortedDeadlines } from "../../data/items/read/useFilteredSorted";
 import { useItemsByType } from "../../data/items/useItems";
+import { intersperseDates } from "../../util/list";
+import { SGLabel } from "../../elements/text/SGLabel";
+import { capitalize } from "../../util/text";
 
 export const DeadlinesList: React.FC = () => {
   const deadlines = useFilteredSortedDeadlines();
   const navigation = useNavigation<HomeProps["navigation"]>();
   const numUnfilteredDeadlines = useItemsByType("deadline").length;
   const theme = useTheme();
+
+  const interspersedList = useMemo(
+    () => intersperseDates(deadlines),
+    [deadlines]
+  );
 
   return (
     <Container>
@@ -47,28 +55,34 @@ export const DeadlinesList: React.FC = () => {
         data={[
           "quick-add-deadline",
           ...(!deadlines.length ? ["empty-state"] : []),
-          ...deadlines,
+          ...interspersedList,
         ]}
+        keyExtractor={(item) =>
+          typeof item === "string" ? item : item.id.toString()
+        }
         renderItem={({ item }) => {
           if (typeof item === "string") {
             if (item === "quick-add-deadline") {
-              return <QuickAddDeadline key={item} />;
-            } else {
+              return <QuickAddDeadline />;
+            } else if (item === "empty-state") {
               return (
                 <SGText
                   style={{ textAlign: "center", marginVertical: 8 }}
                   color={theme.OFF_PRIMARY}
                   fontSize={17}
-                  key={item}
                 >
                   {numUnfilteredDeadlines
                     ? "Oops! No deadlines match your filter criteria."
                     : "Press + in the top right corner to create your first deadline!"}
                 </SGText>
               );
+            } else {
+              return (
+                <SGLabel style={{ marginTop: 16 }}>{capitalize(item)}</SGLabel>
+              );
             }
           }
-          return <ItemCard item={item} key={item.id} />;
+          return <ItemCard item={item} />;
         }}
       />
     </Container>

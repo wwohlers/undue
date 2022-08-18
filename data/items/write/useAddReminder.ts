@@ -23,7 +23,7 @@ export function useAddReminder() {
       };
       const itemsToAddTo = [item];
       if (
-        item.repeats &&
+        item.repeatSchedule &&
         (await yesNo(
           "Also add to repeats?",
           `Would you also like to add a corresponding reminder for repeated ${item.type}s?`
@@ -37,7 +37,7 @@ export function useAddReminder() {
           )
         );
       }
-      duplicateReminders(item, baseReminder, itemsToAddTo);
+      duplicateReminders(item, [baseReminder], itemsToAddTo);
     },
     [items, setItems, duplicateReminders, yesNo]
   );

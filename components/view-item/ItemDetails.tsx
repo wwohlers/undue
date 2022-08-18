@@ -24,6 +24,9 @@ import { usePickCalendar } from "../../hooks/ui/usePickCalendar";
 import { Item } from "../../data/items/Item.type";
 import { useMoveItem } from "../../data/items/write/useMoveItem";
 import { useEditItem } from "../../data/items/write/useEditItem";
+import { useAreYouSure } from "../../hooks/alerts/useAreYouSure";
+import { useDisableRepeat } from "../../data/items/write/useDisableRepeat";
+import { getRepeatText } from "../../data/items/helpers/repeat";
 
 export const ItemDetails: React.FC<{
   item: Item;
@@ -35,6 +38,8 @@ export const ItemDetails: React.FC<{
   const moveItem = useMoveItem();
   const editItem = useEditItem();
   const pickCalendar = usePickCalendar();
+  const areYouSure = useAreYouSure();
+  const disableRepeat = useDisableRepeat();
 
   const relativeFormattedDt = useMemo(() => {
     return relativeFormat(DateTime.fromISO(item.datetime));
@@ -84,6 +89,20 @@ export const ItemDetails: React.FC<{
     );
   }, []);
 
+  const onRepeatTapped = async () => {
+    if (item.repeatSchedule) {
+      const disable = await areYouSure(
+        "Disable repeat?",
+        `Are you sure you want to disable repeat for this ${item.type}? All future events will be deleted.`
+      );
+      if (disable) {
+        disableRepeat(item.id);
+      }
+    } else {
+      navigation.navigate("SetupRepeat", { itemId: item.id });
+    }
+  };
+
   return (
     <>
       <HFlex style={{ marginVertical: 16, justifyContent: "space-evenly" }}>
@@ -119,6 +138,16 @@ export const ItemDetails: React.FC<{
           </TouchableWithoutFeedback>
         </View>
       </HFlex>
+      <TouchableWithoutFeedback onPress={onRepeatTapped}>
+        <View style={{ marginVertical: 16 }}>
+          <SGLabel>Repeat</SGLabel>
+          {item.repeatSchedule ? (
+            <SGText>{getRepeatText(item.repeatSchedule)}</SGText>
+          ) : (
+            <SGText color={theme.OFF_PRIMARY}>Tap to enable repeat</SGText>
+          )}
+        </View>
+      </TouchableWithoutFeedback>
       <View style={{ marginVertical: 16 }}>
         <SGLabel>Description</SGLabel>
         <EditInPlace

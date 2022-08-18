@@ -11,19 +11,21 @@ export function useDuplicateReminders() {
   return useCallback(
     async (
       baseItem: Item,
-      baseReminder: CreatableReminder,
+      baseReminders: CreatableReminder[],
       itemsToAddTo: Item[]
     ) => {
-      const reminderDiff = DateTime.fromISO(baseItem.datetime).diff(
-        DateTime.fromISO(baseReminder.datetime)
-      );
-      const creatables: CreatableReminder[] = itemsToAddTo.map((item) => ({
-        datetime: DateTime.fromISO(item.datetime).plus(reminderDiff).toISO(),
-        itemId: item.id,
-        itemTitle: item.title,
-        itemDateTime: item.datetime,
-      }));
-      await createReminders(creatables);
+      const creatables = reminders.map((reminder) => {
+        const reminderDiff = DateTime.fromISO(baseItem.datetime).diff(
+          DateTime.fromISO(reminder.datetime)
+        );
+        return itemsToAddTo.map((item) => ({
+          datetime: DateTime.fromISO(item.datetime).minus(reminderDiff).toISO(),
+          itemId: item.id,
+          itemTitle: item.title,
+          itemDateTime: item.datetime,
+        }));
+      });
+      await createReminders(creatables.flat(1));
     },
     [reminders, setReminders, createReminders]
   );

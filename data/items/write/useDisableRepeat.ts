@@ -21,7 +21,16 @@ export function useDisableRepeat() {
             DateTime.fromISO(i.datetime) > DateTime.fromISO(item.datetime)
         )
         .map((i) => i.id);
-      setItems(items.filter((i) => !itemsToDelete.includes(i.id)));
+      setItems(
+        items
+          .filter((i) => !itemsToDelete.includes(i.id))
+          .map((i) => {
+            if (i.id === id) {
+              return { ...i, repeatSchedule: undefined };
+            }
+            return i;
+          })
+      );
       const remindersToDelete = reminders.filter((reminder) => {
         return itemsToDelete.includes(reminder.itemId);
       });

@@ -143,12 +143,7 @@ export const PickReminderDateTime: React.FC<PickReminderDateTimeProps> = ({
           </View>
         </View>
         <VSpace height={16} />
-        <SGButton
-          text="OK"
-          onPress={onSubmit}
-          icon={"forward"}
-          iconOnRight={true}
-        />
+        <SGButton text="OK" onPress={onSubmit} />
       </View>
     </Container>
   );

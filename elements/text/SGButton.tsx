@@ -71,6 +71,7 @@ export const SGButton: React.FC<
           fontSize={size}
           color={styles.color}
           style={{ textTransform: "uppercase" }}
+          fontWeight={600}
         >
           {text}
         </SGText>

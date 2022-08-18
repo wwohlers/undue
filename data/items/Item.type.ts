@@ -1,4 +1,5 @@
 import { Priority } from "../Priority.type";
+import { RepeatSchedule } from "./helpers/repeat";
 
 export type Item = {
   id: number;
@@ -10,7 +11,7 @@ export type Item = {
   duration?: number;
   location?: string;
   priority: Priority;
-  repeats: boolean;
+  repeatSchedule: RepeatSchedule | undefined;
   masterId?: number | undefined;
 };
 

@@ -19,6 +19,7 @@ import { FilterSortView } from "./views/FilterSortView";
 import Toast from "react-native-toast-message";
 import { useToastConfig } from "./hooks/useToastConfig";
 import { Item } from "./data/items/Item.type";
+import { SetupRepeat } from "./views/SetupRepeat";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -32,6 +33,7 @@ export type RootStackParamList = {
   PickReminderDateTime: { initialDateTime: string; itemId: number };
   SetDuration: { itemId: number };
   FilterSortView: { type: keyof FilterSortState };
+  SetupRepeat: { itemId: number };
 };
 
 const RootStack = createStackNavigator<RootStackParamList>();
@@ -78,6 +80,7 @@ export default function App() {
               name="FilterSortView"
               component={FilterSortView}
             />
+            <RootStack.Screen name="SetupRepeat" component={SetupRepeat} />
           </RootStack.Navigator>
         </Suspense>
         <Toast config={toastConfig} topOffset={64} />

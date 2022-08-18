@@ -48,7 +48,7 @@ export const CreateItem: React.FC<CreateItemProps> = ({
         datetime: dt.toISO(),
         priority: Priority.LOW,
         completed: false,
-        repeats: false,
+        repeatSchedule: undefined,
       });
       navigation.goBack();
       navigation.navigate("ViewItem", { itemId: item.id });

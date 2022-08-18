@@ -28,7 +28,7 @@ export const ViewItem: React.FC<ViewItemProps> = ({ route, navigation }) => {
   const deleteItem = useDeleteItem();
   const areYouSure = useAreYouSure();
   const pickReminderDateTime = usePickReminderDateTime();
-  const createReminder = useAddReminder();
+  const addReminder = useAddReminder();
 
   const isPast = useMemo(
     () => item && DateTime.fromISO(item.datetime) < DateTime.now(),
@@ -52,7 +52,7 @@ export const ViewItem: React.FC<ViewItemProps> = ({ route, navigation }) => {
     if (!item || isPast) return;
     const dt = await pickReminderDateTime(item.id, item.datetime);
     if (dt) {
-      createReminder(item.id, dt);
+      addReminder(item.id, dt);
     }
   };
 

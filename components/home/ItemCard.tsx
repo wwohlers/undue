@@ -46,6 +46,15 @@ export const ItemCard: React.FC<{
     return item.type === "deadline" && isPast;
   }, []);
 
+  const opacity = useMemo(() => {
+    if (isPast && item.type === "event") return 0.5;
+    const daysDiff = DateTime.fromISO(item.datetime).diff(
+      DateTime.now(),
+      "days"
+    ).days;
+    return 1 / Math.pow(Math.ceil(daysDiff), 0.2);
+  }, [time, item.datetime]);
+
   return (
     <TouchableOpacity
       activeOpacity={0.8}
@@ -58,7 +67,7 @@ export const ItemCard: React.FC<{
           borderLeftColor: theme.PRIORITY[item.priority],
           paddingHorizontal: 12,
           paddingVertical: 8,
-          opacity: isPast && item.type === "event" ? 0.5 : 1,
+          opacity,
         }}
       >
         <View>
