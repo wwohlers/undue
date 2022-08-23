@@ -10,7 +10,7 @@ import { SGHeader } from "../elements/layout/SGHeader";
 import { VSpace } from "../elements/layout/VSpace";
 import { SGButton } from "../elements/text/SGButton";
 import { SGText } from "../elements/text/SGText";
-import { useTheme } from "../hooks/theme/useTheme";
+import { usePalette } from "../hooks/theme/usePalette";
 import { useAreYouSure } from "../hooks/alerts/useAreYouSure";
 import { DateTime } from "luxon";
 import { useItem } from "../data/items/useItems";
@@ -24,7 +24,7 @@ export type ViewItemProps = StackScreenProps<RootStackParamList, "ViewItem">;
 export const ViewItem: React.FC<ViewItemProps> = ({ route, navigation }) => {
   const item = useItem(route.params.itemId);
   const reminders = useItemReminders(route.params.itemId);
-  const theme = useTheme();
+  const palette = usePalette();
   const deleteItem = useDeleteItem();
   const areYouSure = useAreYouSure();
   const pickReminderDateTime = usePickReminderDateTime();
@@ -88,7 +88,7 @@ export const ViewItem: React.FC<ViewItemProps> = ({ route, navigation }) => {
                   <SGText
                     style={{
                       textAlign: "center",
-                      color: theme.OFF_PRIMARY,
+                      color: palette.OFF_PRIMARY,
                       marginVertical: 16,
                     }}
                   >

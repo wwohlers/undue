@@ -5,7 +5,7 @@ import { RootStackParamList } from "../App";
 import { Container } from "../elements/layout/Container";
 import { SGHeader } from "../elements/layout/SGHeader";
 import Slider from "@react-native-community/slider";
-import { useTheme } from "../hooks/theme/useTheme";
+import { usePalette } from "../hooks/theme/usePalette";
 import { SGText } from "../elements/text/SGText";
 import { DateTime } from "luxon";
 import { absoluteFormat } from "../util/time/absoluteFormat";
@@ -31,7 +31,7 @@ export const PickReminderDateTime: React.FC<PickReminderDateTimeProps> = ({
   route,
   navigation,
 }) => {
-  const theme = useTheme();
+  const palette = usePalette();
   const [items] = useItems();
   const item = useMemo(
     () => items.find((e) => e.id === route.params.itemId),
@@ -101,7 +101,7 @@ export const PickReminderDateTime: React.FC<PickReminderDateTimeProps> = ({
           <SGText fontSize={22}>
             {selectedDate.toFormat("cccc, LLLL d 'at' t")}
           </SGText>
-          <SGText fontSize={18} color={theme.OFF_PRIMARY}>
+          <SGText fontSize={18} color={palette.OFF_PRIMARY}>
             {relativeStr}
           </SGText>
         </View>
@@ -113,8 +113,8 @@ export const PickReminderDateTime: React.FC<PickReminderDateTimeProps> = ({
           style={{ width: "100%", marginTop: 16, marginBottom: 8 }}
           minimumValue={0}
           maximumValue={1}
-          minimumTrackTintColor={theme.THEME}
-          maximumTrackTintColor={theme.OFF_PRIMARY_LIGHT}
+          minimumTrackTintColor={palette.THEME}
+          maximumTrackTintColor={palette.OFF_PRIMARY_LIGHT}
         />
         <View
           style={{
@@ -126,13 +126,13 @@ export const PickReminderDateTime: React.FC<PickReminderDateTimeProps> = ({
           }}
         >
           <View>
-            <SGText fontSize={16} color={theme.OFF_PRIMARY}>
+            <SGText fontSize={16} color={palette.OFF_PRIMARY}>
               Now
             </SGText>
             <SGText fontSize={18}>{DateTime.now().toFormat("LLLL d")}</SGText>
           </View>
           <View style={{ alignItems: "flex-end" }}>
-            <SGText fontSize={16} color={theme.OFF_PRIMARY}>
+            <SGText fontSize={16} color={palette.OFF_PRIMARY}>
               Your {item.type}
             </SGText>
             <SGText fontSize={18}>

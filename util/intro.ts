@@ -59,6 +59,6 @@ export function getRemainingItemsStr(time: DateTime, dayItems: Item[]): string {
   }
 }
 
-function pluralize(unit: string, amt: number) {
+export function pluralize(unit: string, amt: number) {
   return amt === 1 ? unit : `${unit}s`;
 }

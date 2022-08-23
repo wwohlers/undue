@@ -16,10 +16,7 @@ export function intersperseDates(items: Item[]): (string | Item)[] {
   const intervals: [string, Interval][] = [
     [
       "past",
-      Interval.fromDateTimes(
-        DateTime.now().minus({ year: 1 }),
-        DateTime.now().startOf("day")
-      ),
+      Interval.fromDateTimes(DateTime.now().minus({ year: 1 }), DateTime.now()),
     ],
     [
       "today",
@@ -61,6 +58,7 @@ export function intersperseDates(items: Item[]): (string | Item)[] {
   let i = 0;
   for (const [text, interval] of intervals) {
     const firstDate = DateTime.fromISO(items[i].datetime);
+    console.log(interval, firstDate);
     if (interval.contains(firstDate)) {
       res.push(text, items[i]);
       i++;

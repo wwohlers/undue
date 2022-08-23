@@ -6,7 +6,7 @@ import { Container } from "../../elements/layout/Container";
 import { SGHeader } from "../../elements/layout/SGHeader";
 import { VSpace } from "../../elements/layout/VSpace";
 import { SGText } from "../../elements/text/SGText";
-import { useTheme } from "../../hooks/theme/useTheme";
+import { usePalette } from "../../hooks/theme/usePalette";
 import { useDayify } from "../../hooks/useDayify";
 import { DayifyResults } from "./DayifyResults";
 import { usePickCalendar } from "../../hooks/ui/usePickCalendar";
@@ -18,7 +18,7 @@ export const EnterDateTime: React.FC<{
   onSubmit: (dt: DateTime) => void;
   isActive: boolean;
 }> = ({ onBack, onSubmit, isActive }) => {
-  const theme = useTheme();
+  const palette = usePalette();
   const [input, setInput] = useState("");
   const dayifyResults = useDayify(input);
   const pickCalendar = usePickCalendar();
@@ -46,7 +46,7 @@ export const EnterDateTime: React.FC<{
       <View style={{ paddingVertical: 8, flex: 1 }}>
         <View style={{ flex: 1 }}>
           <VSpace height={8} />
-          {!!isActive && (
+          {isActive && (
             <SGInput
               value={input}
               placeholder="tomorrow at 9am"
@@ -65,7 +65,7 @@ export const EnterDateTime: React.FC<{
           ) : (
             <View
               style={{
-                backgroundColor: theme.OFF_BACKGROUND,
+                backgroundColor: palette.OFF_BACKGROUND,
                 padding: 16,
                 borderRadius: 8,
               }}

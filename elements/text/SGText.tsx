@@ -1,7 +1,7 @@
 import React, { ReactElement, useMemo } from "react";
 import { Text } from "react-native";
 import { ibmPlexSans } from "../../hooks/setup/useImportFonts";
-import { useTheme } from "../../hooks/theme/useTheme";
+import { usePalette } from "../../hooks/theme/usePalette";
 
 export const SGText: React.FC<
   {
@@ -11,8 +11,8 @@ export const SGText: React.FC<
     color?: string;
   } & Text["props"]
 > = ({ children, fontSize = 18, fontWeight = 400, color, ...rest }) => {
-  const theme = useTheme();
-  color = useMemo(() => color ?? theme.PRIMARY, [theme, color]);
+  const palette = usePalette();
+  color = useMemo(() => color ?? palette.PRIMARY, [palette, color]);
   return (
     <Text
       {...rest}

@@ -1,5 +1,5 @@
 import React from "react";
-import { useTheme } from "../../hooks/theme/useTheme";
+import { usePalette } from "../../hooks/theme/usePalette";
 import { SGIcon, SGIconProps } from "../text/SGIcon";
 import { SGText } from "../text/SGText";
 import { HFlex } from "./HFlex";
@@ -17,13 +17,13 @@ export const SGHeader: React.FC<SGHeaderProps> = ({
   text,
   rightIcons,
 }) => {
-  const theme = useTheme();
+  const palette = usePalette();
 
   return (
     <HFlex
       style={{
         paddingBottom: 8,
-        borderColor: theme.BORDER,
+        borderColor: palette.BORDER,
         borderBottomWidth: 1,
       }}
     >

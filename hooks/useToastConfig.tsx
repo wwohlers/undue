@@ -1,15 +1,15 @@
-import { useTheme } from "./theme/useTheme";
+import { usePalette } from "./theme/usePalette";
 import { BaseToast, ToastConfigParams } from "react-native-toast-message";
 import { ibmPlexSans } from "./setup/useImportFonts";
 
 export function useToastConfig() {
-  const theme = useTheme();
+  const palette = usePalette();
   return {
     success: (props: ToastConfigParams<any>) => (
       <BaseToast
         {...props}
         style={{
-          borderLeftColor: theme.PRIORITY.LOW,
+          borderLeftColor: palette.PRIORITY.LOW,
           height: "auto",
           paddingVertical: 12,
         }}
@@ -27,7 +27,7 @@ export function useToastConfig() {
       <BaseToast
         {...props}
         style={{
-          borderLeftColor: theme.PRIORITY.HIGH,
+          borderLeftColor: palette.PRIORITY.HIGH,
           height: "auto",
           paddingVertical: 12,
         }}

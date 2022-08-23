@@ -13,7 +13,7 @@ import { capitalize } from "../util/text";
 import { VSpace } from "../elements/layout/VSpace";
 import { SGLabel } from "../elements/text/SGLabel";
 import RNDateTimePicker from "@react-native-community/datetimepicker";
-import { useTheme } from "../hooks/theme/useTheme";
+import { usePalette } from "../hooks/theme/usePalette";
 import { SGButton } from "../elements/text/SGButton";
 import { useSetRepeat } from "../data/items/write/useSetRepeat";
 
@@ -26,7 +26,7 @@ export const SetupRepeat: React.FC<SetupRepeatProps> = ({
   route,
   navigation,
 }) => {
-  const theme = useTheme();
+  const palette = usePalette();
   const item = useItem(route.params.itemId);
   const minDate = useMemo(() => {
     return item ? DateTime.fromISO(item.datetime) : DateTime.now();
@@ -83,7 +83,7 @@ export const SetupRepeat: React.FC<SetupRepeatProps> = ({
               marginVertical: 8,
               padding: 16,
               borderRadius: 8,
-              backgroundColor: theme.OFF_BACKGROUND,
+              backgroundColor: palette.OFF_BACKGROUND,
             }}
           >
             <SGLabel>Repeat On</SGLabel>

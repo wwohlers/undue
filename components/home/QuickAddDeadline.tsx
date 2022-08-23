@@ -3,11 +3,11 @@ import { View } from "react-native";
 import React, { useState } from "react";
 import { DateTime } from "luxon";
 import { Priority } from "../../data/Priority.type";
-import { useTheme } from "../../hooks/theme/useTheme";
+import { usePalette } from "../../hooks/theme/usePalette";
 import { useCreateItem } from "../../data/items/write/useCreateItem";
 
 export const QuickAddDeadline: React.FC = () => {
-  const theme = useTheme();
+  const palette = usePalette();
   const [input, setInput] = useState("");
   const createItem = useCreateItem();
 
@@ -31,10 +31,10 @@ export const QuickAddDeadline: React.FC = () => {
   return (
     <View
       style={{
-        backgroundColor: theme.OFF_BACKGROUND,
+        backgroundColor: palette.OFF_BACKGROUND,
         padding: 16,
         borderRadius: 8,
-        marginTop: 8,
+        marginVertical: 8,
       }}
     >
       <SGInput
@@ -43,7 +43,7 @@ export const QuickAddDeadline: React.FC = () => {
         onChangeText={setInput}
         onSubmitEditing={onSubmit}
         style={{
-          borderBottomColor: theme.BORDER_DARK,
+          borderBottomColor: palette.BORDER_DARK,
           borderBottomWidth: 1,
           paddingHorizontal: 4,
           paddingVertical: 4,

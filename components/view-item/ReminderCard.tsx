@@ -7,7 +7,7 @@ import { Reminder } from "../../data/reminders/Reminder.type";
 import { HFlex } from "../../elements/layout/HFlex";
 import { SGIcon } from "../../elements/text/SGIcon";
 import { SGText } from "../../elements/text/SGText";
-import { useTheme } from "../../hooks/theme/useTheme";
+import { usePalette } from "../../hooks/theme/usePalette";
 import { useMinutely } from "../../hooks/time/useMinutely";
 import { useTime } from "../../hooks/time/useTime";
 import { useAreYouSure } from "../../hooks/alerts/useAreYouSure";
@@ -24,7 +24,7 @@ export const ReminderCard: React.FC<{
 }> = ({ reminder }) => {
   const time = useTime();
   const min10 = useMinutely(10);
-  const theme = useTheme();
+  const palette = usePalette();
   const navigation = useNavigation<ViewItemProps["navigation"]>();
   const areYouSure = useAreYouSure();
   const deleteReminders = useDeleteReminders();
@@ -65,10 +65,10 @@ export const ReminderCard: React.FC<{
 
   return (
     <TouchableHighlight
-      underlayColor={theme.BORDER}
+      underlayColor={palette.BORDER}
       style={{
         marginVertical: 4,
-        backgroundColor: theme.OFF_BACKGROUND,
+        backgroundColor: palette.OFF_BACKGROUND,
         padding: 12,
         borderRadius: 8,
         elevation: 1,
@@ -83,7 +83,7 @@ export const ReminderCard: React.FC<{
             <SGText fontSize={18} style={{ flex: 1 }} numberOfLines={1}>
               {capitalize(absoluteFormattedDt)}
             </SGText>
-            <SGText fontSize={15} color={theme.OFF_PRIMARY}>
+            <SGText fontSize={15} color={palette.OFF_PRIMARY}>
               {capitalize(relativeFormattedDt)}
             </SGText>
           </View>

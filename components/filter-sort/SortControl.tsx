@@ -12,7 +12,7 @@ import { VSpace } from "../../elements/layout/VSpace";
 import { useSetSortOptions } from "../../data/filter-sort/useSetSortOptions";
 import { SGText } from "../../elements/text/SGText";
 import { capitalize } from "../../util/text";
-import { useTheme } from "../../hooks/theme/useTheme";
+import { usePalette } from "../../hooks/theme/usePalette";
 
 const sortMethods = [
   "alphabetical",
@@ -26,7 +26,7 @@ export const SortControl: React.FC<{
   const [filterSortState] = useFilterSortState();
   const { sortOptions } = filterSortState[type];
   const setSortOptions = useSetSortOptions(type);
-  const theme = useTheme();
+  const palette = usePalette();
 
   const onMethodPressed = () => {
     const oldIndex = sortMethods.indexOf(sortOptions.sortMethod);
@@ -48,7 +48,7 @@ export const SortControl: React.FC<{
     <View
       style={{
         padding: 16,
-        backgroundColor: theme.OFF_BACKGROUND,
+        backgroundColor: palette.OFF_BACKGROUND,
         borderRadius: 8,
       }}
     >

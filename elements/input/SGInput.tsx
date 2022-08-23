@@ -2,7 +2,7 @@ import React from "react";
 import { View } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 import { ibmPlexSans } from "../../hooks/setup/useImportFonts";
-import { useTheme } from "../../hooks/theme/useTheme";
+import { usePalette } from "../../hooks/theme/usePalette";
 import { SGIcon, SGIconProps } from "../text/SGIcon";
 
 export const SGInput: React.FC<
@@ -11,29 +11,29 @@ export const SGInput: React.FC<
     icon?: SGIconProps;
   } & TextInput["props"]
 > = ({ size = 20, icon, ...rest }) => {
-  const theme = useTheme();
+  const palette = usePalette();
   if (!icon) {
     return (
       <TextInput
         {...rest}
         style={{
-          borderColor: theme.THEME,
+          borderColor: palette.THEME,
           borderBottomWidth: 2,
           borderRadius: 2,
           paddingVertical: size * 0.4,
-          color: theme.THEME,
+          color: palette.THEME,
           fontSize: size,
           fontFamily: ibmPlexSans[400],
           ...(rest.style as object),
         }}
-        placeholderTextColor={theme.OFF_PRIMARY_LIGHT}
+        placeholderTextColor={palette.OFF_PRIMARY_LIGHT}
       />
     );
   } else {
     return (
       <View
         style={{
-          borderColor: theme.THEME,
+          borderColor: palette.THEME,
           borderBottomWidth: 2,
           borderRadius: 2,
           flexDirection: "row",
@@ -44,14 +44,14 @@ export const SGInput: React.FC<
         <TextInput
           style={{
             paddingVertical: size * 0.4,
-            color: theme.THEME,
+            color: palette.THEME,
             fontSize: size,
             fontFamily: ibmPlexSans[400],
             flex: 1,
           }}
           {...rest}
         />
-        <SGIcon size={size + 2} color={theme.OFF_PRIMARY_LIGHT} {...icon} />
+        <SGIcon size={size + 2} color={palette.OFF_PRIMARY_LIGHT} {...icon} />
       </View>
     );
   }

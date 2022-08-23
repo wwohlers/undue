@@ -1,11 +1,15 @@
 import { useColorScheme } from "react-native";
 import { useMemo } from "react";
+import {
+  useFinalTheme,
+  useThemeSetting,
+} from "../../data/settings/useThemeSetting";
 
-export function useTheme() {
-  const colorScheme = useColorScheme();
+export function usePalette() {
+  const theme = useFinalTheme();
 
   return useMemo(() => {
-    if (colorScheme === "dark") {
+    if (theme === "dark") {
       return {
         THEME: "#DDD",
         BACKGROUND: "#222",
@@ -15,7 +19,8 @@ export function useTheme() {
         OFF_PRIMARY_LIGHT: "#666",
         OFF_PRIMARY_DARK: "#CCC",
         BORDER: "#444",
-        BORDER_DARK: "#444",
+        BORDER_LIGHT: "#333",
+        BORDER_DARK: "#555",
         TODAY: "#2d2d28",
         HOLIDAY: "#B64307",
         PRIORITY: {
@@ -34,6 +39,7 @@ export function useTheme() {
         OFF_PRIMARY_LIGHT: "#aeb1bf",
         OFF_PRIMARY_DARK: "#555",
         BORDER: "#EEE",
+        BORDER_LIGHT: "#F0F0F0",
         BORDER_DARK: "#DDD",
         TODAY: "#fffdf0",
         HOLIDAY: "#B64307",
@@ -44,5 +50,5 @@ export function useTheme() {
         },
       };
     }
-  }, [colorScheme]);
+  }, [theme]);
 }

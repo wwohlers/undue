@@ -7,7 +7,7 @@ import { HomeProps } from "../../views/Home";
 import { ItemCard } from "./ItemCard";
 import { QuickAddDeadline } from "./QuickAddDeadline";
 import { SGText } from "../../elements/text/SGText";
-import { useTheme } from "../../hooks/theme/useTheme";
+import { usePalette } from "../../hooks/theme/usePalette";
 import { useFilteredSortedDeadlines } from "../../data/items/read/useFilteredSorted";
 import { useItemsByType } from "../../data/items/useItems";
 import { intersperseDates } from "../../util/list";
@@ -18,7 +18,7 @@ export const DeadlinesList: React.FC = () => {
   const deadlines = useFilteredSortedDeadlines();
   const navigation = useNavigation<HomeProps["navigation"]>();
   const numUnfilteredDeadlines = useItemsByType("deadline").length;
-  const theme = useTheme();
+  const palette = usePalette();
 
   const interspersedList = useMemo(
     () => intersperseDates(deadlines),
@@ -68,7 +68,7 @@ export const DeadlinesList: React.FC = () => {
               return (
                 <SGText
                   style={{ textAlign: "center", marginVertical: 8 }}
-                  color={theme.OFF_PRIMARY}
+                  color={palette.OFF_PRIMARY}
                   fontSize={17}
                 >
                   {numUnfilteredDeadlines

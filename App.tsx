@@ -1,12 +1,17 @@
-import { NavigationContainer } from "@react-navigation/native";
+import { NavigationContainer, useTheme } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
-import { Suspense, useEffect } from "react";
-import { SafeAreaView } from "react-native";
+import React, { Suspense, useEffect, useMemo } from "react";
+import {
+  ActivityIndicator,
+  Platform,
+  SafeAreaView,
+  UIManager,
+} from "react-native";
 import { SGSpinner } from "./elements/text/SGSpinner";
 import { useSetup } from "./hooks/setup/useSetup";
-import { useTheme } from "./hooks/theme/useTheme";
+import { usePalette } from "./hooks/theme/usePalette";
 import { CreateItem } from "./views/CreateItem";
 import { Home } from "./views/Home";
 import { CalendarView } from "./views/CalendarView";
@@ -20,8 +25,15 @@ import Toast from "react-native-toast-message";
 import { useToastConfig } from "./hooks/useToastConfig";
 import { Item } from "./data/items/Item.type";
 import { SetupRepeat } from "./views/SetupRepeat";
+import { useFinalTheme } from "./data/settings/useThemeSetting";
 
 SplashScreen.preventAutoHideAsync();
+
+if (Platform.OS === "android") {
+  if (UIManager.setLayoutAnimationEnabledExperimental) {
+    UIManager.setLayoutAnimationEnabledExperimental(true);
+  }
+}
 
 export type RootStackParamList = {
   Home: undefined;
@@ -40,8 +52,6 @@ const RootStack = createStackNavigator<RootStackParamList>();
 
 export default function App() {
   const ready = useSetup();
-  const theme = useTheme();
-  const toastConfig = useToastConfig();
 
   useEffect(() => {
     if (ready) {
@@ -54,16 +64,32 @@ export default function App() {
   }
 
   return (
+    <Suspense fallback={<ActivityIndicator />}>
+      <Main />
+    </Suspense>
+  );
+}
+
+const Main: React.FC = () => {
+  const palette = usePalette();
+  const toastConfig = useToastConfig();
+  const theme = useFinalTheme();
+
+  const statusBarStyle = useMemo(() => {
+    return theme === "dark" ? "light" : "dark";
+  }, [theme]);
+
+  return (
     <NavigationContainer ref={rootNavigationRef}>
-      <SafeAreaView style={{ flex: 1, backgroundColor: theme.BACKGROUND }}>
-        <StatusBar translucent={true} />
+      <SafeAreaView style={{ flex: 1, backgroundColor: palette.BACKGROUND }}>
+        <StatusBar style={statusBarStyle} />
         <Suspense fallback={<SGSpinner />}>
           <RootStack.Navigator
             initialRouteName="Home"
             screenOptions={{
               headerShown: false,
               cardStyle: {
-                backgroundColor: theme.BACKGROUND,
+                backgroundColor: palette.BACKGROUND,
               },
             }}
           >
@@ -87,4 +113,4 @@ export default function App() {
       </SafeAreaView>
     </NavigationContainer>
   );
-}
+};

@@ -1,15 +1,9 @@
 import { DateTime } from "luxon";
 import React, { useMemo, useState } from "react";
-import { LayoutAnimation, Platform, UIManager, View } from "react-native";
-import { useTheme } from "../../hooks/theme/useTheme";
+import { LayoutAnimation, View } from "react-native";
+import { usePalette } from "../../hooks/theme/usePalette";
 import { isInWeek } from "../../util/time/calendar";
 import { DayTile } from "./DayTile";
-
-if (Platform.OS === "android") {
-  if (UIManager.setLayoutAnimationEnabledExperimental) {
-    UIManager.setLayoutAnimationEnabledExperimental(true);
-  }
-}
 
 export const CalendarWeek: React.FC<{
   weekStart: DateTime;
@@ -17,7 +11,7 @@ export const CalendarWeek: React.FC<{
   initialValue?: DateTime;
   onChange: (dt: DateTime) => void;
 }> = ({ weekStart, width, initialValue, onChange }) => {
-  const theme = useTheme();
+  const palette = usePalette();
   const [containerHeight, setContainerHeight] = useState(0);
   const [selectedDay, setSelectedDay] = useState<DateTime | undefined>(
     initialValue && isInWeek(initialValue, weekStart)

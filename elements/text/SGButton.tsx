@@ -1,17 +1,17 @@
 import React, { useMemo } from "react";
 import { View } from "react-native";
 import { TouchableHighlight } from "react-native-gesture-handler";
-import { useTheme } from "../../hooks/theme/useTheme";
+import { usePalette } from "../../hooks/theme/usePalette";
 import { HSpace } from "../layout/HSpace";
 import { SGIcon, SGIconProps } from "./SGIcon";
 import { SGText } from "./SGText";
 
-const buttonStyles = (theme: ReturnType<typeof useTheme>) => {
+const buttonStyles = (palette: ReturnType<typeof usePalette>) => {
   return {
     primary: {
-      backgroundColor: theme.THEME,
-      color: theme.BACKGROUND,
-      highlightColor: theme.OFF_PRIMARY,
+      backgroundColor: palette.THEME,
+      color: palette.BACKGROUND,
+      highlightColor: palette.OFF_PRIMARY,
     },
   };
 };
@@ -36,8 +36,8 @@ export const SGButton: React.FC<
   iconOnRight = false,
   ...rest
 }) => {
-  const theme = useTheme();
-  const styles = useMemo(() => buttonStyles(theme)[type], [type, theme]);
+  const palette = usePalette();
+  const styles = useMemo(() => buttonStyles(palette)[type], [type, palette]);
 
   return (
     <TouchableHighlight

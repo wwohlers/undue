@@ -3,24 +3,25 @@ import React, { useMemo } from "react";
 import { View } from "react-native";
 import { ScrollView, TouchableHighlight } from "react-native-gesture-handler";
 import { SGText } from "../../elements/text/SGText";
-import { useTheme } from "../../hooks/theme/useTheme";
+import { usePalette } from "../../hooks/theme/usePalette";
 import { relativeFormat } from "../../util/time/relativeFormat";
 
 export const DayifyResults: React.FC<{
   results: DateTime[];
   onSelected: (dt: DateTime) => void;
 }> = ({ results, onSelected }) => {
-  const theme = useTheme();
+  const palette = usePalette();
 
   const resultsList = useMemo(() => {
     return results.map((dt, i) => {
-      const absoluteFormattedDt = dt.toFormat("t 'on' DDD");
+      const time = dt.toFormat("t");
+      const date = dt.toFormat("DDD");
       const relativeFormattedDt = relativeFormat(dt);
       return (
         <TouchableHighlight
           key={i}
           onPress={() => onSelected(dt)}
-          underlayColor={theme.BORDER_DARK}
+          underlayColor={palette.BORDER_DARK}
           containerStyle={{
             marginVertical: 6,
             overflow: "hidden",
@@ -29,15 +30,18 @@ export const DayifyResults: React.FC<{
         >
           <View
             style={{
-              backgroundColor: theme.OFF_BACKGROUND,
+              backgroundColor: palette.OFF_BACKGROUND,
               padding: 12,
               borderRadius: 8,
             }}
           >
-            <SGText fontSize={18}>
-              {absoluteFormattedDt}
+            <SGText>
+              <SGText fontWeight={600} fontSize={20}>
+                {time}
+              </SGText>
+              <SGText fontSize={18}> on {date}</SGText>
             </SGText>
-            <SGText fontSize={16} color={theme.OFF_PRIMARY}>
+            <SGText fontSize={16} color={palette.OFF_PRIMARY}>
               {relativeFormattedDt}
             </SGText>
           </View>

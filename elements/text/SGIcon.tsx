@@ -1,8 +1,15 @@
-import {AntDesign, Feather, FontAwesome5, Ionicons, MaterialCommunityIcons, MaterialIcons,} from "@expo/vector-icons";
-import React, {useEffect, useRef} from "react";
-import {TouchableOpacity} from "react-native-gesture-handler";
-import {Animated} from "react-native";
-import {useTheme} from "../../hooks/theme/useTheme";
+import {
+  AntDesign,
+  Feather,
+  FontAwesome5,
+  Ionicons,
+  MaterialCommunityIcons,
+  MaterialIcons,
+} from "@expo/vector-icons";
+import React, { useEffect, useRef } from "react";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import { Animated } from "react-native";
+import { usePalette } from "../../hooks/theme/usePalette";
 
 /**
  * https://icons.expo.fyi/
@@ -28,6 +35,8 @@ const iconMap = {
   ascending: [MaterialCommunityIcons, "sort-ascending"],
   descending: [MaterialCommunityIcons, "sort-descending"],
   undo: [FontAwesome5, "undo"],
+  gear: [AntDesign, "setting"],
+  external: [Feather, "external-link"],
 };
 
 export type SGIconProps = {
@@ -45,7 +54,7 @@ export const SGIcon: React.FC<SGIconProps> = ({
   ...rest
 }) => {
   const [IconElement, _name] = iconMap[name];
-  const theme = useTheme();
+  const palette = usePalette();
 
   const pulseAnim = useRef(new Animated.Value(1)).current;
   useEffect(() => {
@@ -74,7 +83,7 @@ export const SGIcon: React.FC<SGIconProps> = ({
         style={{ opacity: disabled ? 0.5 : 1 }}
         name={_name as any}
         size={24}
-        color={theme.THEME}
+        color={palette.THEME}
         {...rest}
       />
     );
@@ -90,7 +99,7 @@ export const SGIcon: React.FC<SGIconProps> = ({
           <IconElement
             name={_name as any}
             size={24}
-            color={theme.THEME}
+            color={palette.THEME}
             {...rest}
           />
         </Animated.View>

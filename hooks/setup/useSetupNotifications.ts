@@ -2,7 +2,7 @@ import { isDevice } from "expo-device";
 import { Platform } from "react-native";
 import * as Notifications from "expo-notifications";
 import { Notification } from "expo-notifications";
-import { useTheme } from "../theme/useTheme";
+import { usePalette } from "../theme/usePalette";
 import { rootNavigationRef } from "../../rootNavigation";
 
 export function useSetupNotifications() {
@@ -29,7 +29,6 @@ function handleNotificationPressed(notification: Notification) {
 }
 
 async function registerForPushNotificationsAsync() {
-  const theme = useTheme();
   if (isDevice) {
     const { status: existingStatus } =
       await Notifications.getPermissionsAsync();
@@ -52,7 +51,7 @@ async function registerForPushNotificationsAsync() {
       name: "default",
       importance: Notifications.AndroidImportance.MAX,
       vibrationPattern: [0, 250, 250, 250],
-      lightColor: theme.THEME,
+      lightColor: "#000000",
     });
   }
 }

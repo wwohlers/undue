@@ -1,12 +1,12 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { useMemo } from "react";
-import { FlatList, View } from "react-native";
+import { FlatList, TouchableWithoutFeedback, View } from "react-native";
 import { Container } from "../../elements/layout/Container";
 import { SGHeader } from "../../elements/layout/SGHeader";
 import { HomeProps } from "../../views/Home";
 import { ItemCard } from "./ItemCard";
 import { SGText } from "../../elements/text/SGText";
-import { useTheme } from "../../hooks/theme/useTheme";
+import { usePalette } from "../../hooks/theme/usePalette";
 import { useTime } from "../../hooks/time/useTime";
 import { getRemainingItemsStr, getTimeOfDay } from "../../util/intro";
 import { DateTime } from "luxon";
@@ -22,7 +22,7 @@ export const EventsList: React.FC = () => {
   const events = useFilteredSortedEvents();
   const navigation = useNavigation<HomeProps["navigation"]>();
   const numUnfilteredEvents = useItemsByType("event").length;
-  const theme = useTheme();
+  const palette = usePalette();
   const time = useTime();
   const dayItems = useItemsByDay(DateTime.now());
   const [
@@ -86,28 +86,37 @@ export const EventsList: React.FC = () => {
           if (typeof item === "string") {
             if (item === "intro") {
               return (
-                <View
-                  style={{
-                    padding: 16,
-                    marginTop: 8,
-                    backgroundColor: theme.OFF_BACKGROUND,
-                    borderRadius: 8,
-                  }}
+                <TouchableWithoutFeedback
+                  onPress={() =>
+                    navigation.navigate({
+                      name: "CalendarView",
+                      params: { pickMode: false },
+                    })
+                  }
                 >
-                  <SGText fontSize={18} color={theme.THEME}>
-                    <SGText>Good {timeOfDayStr}. It&apos;s </SGText>
-                    <SGText fontWeight={600}>
-                      {DateTime.now().toFormat("cccc, LLLL d")}.
+                  <View
+                    style={{
+                      padding: 16,
+                      marginTop: 8,
+                      backgroundColor: palette.OFF_BACKGROUND,
+                      borderRadius: 8,
+                    }}
+                  >
+                    <SGText fontSize={18} color={palette.THEME}>
+                      <SGText>Good {timeOfDayStr}. It&apos;s </SGText>
+                      <SGText fontWeight={600}>
+                        {DateTime.now().toFormat("cccc, LLLL d")}.
+                      </SGText>
+                      <SGText> {remainingItemsStr}</SGText>
                     </SGText>
-                    <SGText> {remainingItemsStr}</SGText>
-                  </SGText>
-                </View>
+                  </View>
+                </TouchableWithoutFeedback>
               );
             } else if (item === "empty-state") {
               return (
                 <SGText
                   style={{ textAlign: "center", marginVertical: 8 }}
-                  color={theme.OFF_PRIMARY}
+                  color={palette.OFF_PRIMARY}
                   fontSize={17}
                 >
                   {numUnfilteredEvents

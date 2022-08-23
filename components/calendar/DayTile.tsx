@@ -5,7 +5,7 @@ import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import { sortByPriority } from "../../data/Priority.type";
 import { HSpace } from "../../elements/layout/HSpace";
 import { SGText } from "../../elements/text/SGText";
-import { useTheme } from "../../hooks/theme/useTheme";
+import { usePalette } from "../../hooks/theme/usePalette";
 import { useTime } from "../../hooks/time/useTime";
 import { DayView } from "./DayView";
 import { getUSHoliday } from "../../util/holidays";
@@ -19,7 +19,7 @@ export const DayTile: React.FC<{
   onPressed: () => void;
   onChange: (dt: DateTime) => void;
 }> = ({ day, parentHeight, isExpanded, isMinimized, onPressed, onChange }) => {
-  const theme = useTheme();
+  const palette = usePalette();
   const time = useTime();
 
   const height = useMemo(() => {
@@ -49,9 +49,9 @@ export const DayTile: React.FC<{
   }, [items]);
 
   const backgroundColor = useMemo(() => {
-    if (isToday) return theme.TODAY;
-    if (day.weekday % 2 === 1) return theme.OFF_BACKGROUND;
-  }, [isToday, theme]);
+    if (isToday) return palette.TODAY;
+    if (day.weekday % 2 === 1) return palette.OFF_BACKGROUND;
+  }, [isToday, palette]);
 
   const borderTopWidth = useMemo(() => {
     return day.day === 1 ? 2 : 0;
@@ -62,7 +62,7 @@ export const DayTile: React.FC<{
       return (
         <TouchableWithoutFeedback onPress={onPressed}>
           <SGText
-            color={theme.OFF_PRIMARY}
+            color={palette.OFF_PRIMARY}
             fontSize={16}
             fontWeight={isToday ? 600 : 400}
           >
@@ -77,13 +77,13 @@ export const DayTile: React.FC<{
         <TouchableWithoutFeedback onPress={onPressed}>
           <View style={{ height }}>
             {holiday && (
-              <SGText color={theme.HOLIDAY} fontWeight={600}>
+              <SGText color={palette.HOLIDAY} fontWeight={600}>
                 {holiday}
               </SGText>
             )}
             {sortedItems.map((e) => (
               <View key={e.id} style={{ flexDirection: "row" }}>
-                <SGText color={theme.OFF_PRIMARY}>
+                <SGText color={palette.OFF_PRIMARY}>
                   {DateTime.fromISO(e.datetime).toFormat("t")}
                 </SGText>
                 <HSpace width={6} />
@@ -104,7 +104,7 @@ export const DayTile: React.FC<{
         paddingVertical: isMinimized ? 4 : 8,
         opacity: isPast ? 0.3 : 1,
         backgroundColor,
-        borderColor: theme.THEME,
+        borderColor: palette.THEME,
         borderTopWidth,
         borderRadius: 8,
       }}
@@ -127,7 +127,7 @@ export const DayTile: React.FC<{
           </SGText>
           {!isMinimized && (
             <SGText
-              color={theme.OFF_PRIMARY}
+              color={palette.OFF_PRIMARY}
               fontSize={16}
               fontWeight={isToday ? 600 : 400}
             >

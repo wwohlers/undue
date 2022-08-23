@@ -1,14 +1,14 @@
 import React from "react";
 import { TouchableWithoutFeedback, View } from "react-native";
 import { SGText } from "../text/SGText";
-import { useTheme } from "../../hooks/theme/useTheme";
+import { usePalette } from "../../hooks/theme/usePalette";
 
 export const SGSelect: React.FC<{
   options: string[];
   value: string;
   onChange: (value: string) => void;
 }> = ({ options, value, onChange }) => {
-  const theme = useTheme();
+  const palette = usePalette();
 
   return (
     <View
@@ -28,15 +28,15 @@ export const SGSelect: React.FC<{
             style={{
               flex: option.length,
               paddingVertical: 8,
-              borderColor: theme.BORDER_DARK,
+              borderColor: palette.BORDER_DARK,
               borderLeftWidth: i > 0 ? 1 : 0,
               backgroundColor:
-                option === value ? theme.THEME : theme.OFF_BACKGROUND,
+                option === value ? palette.THEME : palette.OFF_BACKGROUND,
               alignItems: "center",
             }}
           >
             <SGText
-              color={option === value ? theme.OFF_BACKGROUND : theme.THEME}
+              color={option === value ? palette.OFF_BACKGROUND : palette.THEME}
               style={{ textTransform: "uppercase" }}
               fontSize={16}
               fontWeight={option === value ? 600 : 400}

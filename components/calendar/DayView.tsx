@@ -4,7 +4,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { TouchableWithoutFeedback, View } from "react-native";
 import { HSpace } from "../../elements/layout/HSpace";
 import { SGText } from "../../elements/text/SGText";
-import { useTheme } from "../../hooks/theme/useTheme";
+import { usePalette } from "../../hooks/theme/usePalette";
 import { buildDayViewList } from "../../util/time/calendar";
 import { CalendarProps } from "../../views/CalendarView";
 import { TimeSelector } from "./TimeSelector";
@@ -39,7 +39,7 @@ export const DayView: React.FC<{
     if (ideal < DateTime.now()) return DateTime.now().endOf("hour");
     return ideal;
   }, [route.params]);
-  const theme = useTheme();
+  const palette = usePalette();
   const items = useItemsByDay(day);
   const [selectedTime, setSelectedTime] = useState(initialTime);
   const isMount = useIsMount();
@@ -85,7 +85,7 @@ export const DayView: React.FC<{
                 position: "absolute",
                 top: (availableHeight * hour) / 24,
               }}
-              color={theme.BORDER_DARK}
+              color={palette.BORDER_DARK}
             >
               {dt.toFormat("h")}
             </SGText>
@@ -108,7 +108,7 @@ export const DayView: React.FC<{
           <View style={{ flex: 1 }}>
             {holiday && (
               <View>
-                <SGText color={theme.HOLIDAY} fontWeight={600}>
+                <SGText color={palette.HOLIDAY} fontWeight={600}>
                   {holiday}
                 </SGText>
               </View>
@@ -123,7 +123,7 @@ export const DayView: React.FC<{
                     flexDirection: "row",
                   }}
                 >
-                  <SGText color={theme.OFF_PRIMARY}>
+                  <SGText color={palette.OFF_PRIMARY}>
                     {DateTime.fromISO(items[0].datetime).toFormat("t")}
                   </SGText>
                   <HSpace width={6} />

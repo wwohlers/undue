@@ -10,7 +10,7 @@ import { HFlex } from "../../elements/layout/HFlex";
 import { SGIcon } from "../../elements/text/SGIcon";
 import { SGLabel } from "../../elements/text/SGLabel";
 import { SGText } from "../../elements/text/SGText";
-import { useTheme } from "../../hooks/theme/useTheme";
+import { usePalette } from "../../hooks/theme/usePalette";
 import { useMinutely } from "../../hooks/time/useMinutely";
 import { useTime } from "../../hooks/time/useTime";
 import { capitalize } from "../../util/text";
@@ -33,7 +33,7 @@ export const ItemDetails: React.FC<{
 }> = ({ item }) => {
   const time = useTime();
   const min10 = useMinutely(10);
-  const theme = useTheme();
+  const palette = usePalette();
   const navigation = useNavigation<ViewItemProps["navigation"]>();
   const moveItem = useMoveItem();
   const editItem = useEditItem();
@@ -122,7 +122,9 @@ export const ItemDetails: React.FC<{
             <SGLabel
               fontSize={14}
               color={
-                isOverdue ? theme.PRIORITY.HIGH : theme.PRIORITY[item.priority]
+                isOverdue
+                  ? palette.PRIORITY.HIGH
+                  : palette.PRIORITY[item.priority]
               }
             >
               {isOverdue ? "Overdue" : `${item.priority} priority`}
@@ -132,7 +134,7 @@ export const ItemDetails: React.FC<{
             <SGText fontSize={22} numberOfLines={1}>
               {capitalize(absoluteFormattedDt)}
             </SGText>
-            <SGText fontSize={18} color={theme.OFF_PRIMARY} numberOfLines={1}>
+            <SGText fontSize={18} color={palette.OFF_PRIMARY} numberOfLines={1}>
               {capitalize(relativeFormattedDt)}
             </SGText>
           </TouchableWithoutFeedback>
@@ -144,7 +146,7 @@ export const ItemDetails: React.FC<{
           {item.repeatSchedule ? (
             <SGText>{getRepeatText(item.repeatSchedule)}</SGText>
           ) : (
-            <SGText color={theme.OFF_PRIMARY}>Tap to enable repeat</SGText>
+            <SGText color={palette.OFF_PRIMARY}>Tap to enable repeat</SGText>
           )}
         </View>
       </TouchableWithoutFeedback>
@@ -177,7 +179,7 @@ export const ItemDetails: React.FC<{
             {item.duration ? (
               <SGText fontSize={20}>{formatDuration(item.duration)}</SGText>
             ) : (
-              <SGText fontSize={18} color={theme.OFF_PRIMARY}>
+              <SGText fontSize={18} color={palette.OFF_PRIMARY}>
                 Tap to set a duration
               </SGText>
             )}

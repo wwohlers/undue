@@ -1,16 +1,16 @@
 import React from "react";
-import { useTheme } from "../../hooks/theme/useTheme";
+import { usePalette } from "../../hooks/theme/usePalette";
 import { SGText } from "./SGText";
 
 export const SGLabel: React.FC<React.ComponentProps<typeof SGText>> = ({
   ...rest
 }) => {
-  const theme = useTheme();
+  const palette = usePalette();
   return (
     <SGText
       fontSize={12}
       fontWeight={700}
-      color={theme.OFF_PRIMARY}
+      color={palette.OFF_PRIMARY}
       {...rest}
       style={{ textTransform: "uppercase", ...(rest.style as object) }}
     />

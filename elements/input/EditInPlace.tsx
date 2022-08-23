@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
-import { useTheme } from "../../hooks/theme/useTheme";
+import { usePalette } from "../../hooks/theme/usePalette";
 import { SGText } from "../text/SGText";
 import { SGInput } from "./SGInput";
 
@@ -21,7 +21,7 @@ export const EditInPlace: React.FC<{
 }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [inputValue, setInputValue] = useState(value || "");
-  const theme = useTheme();
+  const palette = usePalette();
 
   useEffect(() => {
     if (value) setInputValue(value);
@@ -35,7 +35,10 @@ export const EditInPlace: React.FC<{
   if (!isEditing) {
     return (
       <TouchableWithoutFeedback onPress={() => setIsEditing(true)}>
-        <SGText fontSize={size} color={value ? theme.THEME : theme.OFF_PRIMARY}>
+        <SGText
+          fontSize={size}
+          color={value ? palette.THEME : palette.OFF_PRIMARY}
+        >
           {value || emptyText}
         </SGText>
       </TouchableWithoutFeedback>

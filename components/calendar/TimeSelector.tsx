@@ -2,7 +2,7 @@ import { DateTime } from "luxon";
 import React, { useMemo, useRef, useState } from "react";
 import { Animated, PanResponder, View } from "react-native";
 import { SGText } from "../../elements/text/SGText";
-import { useTheme } from "../../hooks/theme/useTheme";
+import { usePalette } from "../../hooks/theme/usePalette";
 import {
   getDateTimeOfDayFactor,
   getDayFactorOfDateTime,
@@ -28,7 +28,7 @@ export const TimeSelector: React.FC<{
 }> = ({ value, onChange, width, height }) => {
   const [day] = useState(value.startOf("day"));
   const time = useTime();
-  const theme = useTheme();
+  const palette = usePalette();
   const position = useRef(
     new Animated.Value(Math.round(height * getDayFactorOfDateTime(value)))
   ).current as Animated.Value & { _value: number };
@@ -84,7 +84,7 @@ export const TimeSelector: React.FC<{
         height: 40,
         width,
         top: Animated.add(position, 6),
-        borderColor: theme.THEME,
+        borderColor: palette.THEME,
         borderTopWidth: 4,
         flexDirection: "row",
         justifyContent: "center",
@@ -95,7 +95,7 @@ export const TimeSelector: React.FC<{
     >
       <View
         style={{
-          backgroundColor: theme.THEME,
+          backgroundColor: palette.THEME,
           width: width * 0.5,
           borderBottomLeftRadius: 8,
           borderBottomRightRadius: 8,
@@ -105,8 +105,8 @@ export const TimeSelector: React.FC<{
           paddingBottom: 4,
         }}
       >
-        <SGIcon name={"drag"} color={theme.OFF_BACKGROUND} />
-        <SGText fontSize={18} color={theme.OFF_BACKGROUND}>
+        <SGIcon name={"drag"} color={palette.OFF_BACKGROUND} />
+        <SGText fontSize={18} color={palette.OFF_BACKGROUND}>
           {value.toFormat("t")}
         </SGText>
       </View>
