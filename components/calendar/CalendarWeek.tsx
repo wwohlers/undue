@@ -22,7 +22,13 @@ export const CalendarWeek: React.FC<{
   const selectDay = (day: DateTime | undefined) => {
     LayoutAnimation.easeInEaseOut();
     setSelectedDay(day);
-    if (day) onChange(day);
+    if (day)
+      onChange(
+        day.set({
+          hour: initialValue?.hour ?? 9,
+          minute: initialValue?.minute ?? 0,
+        })
+      );
   };
 
   const dates = useMemo(() => {

@@ -5,6 +5,7 @@ import { sameMaster } from "../helpers/sameMaster";
 import { DateTime } from "luxon";
 import { useDeleteReminders } from "../../reminders/hooks/useDeleteReminders";
 import { useReminders } from "../../reminders/useReminders";
+import { itemTypeName } from "../../../util/text";
 
 export function useDeleteItem() {
   const [items, setItems] = useItems();
@@ -20,8 +21,8 @@ export function useDeleteItem() {
       if (
         item.repeatSchedule &&
         (await yesNo(
-          `Delete repeated ${item.type}s?`,
-          `Do you also want to delete all future ${item.type}s?`
+          `Delete repeated ${itemTypeName(item.type)}s?`,
+          `Do you also want to delete all future ${itemTypeName(item.type)}s?`
         ))
       ) {
         itemsToRemove.push(

@@ -6,6 +6,7 @@ import { useReminders } from "../../reminders/useReminders";
 import { useDuplicateReminders } from "../../reminders/hooks/useDuplicateReminders";
 import { useYesOrNo } from "../../../hooks/alerts/useYesOrNo";
 import { useCreateItems } from "./useCreateItem";
+import { itemTypeName } from "../../../util/text";
 
 export function useSetRepeat() {
   const [items, setItems] = useItems();
@@ -38,7 +39,9 @@ export function useSetRepeat() {
       if (!remindersToDuplicate) return;
       const proceed = await yesNo(
         "Repeat reminders?",
-        `Do you also want to create corresponding reminders for each ${item.type}?`
+        `Do you also want to create corresponding reminders for each ${itemTypeName(
+          item.type
+        )}?`
       );
       if (!proceed) return;
       duplicateReminders(item, remindersToDuplicate, duplicatedItems);

@@ -6,3 +6,7 @@ export function capitalize(str: string) {
 export function padLeadingZero(num: number) {
   return num < 10 ? "0" + num : num.toString();
 }
+
+export function itemTypeName(itemType: "event" | "deadline") {
+  return itemType === "event" ? "event" : "task";
+}

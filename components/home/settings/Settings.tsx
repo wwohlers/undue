@@ -19,7 +19,7 @@ export const Settings: React.FC = () => {
   const [themeSetting, setThemeSetting] = useThemeSetting();
 
   const rotateTheme = () => {
-    const settings = ["light", "dark", "system"] as ThemeSetting[];
+    const settings = ["light", "dark", "system", "auto"] as ThemeSetting[];
     const index = Math.max(0, settings.indexOf(themeSetting));
     setThemeSetting(settings[(index + 1) % settings.length]);
   };

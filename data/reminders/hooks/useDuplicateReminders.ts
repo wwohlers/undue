@@ -14,7 +14,7 @@ export function useDuplicateReminders() {
       baseReminders: CreatableReminder[],
       itemsToAddTo: Item[]
     ) => {
-      const creatables = reminders.map((reminder) => {
+      const creatables = baseReminders.map((reminder) => {
         const reminderDiff = DateTime.fromISO(baseItem.datetime).diff(
           DateTime.fromISO(reminder.datetime)
         );

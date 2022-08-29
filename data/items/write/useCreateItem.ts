@@ -4,11 +4,13 @@ import { CreatableItem } from "../Item.type";
 import { getDefaultReminders } from "../helpers/defaultReminders";
 import { DateTime } from "luxon";
 import { useCreateReminders } from "../../reminders/hooks/useCreateReminders";
+import { useAskForReview } from "../../../hooks/useAskForReview";
 
 export function useCreateItem() {
   const [items, setItems] = useItems();
   const createItems = useCreateItems();
   const createReminders = useCreateReminders();
+  const askForReview = useAskForReview();
 
   return useCallback(
     (item: CreatableItem) => {
@@ -24,6 +26,9 @@ export function useCreateItem() {
           itemDateTime: item.datetime,
         }))
       );
+      if (created.id === 5) {
+        askForReview();
+      }
       return created;
     },
     [items, setItems, createItems]

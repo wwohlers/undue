@@ -1,4 +1,3 @@
-import { useNavigation } from "@react-navigation/native";
 import { DateTime } from "luxon";
 import React, { useMemo } from "react";
 import { View } from "react-native";
@@ -14,7 +13,6 @@ import { useAreYouSure } from "../../hooks/alerts/useAreYouSure";
 import { capitalize } from "../../util/text";
 import { absoluteFormat } from "../../util/time/absoluteFormat";
 import { relativeFormat } from "../../util/time/relativeFormat";
-import { ViewItemProps } from "../../views/ViewItem";
 import { useDeleteReminders } from "../../data/reminders/hooks/useDeleteReminders";
 import { usePickReminderDateTime } from "../../hooks/ui/usePickReminderDateTime";
 import { useMoveReminder } from "../../data/reminders/hooks/useMoveReminders";
@@ -25,7 +23,6 @@ export const ReminderCard: React.FC<{
   const time = useTime();
   const min10 = useMinutely(10);
   const palette = usePalette();
-  const navigation = useNavigation<ViewItemProps["navigation"]>();
   const areYouSure = useAreYouSure();
   const deleteReminders = useDeleteReminders();
   const pickReminderDateTime = usePickReminderDateTime();

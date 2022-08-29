@@ -5,6 +5,7 @@ import { CreatableReminder } from "../../reminders/Reminder.type";
 import { DateTime } from "luxon";
 import { useYesOrNo } from "../../../hooks/alerts/useYesOrNo";
 import { sameMaster } from "../helpers/sameMaster";
+import { itemTypeName } from "../../../util/text";
 
 export function useAddReminder() {
   const [items, setItems] = useItems();
@@ -26,7 +27,9 @@ export function useAddReminder() {
         item.repeatSchedule &&
         (await yesNo(
           "Also add to repeats?",
-          `Would you also like to add a corresponding reminder for repeated ${item.type}s?`
+          `Would you also like to add a corresponding reminder for repeated ${itemTypeName(
+            item.type
+          )}s?`
         ))
       ) {
         itemsToAddTo.push(
@@ -37,6 +40,7 @@ export function useAddReminder() {
           )
         );
       }
+      console.log();
       duplicateReminders(item, [baseReminder], itemsToAddTo);
     },
     [items, setItems, duplicateReminders, yesNo]

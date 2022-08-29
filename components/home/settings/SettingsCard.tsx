@@ -30,7 +30,7 @@ export const SettingsCard: React.FC<{
             style={{
               paddingHorizontal: 16,
               paddingVertical: 12,
-              borderColor: palette.BORDER_LIGHT,
+              borderColor: palette.BORDER,
               borderBottomWidth: index === options.length - 1 ? 0 : 1,
               flexDirection: "row",
               justifyContent: "space-between",

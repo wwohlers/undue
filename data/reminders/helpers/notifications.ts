@@ -16,6 +16,9 @@ export async function createNotification(
   const body = capitalize(
     `${relativeFormat(itemDt, false, remDt)} (${absoluteFormat(itemDt, remDt)})`
   );
+  if (remDt <= DateTime.now()) {
+    return "";
+  }
   return scheduleNotificationAsync({
     content: {
       title: reminder.itemTitle,
@@ -29,5 +32,6 @@ export async function createNotification(
 }
 
 export async function cancelNotification(reminder: Reminder): Promise<void> {
+  if (reminder.notificationId === "") return;
   return cancelScheduledNotificationAsync(reminder.notificationId);
 }

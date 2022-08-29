@@ -36,7 +36,7 @@ export const DeadlinesList: React.FC = () => {
               params: { pickMode: false },
             }),
         }}
-        text="Deadlines"
+        text="Tasks"
         rightIcons={[
           {
             name: "filter",
@@ -72,8 +72,8 @@ export const DeadlinesList: React.FC = () => {
                   fontSize={17}
                 >
                   {numUnfilteredDeadlines
-                    ? "Oops! No deadlines match your filter criteria."
-                    : "Press + in the top right corner to create your first deadline!"}
+                    ? "Oops! No tasks match your filter criteria."
+                    : "Press + in the top right corner to create your first task!"}
                 </SGText>
               );
             } else {

@@ -4,6 +4,7 @@ import { DateTime } from "luxon";
 import { useYesOrNo } from "../../../hooks/alerts/useYesOrNo";
 import { useReminders } from "../../reminders/useReminders";
 import { useMoveReminders } from "../../reminders/hooks/useMoveReminders";
+import { itemTypeName } from "../../../util/text";
 
 export function useMoveItem() {
   const [items, setItems] = useItems();
@@ -15,10 +16,17 @@ export function useMoveItem() {
     async (itemId: number, newDt: DateTime) => {
       const item = items.find((item) => item.id === itemId);
       if (!item) return;
-      const alsoRemoveReminders = await yesNo(
-        "Move reminders?",
-        `Do you also want to move reminders for this ${item.type}?`
-      );
+      const itemReminders = reminders.filter((reminder) => {
+        return reminder.itemId === itemId;
+      });
+      const alsoRemoveReminders =
+        itemReminders.length &&
+        (await yesNo(
+          "Move reminders?",
+          `Do you also want to move reminders for this ${itemTypeName(
+            item.type
+          )}?`
+        ));
       setItems(
         items.map((item) =>
           item.id === itemId ? { ...item, datetime: newDt.toISO() } : item
@@ -26,11 +34,8 @@ export function useMoveItem() {
       );
       if (alsoRemoveReminders) {
         const diff = newDt.diff(DateTime.fromISO(item.datetime));
-        const remindersToMove = reminders.filter((reminder) => {
-          return reminder.itemId === itemId;
-        });
         moveReminders(
-          remindersToMove.map((reminder) => reminder.id),
+          itemReminders.map((reminder) => reminder.id),
           diff
         );
       }

@@ -39,24 +39,24 @@ export const FilterDeadlinesControl: React.FC = () => {
         borderRadius: 8,
       }}
     >
-      <SGLabel>Filter Deadlines</SGLabel>
+      <SGLabel>Filter Tasks</SGLabel>
       <VSpace height={4} />
       <SGCheckbox
         value={filterOptions.showCompleted}
         onChange={checkedHandler("showCompleted")}
-        text="Show completed deadlines"
+        text="Show completed tasks"
       />
       <SGCheckbox
         value={filterOptions.showIncomplete}
         onChange={checkedHandler("showIncomplete")}
-        text="Show incomplete deadlines"
+        text="Show incomplete tasks"
       />
       {Object.values(Priority).map((priority) => (
         <SGCheckbox
           value={filterOptions.showPriorities[priority]}
           onChange={priorityCheckedHandler(priority)}
           key={priority}
-          text={`Show ${priority.toLowerCase()} priority deadlines`}
+          text={`Show ${priority.toLowerCase()} priority tasks`}
         />
       ))}
     </View>

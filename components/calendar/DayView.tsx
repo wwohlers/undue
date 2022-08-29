@@ -93,7 +93,11 @@ export const DayView: React.FC<{
         })}
       </View>
       <View
-        style={{ flex: 1 }}
+        style={{
+          flex: 1,
+          overflow: "hidden",
+          marginRight: 8,
+        }}
         onLayout={(e) => setBodyWidth(e.nativeEvent.layout.width)}
       >
         {!!selectedTime && !!containerHeight && !isPast && (

@@ -9,7 +9,7 @@ import { usePalette } from "../hooks/theme/usePalette";
 import { SGText } from "../elements/text/SGText";
 import { DateTime } from "luxon";
 import { absoluteFormat } from "../util/time/absoluteFormat";
-import { capitalize } from "../util/text";
+import { capitalize, itemTypeName } from "../util/text";
 import {
   getDateFromFactor,
   getDateRangeFactor,
@@ -76,7 +76,7 @@ export const PickReminderDateTime: React.FC<PickReminderDateTimeProps> = ({
       "minutes",
     ]);
     const diffStr = relativeDiffStr(diff);
-    if (diffStr === "now") return `at your ${item.type}`;
+    if (diffStr === "now") return `at your ${itemTypeName(item.type)}`;
     return `${relativeDiffStr(diff)} before ${item.title}`;
   }, [selectedDate, item.datetime]);
 
@@ -133,7 +133,7 @@ export const PickReminderDateTime: React.FC<PickReminderDateTimeProps> = ({
           </View>
           <View style={{ alignItems: "flex-end" }}>
             <SGText fontSize={16} color={palette.OFF_PRIMARY}>
-              Your {item.type}
+              Your {itemTypeName(item.type)}
             </SGText>
             <SGText fontSize={18}>
               {capitalize(absoluteFormat(DateTime.fromISO(item.datetime)))}

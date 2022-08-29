@@ -10,7 +10,7 @@ import {
   UIManager,
 } from "react-native";
 import { SGSpinner } from "./elements/text/SGSpinner";
-import { useSetup } from "./hooks/setup/useSetup";
+import { useSetup } from "./hooks/useSetup";
 import { usePalette } from "./hooks/theme/usePalette";
 import { CreateItem } from "./views/CreateItem";
 import { Home } from "./views/Home";

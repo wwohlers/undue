@@ -17,6 +17,8 @@ import { intersperseDates } from "../../util/list";
 import { SGLabel } from "../../elements/text/SGLabel";
 import { capitalize } from "../../util/text";
 import { useFilterSortState } from "../../data/filter-sort/useFilterSortState";
+import { SGIcon } from "../../elements/text/SGIcon";
+import { HSpace } from "../../elements/layout/HSpace";
 
 export const EventsList: React.FC = () => {
   const events = useFilteredSortedEvents();
@@ -114,15 +116,45 @@ export const EventsList: React.FC = () => {
               );
             } else if (item === "empty-state") {
               return (
-                <SGText
-                  style={{ textAlign: "center", marginVertical: 8 }}
-                  color={palette.OFF_PRIMARY}
-                  fontSize={17}
-                >
-                  {numUnfilteredEvents
-                    ? "Oops! No events match your filter criteria."
-                    : "Press + in the top right corner to create your first event!"}
-                </SGText>
+                <View style={{ flex: 1, flexDirection: "column" }}>
+                  <SGText
+                    style={{
+                      textAlign: "center",
+                      marginVertical: 8,
+                    }}
+                    color={palette.OFF_PRIMARY}
+                    fontSize={17}
+                  >
+                    {numUnfilteredEvents
+                      ? "Oops! No events match your filter criteria."
+                      : "Press + in the top right corner to create your first event!"}
+                  </SGText>
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      marginTop: 200,
+                    }}
+                  >
+                    <SGText
+                      style={{
+                        textAlign: "center",
+                      }}
+                      color={palette.OFF_PRIMARY_LIGHT}
+                      fontSize={20}
+                      fontWeight={600}
+                    >
+                      Swipe to view tasks
+                    </SGText>
+                    <HSpace width={6} />
+                    <SGIcon
+                      name={"forward"}
+                      color={palette.OFF_PRIMARY_LIGHT}
+                      size={24}
+                    />
+                  </View>
+                </View>
               );
             } else {
               return (

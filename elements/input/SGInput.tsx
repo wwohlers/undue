@@ -17,7 +17,7 @@ export const SGInput: React.FC<
       <TextInput
         {...rest}
         style={{
-          borderColor: palette.THEME,
+          borderColor: palette.OFF_PRIMARY,
           borderBottomWidth: 2,
           borderRadius: 2,
           paddingVertical: size * 0.4,
@@ -26,7 +26,7 @@ export const SGInput: React.FC<
           fontFamily: ibmPlexSans[400],
           ...(rest.style as object),
         }}
-        placeholderTextColor={palette.OFF_PRIMARY_LIGHT}
+        placeholderTextColor={palette.OFF_PRIMARY}
       />
     );
   } else {

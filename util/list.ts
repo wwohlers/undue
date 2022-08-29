@@ -58,7 +58,6 @@ export function intersperseDates(items: Item[]): (string | Item)[] {
   let i = 0;
   for (const [text, interval] of intervals) {
     const firstDate = DateTime.fromISO(items[i].datetime);
-    console.log(interval, firstDate);
     if (interval.contains(firstDate)) {
       res.push(text, items[i]);
       i++;
@@ -68,6 +67,7 @@ export function intersperseDates(items: Item[]): (string | Item)[] {
         i++;
         if (i > items.length - 1) break;
       }
+      if (i > items.length - 1) break;
     }
   }
   res.push(...items.slice(i));

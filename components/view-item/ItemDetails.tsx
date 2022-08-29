@@ -13,7 +13,7 @@ import { SGText } from "../../elements/text/SGText";
 import { usePalette } from "../../hooks/theme/usePalette";
 import { useMinutely } from "../../hooks/time/useMinutely";
 import { useTime } from "../../hooks/time/useTime";
-import { capitalize } from "../../util/text";
+import { capitalize, itemTypeName } from "../../util/text";
 import { absoluteFormat } from "../../util/time/absoluteFormat";
 import { formatDuration } from "../../util/time/formatDuration";
 import { relativeFormat } from "../../util/time/relativeFormat";
@@ -93,7 +93,9 @@ export const ItemDetails: React.FC<{
     if (item.repeatSchedule) {
       const disable = await areYouSure(
         "Disable repeat?",
-        `Are you sure you want to disable repeat for this ${item.type}? All future events will be deleted.`
+        `Are you sure you want to disable repeat for this ${itemTypeName(
+          item.type
+        )}? All future events will be deleted.`
       );
       if (disable) {
         disableRepeat(item.id);

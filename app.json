@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "Undue.",
+    "name": "Undue",
     "slug": "undue",
-    "version": "1.0.0",
+    "version": "1.0.2",
     "orientation": "portrait",
     "icon": "./assets/logo_square.png",
     "userInterfaceStyle": "automatic",
@@ -19,7 +19,8 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.wohlers.w.undue"
+      "bundleIdentifier": "com.wohlers.w.undue",
+      "appStoreUrl": "https://apps.apple.com/us/app/undue/id1641017329"
     },
     "android": {
       "adaptiveIcon": {

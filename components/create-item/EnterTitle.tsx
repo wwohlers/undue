@@ -6,7 +6,7 @@ import { SGHeader } from "../../elements/layout/SGHeader";
 import { VSpace } from "../../elements/layout/VSpace";
 import { SGButton } from "../../elements/text/SGButton";
 import { SGInput } from "../../elements/input/SGInput";
-import { capitalize } from "../../util/text";
+import { capitalize, itemTypeName } from "../../util/text";
 import { CreateItemProps } from "../../views/CreateItem";
 import { Item } from "../../data/items/Item.type";
 
@@ -21,7 +21,7 @@ export const EnterTitle: React.FC<{
 
   const validateThenSubmit = () => {
     if (title) {
-      onSubmit(title);
+      onSubmit(title.trim());
     }
   };
 
@@ -29,7 +29,7 @@ export const EnterTitle: React.FC<{
     <Container>
       <SGHeader
         leftIcon={{ name: "back", onPress: () => navigation.navigate("Home") }}
-        text={"Name Your " + capitalize(type ?? "")}
+        text={"Name Your " + (type ? capitalize(itemTypeName(type)) : "")}
         rightIcons={[]}
       />
       <View style={{ paddingVertical: 16 }}>
