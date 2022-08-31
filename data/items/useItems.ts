@@ -2,12 +2,17 @@ import { atomWithStorage } from "jotai/utils";
 import { asyncStorage } from "../persist";
 import { Item } from "./Item.type";
 import { useAtom } from "jotai";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 
 const itemsAtom = atomWithStorage<Item[]>("items", [], asyncStorage);
 
-export function useItems() {
-  return useAtom(itemsAtom);
+export function useItems(): [Item[], (items: Item[]) => void] {
+  const [items, setItems] = useAtom(itemsAtom);
+
+  if (!Array.isArray(items)) {
+    return [[], setItems];
+  }
+  return [items, setItems];
 }
 
 export function useItem(id: number): Item | undefined {

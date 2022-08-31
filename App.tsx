@@ -1,4 +1,4 @@
-import { NavigationContainer, useTheme } from "@react-navigation/native";
+import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
@@ -7,6 +7,7 @@ import {
   ActivityIndicator,
   Platform,
   SafeAreaView,
+  StatusBar as RNStatusBar,
   UIManager,
 } from "react-native";
 import { SGSpinner } from "./elements/text/SGSpinner";
@@ -26,6 +27,12 @@ import { useToastConfig } from "./hooks/useToastConfig";
 import { Item } from "./data/items/Item.type";
 import { SetupRepeat } from "./views/SetupRepeat";
 import { useFinalTheme } from "./data/settings/useThemeSetting";
+import * as Sentry from "sentry-expo";
+
+Sentry.init({
+  dsn: "https://3165e0c6815249c18bc16b60faf9b80b@o1385033.ingest.sentry.io/6704133",
+  debug: true,
+});
 
 SplashScreen.preventAutoHideAsync();
 
@@ -81,7 +88,13 @@ const Main: React.FC = () => {
 
   return (
     <NavigationContainer ref={rootNavigationRef}>
-      <SafeAreaView style={{ flex: 1, backgroundColor: palette.BACKGROUND }}>
+      <SafeAreaView
+        style={{
+          flex: 1,
+          backgroundColor: palette.BACKGROUND,
+          paddingTop: Platform.OS === "android" ? RNStatusBar.currentHeight : 0,
+        }}
+      >
         <StatusBar style={statusBarStyle} />
         <Suspense fallback={<SGSpinner />}>
           <RootStack.Navigator

@@ -1,4 +1,8 @@
-import { LayoutAnimation, ScrollView } from "react-native";
+import {
+  LayoutAnimation,
+  ScrollView,
+  TouchableWithoutFeedback,
+} from "react-native";
 import { Container } from "../../../elements/layout/Container";
 import { SGHeader } from "../../../elements/layout/SGHeader";
 import { SGText } from "../../../elements/text/SGText";
@@ -52,12 +56,18 @@ export const Settings: React.FC = () => {
           ]}
         />
         {!!Constants.manifest?.version && (
-          <SGText
-            style={{ alignSelf: "center", color: palette.OFF_PRIMARY_LIGHT }}
-            fontSize={16}
+          <TouchableWithoutFeedback
+            onPress={() => {
+              throw new Error();
+            }}
           >
-            v{Constants.manifest.version}
-          </SGText>
+            <SGText
+              style={{ alignSelf: "center", color: palette.OFF_PRIMARY_LIGHT }}
+              fontSize={16}
+            >
+              v{Constants.manifest.version}
+            </SGText>
+          </TouchableWithoutFeedback>
         )}
       </ScrollView>
     </Container>

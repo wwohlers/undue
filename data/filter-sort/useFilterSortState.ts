@@ -23,6 +23,26 @@ const filterSortStateAtom = atomWithStorage<FilterSortState>(
   asyncStorage
 );
 
-export function useFilterSortState() {
-  return useAtom(filterSortStateAtom);
+export function useFilterSortState(): [
+  FilterSortState,
+  (state: FilterSortState) => void
+] {
+  const [filterSortState, setFilterSortState] = useAtom(filterSortStateAtom);
+
+  if (!filterSortState || "deadlines"! in filterSortState) {
+    return [
+      {
+        deadlines: {
+          sortOptions: defaultSortOptions,
+          filterOptions: defaultDeadlineFilterOptions,
+        },
+        events: {
+          sortOptions: defaultSortOptions,
+          filterOptions: defaultEventFilterOptions,
+        },
+      },
+      setFilterSortState,
+    ];
+  }
+  return [filterSortState, setFilterSortState];
 }

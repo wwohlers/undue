@@ -2,7 +2,7 @@
   "expo": {
     "name": "Undue",
     "slug": "undue",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "orientation": "portrait",
     "icon": "./assets/logo_square.png",
     "userInterfaceStyle": "automatic",
@@ -12,7 +12,8 @@
       "backgroundColor": "#ffffff"
     },
     "updates": {
-      "fallbackToCacheTimeout": 0
+      "fallbackToCacheTimeout": 0,
+      "url": "https://u.expo.dev/268a5119-188d-4afd-8e82-bfbde9cabba6"
     },
     "assetBundlePatterns": [
       "**/*"
@@ -20,13 +21,18 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.wohlers.w.undue",
-      "appStoreUrl": "https://apps.apple.com/us/app/undue/id1641017329"
+      "appStoreUrl": "https://apps.apple.com/us/app/undue/id1641017329",
+      "runtimeVersion": {
+        "policy": "sdkVersion"
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/logo_square_transparent.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.wohlers.w.undue",
+      "runtimeVersion": "1.0.0"
     },
     "web": {
       "favicon": "./assets/logo_square.png"
@@ -38,7 +44,26 @@
           "icon": "./assets/logo_square.png",
           "color": "#ffffff"
         }
+      ],
+      "@config-plugins/android-jsc-intl",
+      "sentry-expo"
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "268a5119-188d-4afd-8e82-bfbde9cabba6"
+      }
+    },
+    "hooks": {
+      "postPublish": [
+        {
+          "file": "sentry-expo/upload-sourcemaps",
+          "config": {
+            "organization": "bill-wohlers",
+            "project": "undue",
+            "authToken": "51a409bc65b04f26a2468c157e46f0c21f4dee793507453584170c0791c74941"
+          }
+        }
       ]
-    ]
+    }
   }
 }

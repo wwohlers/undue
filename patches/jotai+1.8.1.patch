@@ -1,0 +1,13 @@
+diff --git a/node_modules/jotai/utils.js b/node_modules/jotai/utils.js
+index af89b92..20f5722 100644
+--- a/node_modules/jotai/utils.js
++++ b/node_modules/jotai/utils.js
+@@ -1006,7 +1006,7 @@ function createJSONStorage(getStringStorage) {
+     }
+   };
+ 
+-  if (typeof window !== 'undefined') {
++  if (typeof window !== 'undefined' && typeof window.addEventListener === 'function') {
+     storage.subscribe = function (key, callback) {
+       var storageEventCallback = function storageEventCallback(e) {
+         if (e.key === key && e.newValue) {
