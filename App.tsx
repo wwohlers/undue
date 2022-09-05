@@ -27,12 +27,6 @@ import { useToastConfig } from "./hooks/useToastConfig";
 import { Item } from "./data/items/Item.type";
 import { SetupRepeat } from "./views/SetupRepeat";
 import { useFinalTheme } from "./data/settings/useThemeSetting";
-import * as Sentry from "sentry-expo";
-
-Sentry.init({
-  dsn: "https://3165e0c6815249c18bc16b60faf9b80b@o1385033.ingest.sentry.io/6704133",
-  debug: true,
-});
 
 SplashScreen.preventAutoHideAsync();
 
@@ -96,32 +90,27 @@ const Main: React.FC = () => {
         }}
       >
         <StatusBar style={statusBarStyle} />
-        <Suspense fallback={<SGSpinner />}>
-          <RootStack.Navigator
-            initialRouteName="Home"
-            screenOptions={{
-              headerShown: false,
-              cardStyle: {
-                backgroundColor: palette.BACKGROUND,
-              },
-            }}
-          >
-            <RootStack.Screen name="Home" component={Home} />
-            <RootStack.Screen name="ViewItem" component={ViewItem} />
-            <RootStack.Screen name="CreateItem" component={CreateItem} />
-            <RootStack.Screen
-              name="PickReminderDateTime"
-              component={PickReminderDateTime}
-            />
-            <RootStack.Screen name="CalendarView" component={CalendarView} />
-            <RootStack.Screen name="SetDuration" component={SetDuration} />
-            <RootStack.Screen
-              name="FilterSortView"
-              component={FilterSortView}
-            />
-            <RootStack.Screen name="SetupRepeat" component={SetupRepeat} />
-          </RootStack.Navigator>
-        </Suspense>
+        <RootStack.Navigator
+          initialRouteName="Home"
+          screenOptions={{
+            headerShown: false,
+            cardStyle: {
+              backgroundColor: palette.BACKGROUND,
+            },
+          }}
+        >
+          <RootStack.Screen name="Home" component={Home} />
+          <RootStack.Screen name="ViewItem" component={ViewItem} />
+          <RootStack.Screen name="CreateItem" component={CreateItem} />
+          <RootStack.Screen
+            name="PickReminderDateTime"
+            component={PickReminderDateTime}
+          />
+          <RootStack.Screen name="CalendarView" component={CalendarView} />
+          <RootStack.Screen name="SetDuration" component={SetDuration} />
+          <RootStack.Screen name="FilterSortView" component={FilterSortView} />
+          <RootStack.Screen name="SetupRepeat" component={SetupRepeat} />
+        </RootStack.Navigator>
         <Toast config={toastConfig} topOffset={64} />
       </SafeAreaView>
     </NavigationContainer>
